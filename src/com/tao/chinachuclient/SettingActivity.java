@@ -1,5 +1,6 @@
 package com.tao.chinachuclient;
 
+import Chinachu4j.Chinachu4j;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,6 +28,10 @@ public class SettingActivity extends Activity {
 		chinachuAddress = (EditText)findViewById(R.id.chinachuAddress);
 		username = (EditText)findViewById(R.id.username);
 		password = (EditText)findViewById(R.id.password);
+		
+		chinachuAddress.setText(pref.getString("chinachuAddress", ""));
+		username.setText(new String(Base64.decode(pref.getString("username", ""),Base64.DEFAULT)));
+		password.setText(new String(Base64.decode(pref.getString("password", ""),Base64.DEFAULT)));
 	}
 	
 	public void ok(View v){
@@ -38,8 +43,13 @@ public class SettingActivity extends Activity {
 		.putString("username", user)
 		.putString("password", passwd)
 		.commit();
-		if(startMain)
+		if(startMain){
 			startActivity(new Intent(this, MainActivity.class));
+		}else{
+			Chinachu4j chinachu = new Chinachu4j(chinachuAddress.getText().toString(),
+					username.getText().toString(), password.getText().toString());
+			((ApplicationClass)getApplicationContext()).setChinachu(chinachu);
+		}
 		finish();
 	}
 }

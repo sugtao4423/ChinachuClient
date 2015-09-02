@@ -68,12 +68,13 @@ public class MainActivity extends Activity implements OnItemClickListener{
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add("設定");
+		MenuItem item = menu.add("設定");
+		item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		return true;
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(MenuItem item){
 		if(item.getTitle().equals("設定"))
 			startActivity(new Intent(this, SettingActivity.class));
 		return super.onOptionsItemSelected(item);
