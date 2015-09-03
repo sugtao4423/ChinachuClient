@@ -122,24 +122,32 @@ public class SettingEncodeActivity extends Activity{
 	}
 
 	public void ok(View v){
-		int videoBit = Integer.parseInt(videoBitrate.getText().toString());
-		if(videoBitrateFormat.getSelectedItemPosition() == 0)
-			videoBit *= 1000;
-		else
-			videoBit *= 1000000;
+		String vb = null;
+		String ab = null;
+		if(!videoBitrate.getText().toString().isEmpty()){
+			int videoBit = Integer.parseInt(videoBitrate.getText().toString());
+			if(videoBitrateFormat.getSelectedItemPosition() == 0)
+				videoBit *= 1000;
+			else
+				videoBit *= 1000000;
+			vb = String.valueOf(videoBit);
+		}
 		
-		int audioBit = Integer.parseInt(audioBitrate.getText().toString());
-		if(audioBitrateFormat.getSelectedItemPosition() == 0)
-			audioBit *= 1000;
-		else
-			audioBit *= 1000000;
+		if(!audioBitrate.getText().toString().isEmpty()){
+			int audioBit = Integer.parseInt(audioBitrate.getText().toString());
+			if(audioBitrateFormat.getSelectedItemPosition() == 0)
+				audioBit *= 1000;
+			else
+				audioBit *= 1000000;
+			ab = String.valueOf(audioBit);
+		}
 		
 		enc.edit().putString("type", (String)type.getSelectedItem())
 				.putString("containerFormat", (String)containerFormat.getSelectedItem())
 				.putString("videoCodec", (String)videoCodec.getSelectedItem())
 				.putString("audioCodec", (String)audioCodec.getSelectedItem())
-				.putString("videoBitrate", String.valueOf(videoBit))
-				.putString("audioBitrate", String.valueOf(audioBit))
+				.putString("videoBitrate", vb)
+				.putString("audioBitrate", ab)
 				.putString("videoSize", videoSize.getText().toString()).putString("frame", frame.getText().toString())
 				.commit();
 		finish();
