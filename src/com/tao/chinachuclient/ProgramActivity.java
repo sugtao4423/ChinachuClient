@@ -30,7 +30,7 @@ public class ProgramActivity extends Activity {
 		list.setAdapter(programListAdapter);
 		
 		appClass = (ApplicationClass)getApplicationContext();
-		//type 1: 予約済み 2: 録画中
+		//type 1: ルール 2: 予約済み 3: 録画中 4: 録画済み
 		int type = getIntent().getIntExtra("type", -1);
 		if(type == -1)
 			finish();
@@ -38,13 +38,13 @@ public class ProgramActivity extends Activity {
 		list.setOnItemClickListener(new ProgramListClickListener(this, type));
 
 		switch(type){
-		case 1:
+		case 2:
 			getActionBar().setTitle("予約済み");
 			break;
-		case 2:
+		case 3:
 			getActionBar().setTitle("録画中");
 			break;
-		case 3:
+		case 4:
 			getActionBar().setTitle("録画済み");
 			break;
 		}
@@ -66,11 +66,11 @@ public class ProgramActivity extends Activity {
 			@Override
 			protected Program[] doInBackground(Void... params) {
 				try {
-					if(type == 1)
-						return appClass.getChinachu().getReserves();
 					if(type == 2)
-						return appClass.getChinachu().getRecording();
+						return appClass.getChinachu().getReserves();
 					if(type == 3)
+						return appClass.getChinachu().getRecording();
+					if(type == 4)
 						return appClass.getChinachu().getRecorded();
 					
 					return null;

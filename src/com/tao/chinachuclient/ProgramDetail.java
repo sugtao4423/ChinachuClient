@@ -16,8 +16,10 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -33,6 +35,7 @@ public class ProgramDetail extends Activity{
 
 	private String programTitle, programId;
 	private int type;
+	private ApplicationClass appClass;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -54,8 +57,10 @@ public class ProgramDetail extends Activity{
 		String channelName = i.getStringExtra("channelName");
 		type = i.getIntExtra("type", -1);
 
+		appClass = (ApplicationClass)getApplicationContext();
+
 		final ImageView image = (ImageView)findViewById(R.id.programs_detail_image);
-		if(type == 2 || type == 3)
+		if(type == 3 || type == 4)
 			image.setVisibility(View.VISIBLE);
 		else
 			image.setVisibility(View.GONE);
@@ -82,18 +87,16 @@ public class ProgramDetail extends Activity{
 						+ ": " + channelName + "<br /><br />フラッグ：" + flag + "<br /><br />id：" + programId + "</p>";
 		otherView.setText(Html.fromHtml(otherText));
 
-		if(type == 2 || type == 3) {
+		if(type == 3 || type == 4) {
 			AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>(){
 				@Override
 				protected String doInBackground(Void... params){
 					try{
-						if(type == 2)
-							return ((ApplicationClass)getApplicationContext()).getChinachu()
-									.getRecordingImage(programId, "1280x720");
-						if(type == 3) {
+						if(type == 3)
+							return appClass.getChinachu().getRecordingImage(programId, "1280x720");
+						if(type == 4) {
 							int r = new Random().nextInt(seconds) + 1;
-							return ((ApplicationClass)getApplicationContext()).getChinachu().getRecordedImage(programId,
-									r, "1280x720");
+							return appClass.getChinachu().getRecordedImage(programId, r, "1280x720");
 						}
 						return null;
 					}catch(KeyManagementException | NoSuchAlgorithmException | IOException e){
@@ -122,26 +125,67 @@ public class ProgramDetail extends Activity{
 	public boolean onCreateOptionsMenu(Menu menu){
 		if(type == 0)
 			menu.add("予約");
-		if(type == 1)
+		if(type == 2)
 			menu.add("予約削除");
+		if(type == 3 || type == 4) {
+			if(appClass.getStreaming())
+				menu.add("ストリーミング再生");
+			if(appClass.getEncStreaming())
+				menu.add("ストリーミング再生(エンコ有)");
+		}
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
-		Confirm();
+		if(type == 0 || type == 2)
+			Confirm();
+		if(item.getTitle().equals("ストリーミング再生")) {
+			if(type == 3) {
+				Uri uri = Uri.parse(appClass.getChinachu().getNonEncRecordingMovie(programId));
+				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+				startActivity(intent);
+			}
+			if(type == 4) {
+				Uri uri = Uri.parse(appClass.getChinachu().getNonEncRecordedMovie(programId));
+				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+				startActivity(intent);
+			}
+		}
+		if(item.getTitle().equals("ストリーミング再生(エンコ有)")){
+			String[] params = new String[7];
+			SharedPreferences enc = getSharedPreferences("encodeConfig", MODE_PRIVATE);
+			String t = enc.getString("type", null);
+			params[0] = enc.getString("containerFormat", null);
+			params[1] = enc.getString("videoCodec", null);
+			params[2] = enc.getString("audioCodec", null);
+			params[3] = enc.getString("videoBitrate", null);
+			params[4] = enc.getString("audioBitrate", null);
+			params[5] = enc.getString("videoSize", null);
+			params[6] = enc.getString("frame", null);
+			if(type == 3) {
+				Uri uri = Uri.parse(appClass.getChinachu().getEncRecordingMovie(programId, t, params));
+				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+				startActivity(intent);
+			}
+			if(type == 4) {
+				Uri uri = Uri.parse(appClass.getChinachu().getEncRecordedMovie(programId, t, params));
+				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+				startActivity(intent);
+			}
+		}
 		return super.onOptionsItemSelected(item);
 	}
 
 	public void Confirm(){
-		final Chinachu4j chinachu = ((ApplicationClass)getApplicationContext()).getChinachu();
+		final Chinachu4j chinachu = appClass.getChinachu();
 
 		AlertDialog.Builder before = new Builder(this);
 		switch(type){
 		case 0:
 			before.setTitle("予約しますか？");
 			break;
-		case 1:
+		case 2:
 			before.setTitle("予約を削除しますか？");
 			break;
 		}
@@ -168,7 +212,7 @@ public class ProgramDetail extends Activity{
 							case 0:
 								chinachu.putReserve(programId);
 								break;
-							case 1:
+							case 2:
 								chinachu.delReserve(programId);
 								break;
 							}
@@ -181,7 +225,7 @@ public class ProgramDetail extends Activity{
 					@Override
 					protected void onPostExecute(Boolean result){
 						progDailog.dismiss();
-						if(!result){
+						if(!result) {
 							Toast.makeText(ProgramDetail.this, "エラー", Toast.LENGTH_SHORT).show();
 							return;
 						}
@@ -190,12 +234,11 @@ public class ProgramDetail extends Activity{
 						case 0:
 							after.setTitle("予約完了");
 							break;
-						case 1:
+						case 2:
 							after.setTitle("予約の削除完了");
 							break;
 						}
-						after.setMessage(programTitle)
-						.create().show();
+						after.setMessage(programTitle).create().show();
 					}
 				};
 				task.execute();

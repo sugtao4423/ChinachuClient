@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class SettingActivity extends Activity {
 	
@@ -35,19 +36,27 @@ public class SettingActivity extends Activity {
 	}
 	
 	public void ok(View v){
-		String user = Base64.encodeToString(username.getText().toString().getBytes(), Base64.DEFAULT);
-		String passwd = Base64.encodeToString(password.getText().toString().getBytes(), Base64.DEFAULT);
+		String raw_chinachuAddress = chinachuAddress.getText().toString();
+		if(!(raw_chinachuAddress.startsWith("http://") || raw_chinachuAddress.startsWith("https://"))){
+			Toast.makeText(this, "サーバーアドレスが間違っています", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
+		String raw_username = username.getText().toString();
+		String raw_password = password.getText().toString();
+		
+		String user = Base64.encodeToString(raw_username.getBytes(), Base64.DEFAULT);
+		String passwd = Base64.encodeToString(raw_password.getBytes(), Base64.DEFAULT);
 		
 		pref.edit()
-		.putString("chinachuAddress", chinachuAddress.getText().toString())
+		.putString("chinachuAddress", raw_chinachuAddress)
 		.putString("username", user)
 		.putString("password", passwd)
 		.commit();
 		if(startMain){
 			startActivity(new Intent(this, MainActivity.class));
 		}else{
-			Chinachu4j chinachu = new Chinachu4j(chinachuAddress.getText().toString(),
-					username.getText().toString(), password.getText().toString());
+			Chinachu4j chinachu = new Chinachu4j(raw_chinachuAddress, raw_username, raw_password);
 			((ApplicationClass)getApplicationContext()).setChinachu(chinachu);
 		}
 		finish();

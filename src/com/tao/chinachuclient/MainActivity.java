@@ -44,7 +44,7 @@ public class MainActivity extends Activity implements OnItemClickListener{
 		password = new String(Base64.decode(password,Base64.DEFAULT));
 		
 		mainList = (ListView)findViewById(R.id.mainList);
-		String[] listItem = new String[]{"番組表", "予約済み", "録画中", "録画済み"};
+		String[] listItem = new String[]{"番組表", "ルール", "予約済み", "録画中", "録画済み"};
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItem);
 		mainList.setAdapter(adapter);
 		mainList.setOnItemClickListener(this);
@@ -52,14 +52,17 @@ public class MainActivity extends Activity implements OnItemClickListener{
 		chinachu = new Chinachu4j(chinachuAddress, username, password);
 		
 		appClass.setChinachu(chinachu);
+		
+		appClass.setStreaming(pref.getBoolean("streaming", false));
+		appClass.setEncStreaming(pref.getBoolean("encStreaming", false));
 	}
-
+	
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		if(position == 0){
 			startActivity(new Intent(this, ChannelScheduleActivity.class));
 		}
-		if(position > 0){
+		if(position > 1){
 			Intent i = new Intent(this, ProgramActivity.class);
 			i.putExtra("type", position);
 			startActivity(i);
@@ -76,7 +79,7 @@ public class MainActivity extends Activity implements OnItemClickListener{
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
 		if(item.getTitle().equals("設定"))
-			startActivity(new Intent(this, SettingActivity.class));
+			startActivity(new Intent(this, Preference.class));
 		return super.onOptionsItemSelected(item);
 	}
 }

@@ -24,10 +24,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="SettingActivity"></activity>
+        <activity android:name="SettingActivity" android:windowSoftInputMode="adjustResize"></activity>
         <activity android:name="ChannelScheduleActivity"></activity>
         <activity android:name="ProgramDetail"></activity>
         <activity android:name="ProgramActivity"></activity>
+        <activity android:windowSoftInputMode="adjustResize" android:name="SettingEncodeActivity"></activity>
+        <activity android:name="Preference"></activity>
     </application>
 
 </manifest>
