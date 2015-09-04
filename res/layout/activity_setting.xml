@@ -11,7 +11,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:onClick="background" >
 
         <TextView
             android:id="@+id/textView1"
@@ -28,6 +29,7 @@
             android:layout_alignLeft="@+id/textView1"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/textView1"
+            android:inputType="text"
             android:ems="10" >
 
             <requestFocus />
@@ -49,6 +51,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/textView2"
+            android:inputType="text"
             android:ems="10" />
 
         <TextView

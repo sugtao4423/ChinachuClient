@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.Random;
 
 import Chinachu4j.Chinachu4j;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -41,10 +42,13 @@ public class ProgramDetail extends Activity{
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_program_detail);
+		
+		ActionBar actionbar = getActionBar();
+		actionbar.setDisplayHomeAsUpEnabled(true);
 
 		Intent i = getIntent();
 		programTitle = i.getStringExtra("title");
-		getActionBar().setTitle(programTitle);
+		actionbar.setTitle(programTitle);
 		programId = i.getStringExtra("id");
 		String fullTitle = i.getStringExtra("fullTitle");
 		String detail = i.getStringExtra("detail");
@@ -174,6 +178,8 @@ public class ProgramDetail extends Activity{
 				startActivity(intent);
 			}
 		}
+		if(item.getItemId() == android.R.id.home)
+			finish();
 		return super.onOptionsItemSelected(item);
 	}
 

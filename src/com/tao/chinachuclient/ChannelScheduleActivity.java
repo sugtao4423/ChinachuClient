@@ -14,6 +14,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -37,6 +38,7 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 		ActionBar actionbar = getActionBar();
 		actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		actionbar.setDisplayShowTitleEnabled(false);
+		actionbar.setDisplayHomeAsUpEnabled(true);
 		
 		spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item);
 		
@@ -123,5 +125,14 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 		};
 		task.execute();
 		return false;
+	}
+	
+	@Override  
+	public boolean onOptionsItemSelected(MenuItem item){
+		if(item.getItemId() == android.R.id.home){
+				finish();
+				return true;
+		}
+	    return super.onOptionsItemSelected(item);
 	}
 }

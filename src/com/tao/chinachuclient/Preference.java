@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.view.MenuItem;
 
 public class Preference extends PreferenceActivity{
 
@@ -24,6 +25,7 @@ public class Preference extends PreferenceActivity{
 		ActionBar actionbar = getActionBar();
 		actionbar.setHomeButtonEnabled(true);
 		actionbar.setTitle("設定");
+		actionbar.setDisplayHomeAsUpEnabled(true);
 	}
 
 	public class MyPreferencesFragment extends PreferenceFragment{
@@ -82,5 +84,14 @@ public class Preference extends PreferenceActivity{
 		ApplicationClass appClass = (ApplicationClass)getApplicationContext();
 		appClass.setStreaming(pref.getBoolean("streaming", false));
 		appClass.setEncStreaming(pref.getBoolean("encStreaming", false));
+	}
+	
+	@Override  
+	public boolean onOptionsItemSelected(MenuItem item){
+		if(item.getItemId() == android.R.id.home){
+				finish();
+				return true;
+		}
+	    return super.onOptionsItemSelected(item);
 	}
 }

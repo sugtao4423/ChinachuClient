@@ -36,7 +36,7 @@
     </string-array>
     
     <string-array name="bitrate">
-        <item>kbps</item>
-        <item>mbps</item>
+        <item>Kbps</item>
+        <item>Mbps</item>
     </string-array>
 </resources>

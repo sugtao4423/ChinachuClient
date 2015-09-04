@@ -12,6 +12,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:onClick="background"
         android:orientation="vertical" >
 
         <TextView
@@ -115,6 +116,7 @@
             android:layout_below="@+id/enc_setting_audioBitrate"
             android:layout_marginTop="10dp"
             android:ems="10"
+            android:inputType="text"
             android:hint="映像サイズ(例:1280x720)" />
 
         <EditText

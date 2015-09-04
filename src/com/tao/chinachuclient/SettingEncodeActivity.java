@@ -1,9 +1,12 @@
 package com.tao.chinachuclient;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -18,6 +21,8 @@ public class SettingEncodeActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_enc_setting);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		
 		enc = getSharedPreferences("encodeConfig", MODE_PRIVATE);
 
 		type = (Spinner)findViewById(R.id.enc_setting_type_spinner);
@@ -151,5 +156,19 @@ public class SettingEncodeActivity extends Activity{
 				.putString("videoSize", videoSize.getText().toString()).putString("frame", frame.getText().toString())
 				.commit();
 		finish();
+	}
+
+	public void background(View v){
+		InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+		inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+	}
+	
+	@Override  
+	public boolean onOptionsItemSelected(MenuItem item){
+		if(item.getItemId() == android.R.id.home){
+				finish();
+				return true;
+		}
+	    return super.onOptionsItemSelected(item);
 	}
 }

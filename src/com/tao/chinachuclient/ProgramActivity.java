@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -25,6 +26,8 @@ public class ProgramActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		list = new ListView(this);
 		setContentView(list);
+		
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		programListAdapter = new ProgramListAdapter(this);
 		list.setAdapter(programListAdapter);
@@ -89,5 +92,13 @@ public class ProgramActivity extends Activity {
 			}
 		};
 		task.execute();
+	}
+	@Override  
+	public boolean onOptionsItemSelected(MenuItem item){
+		if(item.getItemId() == android.R.id.home){
+				finish();
+				return true;
+		}
+	    return super.onOptionsItemSelected(item);
 	}
 }

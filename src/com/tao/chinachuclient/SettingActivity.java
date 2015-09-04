@@ -2,12 +2,15 @@ package com.tao.chinachuclient;
 
 import Chinachu4j.Chinachu4j;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Base64;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -21,6 +24,7 @@ public class SettingActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		startMain = getIntent().getBooleanExtra("startMain", false);
 		
@@ -60,5 +64,19 @@ public class SettingActivity extends Activity {
 			((ApplicationClass)getApplicationContext()).setChinachu(chinachu);
 		}
 		finish();
+	}
+	
+	public void background(View v){
+		InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+		inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+	}
+	
+	@Override  
+	public boolean onOptionsItemSelected(MenuItem item){
+		if(item.getItemId() == android.R.id.home){
+				finish();
+				return true;
+		}
+	    return super.onOptionsItemSelected(item);
 	}
 }
