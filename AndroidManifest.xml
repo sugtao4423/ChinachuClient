@@ -28,8 +28,8 @@
         <activity android:name="ChannelScheduleActivity"></activity>
         <activity android:name="ProgramDetail"></activity>
         <activity android:name="ProgramActivity"></activity>
-        <activity android:windowSoftInputMode="adjustResize" android:name="SettingEncodeActivity"></activity>
         <activity android:name="Preference"></activity>
+        <activity android:name="AddServer"></activity>
     </application>
 
 </manifest>

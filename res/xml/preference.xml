@@ -5,8 +5,9 @@
 </PreferenceCategory>
     
     <PreferenceCategory android:title="設定">
-        <Preference android:title="サーバー設定" android:key="settingActivity"/>
-        <Preference android:title="エンコード設定" android:key="settingEncode"/>
+        
+        <Preference android:key="addServer" android:title="サーバー追加"/><Preference android:title="サーバー設定変更" android:key="settingActivity" />
+        <Preference android:key="delServer" android:title="サーバー削除"/>
     </PreferenceCategory>
     
 
