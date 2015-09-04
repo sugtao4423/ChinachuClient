@@ -46,10 +46,36 @@ public class ProgramListAdapter extends ArrayAdapter<Program>{
 			holder = (ViewHolder)convertView.getTag();
 		}
 
-		if(position % 2 == 0)
-			convertView.setBackgroundResource(R.drawable.position0);
-		else
-			convertView.setBackgroundResource(R.drawable.position1);
+		String category = item.getCategory();
+		switch(category){
+		case "anime":
+			convertView.setBackgroundResource(R.drawable.anime);
+			break;
+		case "information":
+			convertView.setBackgroundResource(R.drawable.information);
+			break;
+		case "news":
+			convertView.setBackgroundResource(R.drawable.news);
+			break;
+		case "sports":
+			convertView.setBackgroundResource(R.drawable.sports);
+			break;
+		case "variety":
+			convertView.setBackgroundResource(R.drawable.variety);
+			break;
+		case "drama":
+			convertView.setBackgroundResource(R.drawable.drama);
+			break;
+		case "music":
+			convertView.setBackgroundResource(R.drawable.music);
+			break;
+		case "cinema":
+			convertView.setBackgroundResource(R.drawable.cinema);
+			break;
+		case "etc":
+			convertView.setBackgroundResource(R.drawable.etc);
+			break;
+		}
 
 		holder.title.setText(item.getTitle());
 
