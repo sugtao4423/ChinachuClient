@@ -33,7 +33,8 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_program);
+		programList = new ListView(this);
+		setContentView(programList);
 		
 		ActionBar actionbar = getActionBar();
 		actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
@@ -45,7 +46,6 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 		actionbar.setListNavigationCallbacks(spinnerAdapter, this);
 		
 		programListAdapter = new ProgramListAdapter(this);
-		programList = (ListView)findViewById(R.id.programList);
 		programList.setAdapter(programListAdapter);
 		programList.setOnItemClickListener(new ProgramListClickListener(this, 0));
 		
