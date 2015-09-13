@@ -30,6 +30,8 @@
         <activity android:name="ProgramActivity"></activity>
         <activity android:name="Preference"></activity>
         <activity android:name="AddServer"></activity>
+        <activity android:name="RuleActivity"></activity>
+        <activity android:name="RuleDetail"></activity>
     </application>
 
 </manifest>

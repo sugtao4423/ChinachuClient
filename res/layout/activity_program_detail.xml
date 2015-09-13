@@ -3,40 +3,40 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-    
-    <TextView
-        android:id="@+id/program_detail_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:textSize="18sp"
-        android:text="detail" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/program_detail_other"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/program_detail_detail"
-        android:layout_below="@+id/program_detail_detail"
-        android:layout_marginTop="15dp"
-        android:textSize="16sp"
-        android:text="other" />
+        <TextView
+            android:id="@+id/program_detail_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:text="detail"
+            android:textSize="18sp" />
 
-    <ImageView
-        android:id="@+id/programs_detail_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/program_detail_other"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="5dp"
-        android:layout_below="@+id/program_detail_other"
-        android:layout_marginTop="5dp" />
-    
-</RelativeLayout>
+        <TextView
+            android:id="@+id/program_detail_other"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/program_detail_detail"
+            android:layout_below="@+id/program_detail_detail"
+            android:layout_marginTop="15dp"
+            android:text="other"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/programs_detail_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/program_detail_other"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/program_detail_other"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp" />
+    </RelativeLayout>
+
 </ScrollView>

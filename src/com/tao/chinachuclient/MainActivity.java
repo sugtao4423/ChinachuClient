@@ -67,9 +67,10 @@ public class MainActivity extends Activity implements OnItemClickListener{
 	
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		if(position == 0){
+		if(position == 0)
 			startActivity(new Intent(this, ChannelScheduleActivity.class));
-		}
+		if(position == 1)
+			startActivity(new Intent(this, RuleActivity.class));
 		if(position > 1){
 			Intent i = new Intent(this, ProgramActivity.class);
 			i.putExtra("type", position);

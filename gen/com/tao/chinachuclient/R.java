@@ -53,41 +53,43 @@ public final class R {
         public static final int variety=0x7f020009;
     }
     public static final class id {
-        public static final int chinachuAddress=0x7f0a0006;
-        public static final int enc_setting_audioBitrate=0x7f0a0015;
-        public static final int enc_setting_audioCodec_spinner=0x7f0a0012;
-        public static final int enc_setting_audio_bitrate_spinner=0x7f0a0019;
-        public static final int enc_setting_audio_codec=0x7f0a0011;
-        public static final int enc_setting_container=0x7f0a000d;
-        public static final int enc_setting_container_spinner=0x7f0a000e;
-        public static final int enc_setting_frame=0x7f0a0017;
-        public static final int enc_setting_ok=0x7f0a0018;
-        public static final int enc_setting_type=0x7f0a000c;
-        public static final int enc_setting_type_spinner=0x7f0a000b;
-        public static final int enc_setting_videoBitrate=0x7f0a0013;
-        public static final int enc_setting_videoCodec_spinner=0x7f0a0010;
-        public static final int enc_setting_videoSize=0x7f0a0016;
-        public static final int enc_setting_video_bitrate_spinner=0x7f0a0014;
-        public static final int enc_setting_video_codec=0x7f0a000f;
-        public static final int password=0x7f0a000a;
+        public static final int chinachuAddress=0x7f0a0007;
+        public static final int enc_setting_audioBitrate=0x7f0a0016;
+        public static final int enc_setting_audioCodec_spinner=0x7f0a0013;
+        public static final int enc_setting_audio_bitrate_spinner=0x7f0a001a;
+        public static final int enc_setting_audio_codec=0x7f0a0012;
+        public static final int enc_setting_container=0x7f0a000e;
+        public static final int enc_setting_container_spinner=0x7f0a000f;
+        public static final int enc_setting_frame=0x7f0a0018;
+        public static final int enc_setting_ok=0x7f0a0019;
+        public static final int enc_setting_type=0x7f0a000d;
+        public static final int enc_setting_type_spinner=0x7f0a000c;
+        public static final int enc_setting_videoBitrate=0x7f0a0014;
+        public static final int enc_setting_videoCodec_spinner=0x7f0a0011;
+        public static final int enc_setting_videoSize=0x7f0a0017;
+        public static final int enc_setting_video_bitrate_spinner=0x7f0a0015;
+        public static final int enc_setting_video_codec=0x7f0a0010;
+        public static final int password=0x7f0a000b;
         public static final int programList=0x7f0a0001;
-        public static final int program_date=0x7f0a001c;
+        public static final int program_date=0x7f0a001d;
         public static final int program_detail_detail=0x7f0a0002;
         public static final int program_detail_other=0x7f0a0003;
-        public static final int program_title=0x7f0a001b;
+        public static final int program_title=0x7f0a001c;
         public static final int programs_detail_image=0x7f0a0004;
+        public static final int rule_list_text=0x7f0a0005;
         public static final int swipe_refresh=0x7f0a0000;
-        public static final int textView1=0x7f0a0005;
-        public static final int textView2=0x7f0a0007;
-        public static final int textView3=0x7f0a0009;
-        public static final int textView4=0x7f0a001a;
-        public static final int username=0x7f0a0008;
+        public static final int textView1=0x7f0a0006;
+        public static final int textView2=0x7f0a0008;
+        public static final int textView3=0x7f0a000a;
+        public static final int textView4=0x7f0a001b;
+        public static final int username=0x7f0a0009;
     }
     public static final class layout {
         public static final int activity_program=0x7f030000;
         public static final int activity_program_detail=0x7f030001;
-        public static final int activity_setting=0x7f030002;
-        public static final int program_list_layout=0x7f030003;
+        public static final int activity_rule_detail=0x7f030002;
+        public static final int activity_setting=0x7f030003;
+        public static final int program_list_layout=0x7f030004;
     }
     public static final class string {
         public static final int action_settings=0x7f070002;
