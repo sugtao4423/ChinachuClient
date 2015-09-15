@@ -88,7 +88,7 @@ public class ProgramDetail extends Activity{
 			flag = flag.substring(0, flag.length() - 2);
 		String otherText =
 				"<p>" + startStr + " 〜 " + endStr + " (" + minute + ")<br /><br />" + category + " / " + channelType
-						+ ": " + channelName + "<br /><br />フラッグ：" + flag + "<br /><br />id：" + programId + "</p>";
+						+ ": " + channelName + "<br /><br />フラグ：" + flag + "<br /><br />id：" + programId + "</p>";
 		otherView.setText(Html.fromHtml(otherText));
 
 		if(type == 3 || type == 4) {
