@@ -1,5 +1,6 @@
 package com.tao.chinachuclient;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -30,8 +31,11 @@ public class SettingActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setTitle("サーバー設定変更");
+		
+		ActionBar actionbar = getActionBar();
+		actionbar.setTitle("サーバー設定変更");
+		actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setDisplayShowHomeEnabled(false);
 		
 		pref = PreferenceManager.getDefaultSharedPreferences(this);
 		enc = getSharedPreferences("encodeConfig", MODE_PRIVATE);

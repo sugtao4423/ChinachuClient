@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.Random;
 
 import Chinachu4j.Chinachu4j;
+import Chinachu4j.Program;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -34,7 +35,7 @@ import android.widget.Toast;
 
 public class ProgramDetail extends Activity{
 
-	private String programTitle, programId;
+	private String fullTitle, programId;
 	private int type;
 	private ApplicationClass appClass;
 
@@ -43,25 +44,27 @@ public class ProgramDetail extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_program_detail);
 		
+		appClass = (ApplicationClass)getApplicationContext();
+
+		Program tmp = (Program)appClass.getTmp();
+		
 		ActionBar actionbar = getActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setDisplayShowHomeEnabled(false);
+		actionbar.setTitle(tmp.getTitle());
+		
+		programId = tmp.getId();
+		fullTitle = tmp.getFullTitle();
+		String detail = tmp.getDetail();
+		long start = tmp.getStart();
+		long end = tmp.getEnd();
+		final int seconds = tmp.getSeconds();
+		String category = tmp.getCategory();
+		String[] flags = tmp.getFlags();
+		String channelType = tmp.getChannel().getType();
+		String channelName = tmp.getChannel().getName();
+		type = getIntent().getIntExtra("type", -1);
 
-		Intent i = getIntent();
-		programTitle = i.getStringExtra("title");
-		actionbar.setTitle(programTitle);
-		programId = i.getStringExtra("id");
-		String fullTitle = i.getStringExtra("fullTitle");
-		String detail = i.getStringExtra("detail");
-		long start = i.getLongExtra("start", -1);
-		long end = i.getLongExtra("end", -1);
-		final int seconds = i.getIntExtra("seconds", -1);
-		String category = i.getStringExtra("category");
-		String[] flags = i.getStringArrayExtra("flags");
-		String channelType = i.getStringExtra("channelType");
-		String channelName = i.getStringExtra("channelName");
-		type = i.getIntExtra("type", -1);
-
-		appClass = (ApplicationClass)getApplicationContext();
 
 		final ImageView image = (ImageView)findViewById(R.id.programs_detail_image);
 		if(type == 3 || type == 4)
@@ -137,12 +140,14 @@ public class ProgramDetail extends Activity{
 			if(appClass.getEncStreaming())
 				menu.add("ストリーミング再生(エンコ有)");
 		}
+		if(type == 4)
+			menu.add("録画ファイル削除");
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
-		if(type == 0 || type == 2)
+		if(type == 0 || type == 2 || type == 4)
 			Confirm();
 		if(item.getTitle().equals("ストリーミング再生")) {
 			if(type == 3) {
@@ -194,8 +199,11 @@ public class ProgramDetail extends Activity{
 		case 2:
 			before.setTitle("予約を削除しますか？");
 			break;
+		case 4:
+			before.setTitle("録画ファイルを削除しますか？");
+			break;
 		}
-		before.setMessage(programTitle).setNegativeButton("キャンセル", null).setPositiveButton("OK", new OnClickListener(){
+		before.setMessage(fullTitle).setNegativeButton("キャンセル", null).setPositiveButton("OK", new OnClickListener(){
 			@Override
 			public void onClick(DialogInterface dialog, int which){
 				AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>(){
@@ -221,6 +229,8 @@ public class ProgramDetail extends Activity{
 							case 2:
 								chinachu.delReserve(programId);
 								break;
+							case 4:
+								chinachu.delRecordedFile(programId);
 							}
 							return true;
 						}catch(KeyManagementException | NoSuchAlgorithmException | IOException e){
@@ -239,12 +249,18 @@ public class ProgramDetail extends Activity{
 						switch(type){
 						case 0:
 							after.setTitle("予約完了");
+							after.setMessage(fullTitle);
 							break;
 						case 2:
 							after.setTitle("予約の削除完了");
+							after.setMessage(fullTitle);
+							break;
+						case 4:
+							after.setTitle("録画ファイルの削除完了");
+							after.setMessage(fullTitle + "\n\n録画済みリストへの反映にはクリーンアップが必要です");
 							break;
 						}
-						after.setMessage(programTitle).create().show();
+						after.create().show();
 					}
 				};
 				task.execute();

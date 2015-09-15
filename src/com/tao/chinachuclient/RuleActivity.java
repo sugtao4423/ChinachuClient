@@ -49,6 +49,7 @@ public class RuleActivity extends Activity implements OnRefreshListener, OnItemC
 		ActionBar actionBar = getActionBar();
 		actionBar.setTitle("ルール");
 		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(false);
 		
 		AsyncTask<Void, Void, Rule[]> task = new AsyncTask<Void, Void, Rule[]>(){
 			private ProgressDialog progDailog;
@@ -119,7 +120,7 @@ public class RuleActivity extends Activity implements OnRefreshListener, OnItemC
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id){
 		Rule tmp = (Rule)parent.getItemAtPosition(position);
-		appClass.setTmpRule(tmp);
+		appClass.setTmp(tmp);
 		Intent i = new Intent(this, RuleDetail.class);
 		i.putExtra("position", String.valueOf(position));
 		startActivity(i);

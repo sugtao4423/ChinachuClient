@@ -1,14 +1,13 @@
 package com.tao.chinachuclient;
 
 import Chinachu4j.Chinachu4j;
-import Chinachu4j.Rule;
 import android.app.Application;
 
 public class ApplicationClass extends Application {
 	
 	private Chinachu4j chinachu;
 	private boolean streaming, encStreaming;
-	private Rule tmpRule;
+	private Object tmp;
 	
 	public void setChinachu(Chinachu4j chinachu){
 		this.chinachu = chinachu;
@@ -31,10 +30,10 @@ public class ApplicationClass extends Application {
 		return encStreaming;
 	}
 	
-	public void setTmpRule(Rule tmpRule){
-		this.tmpRule = tmpRule;
+	public void setTmp(Object tmp){
+		this.tmp = tmp;
 	}
-	public Rule getTmpRule(){
-		return tmpRule;
+	public Object getTmp(){
+		return tmp;
 	}
 }

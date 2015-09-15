@@ -35,6 +35,8 @@ public class MainActivity extends Activity implements OnItemClickListener{
 		super.onCreate(savedInstanceState);
 		mainList = new ListView(this);
 		setContentView(mainList);
+		
+		getActionBar().setDisplayShowHomeEnabled(false);
 
 		pref = PreferenceManager.getDefaultSharedPreferences(this);
 		appClass = (ApplicationClass)getApplicationContext();

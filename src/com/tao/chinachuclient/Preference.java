@@ -28,9 +28,9 @@ public class Preference extends PreferenceActivity{
 
 		getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferencesFragment()).commit();
 		ActionBar actionbar = getActionBar();
-		actionbar.setHomeButtonEnabled(true);
 		actionbar.setTitle("設定");
 		actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setDisplayShowHomeEnabled(false);
 	}
 
 	public class MyPreferencesFragment extends PreferenceFragment{

@@ -38,8 +38,9 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 		
 		ActionBar actionbar = getActionBar();
 		actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		actionbar.setDisplayShowTitleEnabled(false);
+		actionbar.setTitle("番組表");
 		actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setDisplayShowHomeEnabled(false);
 		
 		spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item);
 		

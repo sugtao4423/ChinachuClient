@@ -37,7 +37,7 @@ public class RuleDetail extends Activity{
 		
 		position = getIntent().getStringExtra("position");
 		
-		Rule tmp = ((ApplicationClass)getApplicationContext()).getTmpRule();
+		Rule tmp = (Rule)((ApplicationClass)getApplicationContext()).getTmp();
 		
 		ActionBar actionBar = getActionBar();
 		if(tmp.getReserve_titles().length > 0)
@@ -45,6 +45,7 @@ public class RuleDetail extends Activity{
 		else
 			actionBar.setTitle("any");
 		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(false);
 		
 		textView = (TextView)findViewById(R.id.rule_list_text);
 		

@@ -9,6 +9,7 @@ import org.json.JSONException;
 import Chinachu4j.Program;
 import Chinachu4j.Recorded;
 import Chinachu4j.Reserve;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -41,7 +42,9 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 		list = (ListView)findViewById(R.id.programList);
 		swipeRefresh = (SwipeRefreshLayout)findViewById(R.id.swipe_refresh);
 		
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		ActionBar actionbar = getActionBar();
+		actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setDisplayShowHomeEnabled(false);
 		
 		programListAdapter = new ProgramListAdapter(this);
 		list.setAdapter(programListAdapter);
@@ -58,13 +61,13 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 
 		switch(type){
 		case 2:
-			getActionBar().setTitle("予約済み");
+			actionbar.setTitle("予約済み");
 			break;
 		case 3:
-			getActionBar().setTitle("録画中");
+			actionbar.setTitle("録画中");
 			break;
 		case 4:
-			getActionBar().setTitle("録画済み");
+			actionbar.setTitle("録画済み");
 			break;
 		}
 		
@@ -111,7 +114,7 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 				Recorded[] recorded = appClass.getChinachu().getRecorded();
 				Program[] programs = new Program[recorded.length];
 				for(int i = 0; i < recorded.length; i++)
-					programs[i] = recorded[i].getProgram();
+					programs[recorded.length - i - 1] = recorded[i].getProgram();
 				return programs;
 			}
 			return null;
