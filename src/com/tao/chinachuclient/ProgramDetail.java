@@ -147,8 +147,6 @@ public class ProgramDetail extends Activity{
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
-		if(type == 0 || type == 2 || type == 4)
-			Confirm();
 		if(item.getTitle().equals("ストリーミング再生")) {
 			if(type == 3) {
 				Uri uri = Uri.parse(appClass.getChinachu().getNonEncRecordingMovie(programId));
@@ -161,7 +159,7 @@ public class ProgramDetail extends Activity{
 				startActivity(intent);
 			}
 		}
-		if(item.getTitle().equals("ストリーミング再生(エンコ有)")){
+		else if(item.getTitle().equals("ストリーミング再生(エンコ有)")){
 			String[] params = new String[7];
 			SharedPreferences enc = getSharedPreferences("encodeConfig", MODE_PRIVATE);
 			String t = enc.getString("type", null);
@@ -183,6 +181,10 @@ public class ProgramDetail extends Activity{
 				startActivity(intent);
 			}
 		}
+		else if(type == 0 || type == 2 || type == 4){
+			Confirm();
+		}
+
 		if(item.getItemId() == android.R.id.home)
 			finish();
 		return super.onOptionsItemSelected(item);
