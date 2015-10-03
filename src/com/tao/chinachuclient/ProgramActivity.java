@@ -3,7 +3,6 @@ package com.tao.chinachuclient;
 import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
-
 import org.json.JSONException;
 
 import Chinachu4j.Program;
@@ -15,6 +14,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,6 +33,7 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 	private ApplicationClass appClass;
 	
 	private int type;
+	private String query;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -50,10 +51,13 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 		list.setAdapter(programListAdapter);
 		
 		appClass = (ApplicationClass)getApplicationContext();
-		//type 1: ルール 2: 予約済み 3: 録画中 4: 録画済み
-		type = getIntent().getIntExtra("type", -1);
+		//type 1: ルール 2: 予約済み 3: 録画中 4: 録画済み 5: 番組検索
+		Intent intent = getIntent();
+		type = intent.getIntExtra("type", -1);
 		if(type == -1)
 			finish();
+		else if(type == 5)
+			query = intent.getStringExtra("query");
 		
 		list.setOnItemClickListener(new ProgramListClickListener(this, type));
 		swipeRefresh.setColorSchemeColors(Color.parseColor("#2196F3"));
@@ -68,6 +72,9 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 			break;
 		case 4:
 			actionbar.setTitle("録画済み");
+			break;
+		case 5:
+			actionbar.setTitle("検索結果");
 			break;
 		}
 		
@@ -116,6 +123,9 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 				for(int i = 0; i < recorded.length; i++)
 					programs[recorded.length - i - 1] = recorded[i].getProgram();
 				return programs;
+			}
+			if(type == 5){
+				return appClass.getChinachu().searchProgram(query);
 			}
 			return null;
 		} catch (KeyManagementException | NoSuchAlgorithmException | IOException | JSONException e) {

@@ -10,14 +10,18 @@ import Chinachu4j.Chinachu4j;
 import Chinachu4j.Program;
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
+import android.content.Intent;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
+import android.widget.SearchView.OnQueryTextListener;
 
 public class ChannelScheduleActivity extends Activity implements OnNavigationListener{
 	
@@ -135,5 +139,29 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 				return true;
 		}
 	    return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.search, menu);
+	    SearchView searchView = (SearchView) menu.findItem(R.id.search_view).getActionView();
+	    searchView.setQueryHint("全チャンネルから番組検索");
+	    searchView.setOnQueryTextListener(new OnQueryTextListener(){
+			
+			@Override
+			public boolean onQueryTextSubmit(String query){
+				Intent i = new Intent(ChannelScheduleActivity.this, ProgramActivity.class);
+				i.putExtra("type", 5);
+				i.putExtra("query", query);
+				startActivity(i);
+				return false;
+			}
+			
+			@Override
+			public boolean onQueryTextChange(String newText){
+				return false;
+			}
+		});
+	    return true;
 	}
 }

@@ -130,7 +130,7 @@ public class ProgramDetail extends Activity{
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu){
-		if(type == 0)
+		if(type == 0 || type == 5)
 			menu.add("予約");
 		if(type == 2)
 			menu.add("予約削除");
@@ -181,7 +181,7 @@ public class ProgramDetail extends Activity{
 				startActivity(intent);
 			}
 		}
-		else if(type == 0 || type == 2 || type == 4){
+		else if(type == 0 || type == 2 || type == 4 || type == 5){
 			Confirm();
 		}
 
@@ -196,6 +196,7 @@ public class ProgramDetail extends Activity{
 		AlertDialog.Builder before = new Builder(this);
 		switch(type){
 		case 0:
+		case 5:
 			before.setTitle("予約しますか？");
 			break;
 		case 2:
@@ -226,6 +227,7 @@ public class ProgramDetail extends Activity{
 						try{
 							switch(type){
 							case 0:
+							case 5:
 								chinachu.putReserve(programId);
 								break;
 							case 2:
@@ -250,6 +252,7 @@ public class ProgramDetail extends Activity{
 						AlertDialog.Builder after = new Builder(ProgramDetail.this);
 						switch(type){
 						case 0:
+						case 5:
 							after.setTitle("予約完了");
 							after.setMessage(fullTitle);
 							break;
