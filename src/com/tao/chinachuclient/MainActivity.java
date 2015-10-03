@@ -23,7 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class MainActivity extends Activity implements OnItemClickListener{
-	
+
 	private SharedPreferences pref;
 	private Chinachu4j chinachu;
 	private ApplicationClass appClass;
@@ -31,57 +31,57 @@ public class MainActivity extends Activity implements OnItemClickListener{
 	private ListView mainList;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		mainList = new ListView(this);
 		setContentView(mainList);
-		
+
 		getActionBar().setDisplayShowHomeEnabled(false);
 
 		pref = PreferenceManager.getDefaultSharedPreferences(this);
 		appClass = (ApplicationClass)getApplicationContext();
-		
+
 		chinachuAddress = pref.getString("chinachuAddress", null);
 		username = pref.getString("username", null);
 		password = pref.getString("password", null);
-		if(chinachuAddress == null || username == null || password == null){
+		if(chinachuAddress == null || username == null || password == null) {
 			Intent i = new Intent(this, AddServer.class);
 			i.putExtra("startMain", true);
 			startActivity(i);
 			finish();
 			return;
 		}
-		username = new String(Base64.decode(username,Base64.DEFAULT));
-		password = new String(Base64.decode(password,Base64.DEFAULT));
-		
+		username = new String(Base64.decode(username, Base64.DEFAULT));
+		password = new String(Base64.decode(password, Base64.DEFAULT));
+
 		String[] listItem = new String[]{"番組表", "ルール", "予約済み", "録画中", "録画済み"};
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItem);
 		mainList.setAdapter(adapter);
 		mainList.setOnItemClickListener(this);
-		
+
 		chinachu = new Chinachu4j(chinachuAddress, username, password);
-		
+
 		appClass.setChinachu(chinachu);
-		
+
 		appClass.setStreaming(pref.getBoolean("streaming", false));
 		appClass.setEncStreaming(pref.getBoolean("encStreaming", false));
 	}
-	
+
 	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id){
 		if(position == 0)
 			startActivity(new Intent(this, ChannelScheduleActivity.class));
 		if(position == 1)
 			startActivity(new Intent(this, RuleActivity.class));
-		if(position > 1){
+		if(position > 1) {
 			Intent i = new Intent(this, ProgramActivity.class);
 			i.putExtra("type", position);
 			startActivity(i);
 		}
 	}
-	
+
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu){
 		MenuItem changeServer = menu.add("鯖変更");
 		changeServer.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		MenuItem item = menu.add("設定");
@@ -93,7 +93,7 @@ public class MainActivity extends Activity implements OnItemClickListener{
 	public boolean onOptionsItemSelected(MenuItem item){
 		if(item.getTitle().equals("設定"))
 			startActivity(new Intent(this, Preference.class));
-		if(item.getTitle().equals("鯖変更")){
+		if(item.getTitle().equals("鯖変更")) {
 			final SQLiteDatabase db = new ServerSQLHelper(this).getReadableDatabase();
 			final ArrayList<String> address = new ArrayList<String>();
 			Cursor result = db.rawQuery("select chinachuAddress from servers", null);
@@ -123,11 +123,11 @@ public class MainActivity extends Activity implements OnItemClickListener{
 					.putBoolean("streaming", s)
 					.putBoolean("encStreaming", encS)
 					.commit();
-					chinachu = new Chinachu4j(ca, new String(Base64.decode(u,Base64.DEFAULT)), new String(Base64.decode(p,Base64.DEFAULT)));
+					chinachu = new Chinachu4j(ca, new String(Base64.decode(u, Base64.DEFAULT)), new String(Base64.decode(p, Base64.DEFAULT)));
 					appClass.setChinachu(chinachu);
 					appClass.setStreaming(s);
 					appClass.setStreaming(encS);
-					
+
 					SharedPreferences enc = getSharedPreferences("encodeConfig", MODE_PRIVATE);
 					String[] encode = new String[8];
 					encode[0] = allGet.getString(5);
@@ -153,8 +153,7 @@ public class MainActivity extends Activity implements OnItemClickListener{
 					.putString("frame", encode[7])
 					.commit();
 				}
-			})
-			.setPositiveButton("OK", null);
+			}).setPositiveButton("OK", null);
 			selectServer.create().show();
 		}
 		return super.onOptionsItemSelected(item);

@@ -26,39 +26,39 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class ProgramActivity extends Activity implements OnRefreshListener{
-	
+
 	private ListView list;
 	private SwipeRefreshLayout swipeRefresh;
 	private ProgramListAdapter programListAdapter;
 	private ApplicationClass appClass;
-	
+
 	private int type;
 	private String query;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_program);
-		
+
 		list = (ListView)findViewById(R.id.programList);
 		swipeRefresh = (SwipeRefreshLayout)findViewById(R.id.swipe_refresh);
-		
+
 		ActionBar actionbar = getActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(false);
-		
+
 		programListAdapter = new ProgramListAdapter(this);
 		list.setAdapter(programListAdapter);
-		
+
 		appClass = (ApplicationClass)getApplicationContext();
-		//type 1: ルール 2: 予約済み 3: 録画中 4: 録画済み 5: 番組検索
+		// type 1: ルール 2: 予約済み 3: 録画中 4: 録画済み 5: 番組検索
 		Intent intent = getIntent();
 		type = intent.getIntExtra("type", -1);
 		if(type == -1)
 			finish();
 		else if(type == 5)
 			query = intent.getStringExtra("query");
-		
+
 		list.setOnItemClickListener(new ProgramListClickListener(this, type));
 		swipeRefresh.setColorSchemeColors(Color.parseColor("#2196F3"));
 		swipeRefresh.setOnRefreshListener(this);
@@ -77,27 +77,30 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 			actionbar.setTitle("検索結果");
 			break;
 		}
-		
+
 		AsyncTask<Void, Void, Program[]> task = new AsyncTask<Void, Void, Program[]>(){
 			private ProgressDialog progDailog;
+
 			@Override
-	        protected void onPreExecute() {
-	            progDailog = new ProgressDialog(ProgramActivity.this);
-	            progDailog.setMessage("Loading...");
-	            progDailog.setIndeterminate(false);
-	            progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-	            progDailog.setCancelable(true);
-	            progDailog.show();
-	        }
+			protected void onPreExecute(){
+				progDailog = new ProgressDialog(ProgramActivity.this);
+				progDailog.setMessage("Loading...");
+				progDailog.setIndeterminate(false);
+				progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+				progDailog.setCancelable(true);
+				progDailog.show();
+			}
+
 			@Override
-			protected Program[] doInBackground(Void... params) {
+			protected Program[] doInBackground(Void... params){
 				return load();
 			}
+
 			@Override
 			protected void onPostExecute(Program[] result){
 				progDailog.dismiss();
-				if(result == null){
-					Toast.makeText(ProgramActivity.this,"番組取得エラー", Toast.LENGTH_SHORT).show();
+				if(result == null) {
+					Toast.makeText(ProgramActivity.this, "番組取得エラー", Toast.LENGTH_SHORT).show();
 					return;
 				}
 				programListAdapter.addAll(result);
@@ -107,8 +110,8 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 	}
 
 	public Program[] load(){
-		try {
-			if(type == 2){
+		try{
+			if(type == 2) {
 				Reserve[] reserve = appClass.getChinachu().getReserves();
 				Program[] program = new Program[reserve.length];
 				for(int i = 0; i < reserve.length; i++)
@@ -117,38 +120,38 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 			}
 			if(type == 3)
 				return appClass.getChinachu().getRecording();
-			if(type == 4){
+			if(type == 4) {
 				Recorded[] recorded = appClass.getChinachu().getRecorded();
 				Program[] programs = new Program[recorded.length];
 				for(int i = 0; i < recorded.length; i++)
 					programs[recorded.length - i - 1] = recorded[i].getProgram();
 				return programs;
 			}
-			if(type == 5){
+			if(type == 5) {
 				return appClass.getChinachu().searchProgram(query);
 			}
 			return null;
-		} catch (KeyManagementException | NoSuchAlgorithmException | IOException | JSONException e) {
+		}catch(KeyManagementException | NoSuchAlgorithmException | IOException | JSONException e){
 			return null;
 		}
 	}
-	
+
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		if(type == 4){
+	public boolean onCreateOptionsMenu(Menu menu){
+		if(type == 4) {
 			MenuItem cleanUp = menu.add("クリーンアップ");
 			cleanUp.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		}
 		return true;
 	}
-	
-	@Override  
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
-		if(item.getItemId() == android.R.id.home){
-				finish();
-				return true;
+		if(item.getItemId() == android.R.id.home) {
+			finish();
+			return true;
 		}
-		if(item.getTitle().equals("クリーンアップ")){
+		if(item.getTitle().equals("クリーンアップ")) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle("クリーンアップ")
 			.setMessage("録画済みリストをクリーンアップしますか？")
@@ -158,15 +161,17 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 				public void onClick(DialogInterface dialog, int which){
 					AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>(){
 						private ProgressDialog progDailog;
+
 						@Override
-				        protected void onPreExecute() {
-				            progDailog = new ProgressDialog(ProgramActivity.this);
-				            progDailog.setMessage("Loading...");
-				            progDailog.setIndeterminate(false);
-				            progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-				            progDailog.setCancelable(true);
-				            progDailog.show();
-				        }
+						protected void onPreExecute(){
+							progDailog = new ProgressDialog(ProgramActivity.this);
+							progDailog.setMessage("Loading...");
+							progDailog.setIndeterminate(false);
+							progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+							progDailog.setCancelable(true);
+							progDailog.show();
+						}
+
 						@Override
 						protected Boolean doInBackground(Void... params){
 							try{
@@ -176,10 +181,11 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 								return false;
 							}
 						}
+
 						@Override
 						protected void onPostExecute(Boolean result){
 							progDailog.dismiss();
-							if(!result){
+							if(!result) {
 								Toast.makeText(ProgramActivity.this, "クリーンアップに失敗しました", Toast.LENGTH_SHORT).show();
 								return;
 							}
@@ -188,10 +194,12 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 							.setMessage("クリーンアップに成功しました\n更新しますか？")
 							.setNegativeButton("キャンセル", null)
 							.setPositiveButton("OK", new OnClickListener(){
+
 								@Override
 								public void onClick(DialogInterface dialog, int which){
 									onRefresh();
 								}
+
 							});
 							ok.create().show();
 						}
@@ -201,7 +209,7 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 			});
 			builder.create().show();
 		}
-	    return super.onOptionsItemSelected(item);
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -209,14 +217,15 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 		programListAdapter.clear();
 		AsyncTask<Void, Void, Program[]> task = new AsyncTask<Void, Void, Program[]>(){
 			@Override
-			protected Program[] doInBackground(Void... params) {
+			protected Program[] doInBackground(Void... params){
 				return load();
 			}
+
 			@Override
 			protected void onPostExecute(Program[] result){
 				swipeRefresh.setRefreshing(false);
-				if(result == null){
-					Toast.makeText(ProgramActivity.this,"番組取得エラー", Toast.LENGTH_SHORT).show();
+				if(result == null) {
+					Toast.makeText(ProgramActivity.this, "番組取得エラー", Toast.LENGTH_SHORT).show();
 					return;
 				}
 				programListAdapter.addAll(result);

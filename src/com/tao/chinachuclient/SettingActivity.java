@@ -18,25 +18,25 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-public class SettingActivity extends Activity {
-	
+public class SettingActivity extends Activity{
+
 	private EditText chinachuAddress, username, password;
 	private SharedPreferences pref;
-	
+
 	private Spinner type, containerFormat, videoCodec, audioCodec, videoBitrateFormat, audioBitrateFormat;
 	private EditText videoBitrate, audioBitrate, videoSize, frame;
 	private SharedPreferences enc;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
-		
+
 		ActionBar actionbar = getActionBar();
 		actionbar.setTitle("サーバー設定変更");
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(false);
-		
+
 		pref = PreferenceManager.getDefaultSharedPreferences(this);
 		enc = getSharedPreferences("encodeConfig", MODE_PRIVATE);
 
@@ -57,10 +57,8 @@ public class SettingActivity extends Activity {
 		password = (EditText)findViewById(R.id.password);
 
 		chinachuAddress.setText(pref.getString("chinachuAddress", ""));
-		username.setText(new String(Base64.decode(pref.getString("username", ""),Base64.DEFAULT)));
-		password.setText(new String(Base64.decode(pref.getString("password", ""),Base64.DEFAULT)));
-
-
+		username.setText(new String(Base64.decode(pref.getString("username", ""), Base64.DEFAULT)));
+		password.setText(new String(Base64.decode(pref.getString("password", ""), Base64.DEFAULT)));
 
 		type = (Spinner)findViewById(R.id.enc_setting_type_spinner);
 		containerFormat = (Spinner)findViewById(R.id.enc_setting_container_spinner);
@@ -73,7 +71,7 @@ public class SettingActivity extends Activity {
 		audioBitrateFormat = (Spinner)findViewById(R.id.enc_setting_audio_bitrate_spinner);
 		videoSize = (EditText)findViewById(R.id.enc_setting_videoSize);
 		frame = (EditText)findViewById(R.id.enc_setting_frame);
-		
+
 		switch(enc.getString("type", "")){
 		case "m2ts":
 			type.setSelection(0);
@@ -138,56 +136,55 @@ public class SettingActivity extends Activity {
 		}
 
 		int videoBit = Integer.parseInt(enc.getString("videoBitrate", "0"));
-		if((videoBit / 1000 / 1000) != 0){
+		if((videoBit / 1000 / 1000) != 0) {
 			videoBitrateFormat.setSelection(1);
 			videoBitrate.setText(String.valueOf(videoBit / 1000 / 1000));
-		}else if((videoBit / 1000) != 0){
+		}else if((videoBit / 1000) != 0) {
 			videoBitrateFormat.setSelection(0);
 			videoBitrate.setText(String.valueOf(videoBit / 1000));
 		}else{
 			videoBitrate.setText("");
 		}
-		
+
 		int audioBit = Integer.parseInt(enc.getString("audioBitrate", "0"));
-		if((audioBit / 1000 / 1000) != 0){
+		if((audioBit / 1000 / 1000) != 0) {
 			audioBitrateFormat.setSelection(1);
 			audioBitrate.setText(String.valueOf(audioBit / 1000 / 1000));
-		}else if((audioBit / 1000) != 0){
+		}else if((audioBit / 1000) != 0) {
 			audioBitrateFormat.setSelection(0);
 			audioBitrate.setText(String.valueOf(audioBit / 1000));
 		}else{
 			audioBitrate.setText("");
 		}
-		
+
 		videoSize.setText(enc.getString("videoSize", ""));
 		frame.setText(enc.getString("frame", ""));
 	}
-	
+
 	public void ok(View v){
 		String raw_chinachuAddress = chinachuAddress.getText().toString();
-		if(!(raw_chinachuAddress.startsWith("http://") || raw_chinachuAddress.startsWith("https://"))){
+		if(!(raw_chinachuAddress.startsWith("http://") || raw_chinachuAddress.startsWith("https://"))) {
 			Toast.makeText(this, "サーバーアドレスが間違っています", Toast.LENGTH_SHORT).show();
 			return;
 		}
-		
+
 		String oldChinachuAddress = pref.getString("chinachuAddress", "");
-		
+
 		String raw_username = username.getText().toString();
 		String raw_password = password.getText().toString();
-		
+
 		String user = Base64.encodeToString(raw_username.getBytes(), Base64.DEFAULT);
 		String passwd = Base64.encodeToString(raw_password.getBytes(), Base64.DEFAULT);
-		
+
 		pref.edit()
 		.putString("chinachuAddress", raw_chinachuAddress)
 		.putString("username", user)
 		.putString("password", passwd)
 		.commit();
-		
-		
+
 		String vb = null;
 		String ab = null;
-		if(!videoBitrate.getText().toString().isEmpty()){
+		if(!videoBitrate.getText().toString().isEmpty()) {
 			int videoBit = Integer.parseInt(videoBitrate.getText().toString());
 			if(videoBitrateFormat.getSelectedItemPosition() == 0)
 				videoBit *= 1000;
@@ -195,8 +192,8 @@ public class SettingActivity extends Activity {
 				videoBit *= 1000000;
 			vb = String.valueOf(videoBit);
 		}
-		
-		if(!audioBitrate.getText().toString().isEmpty()){
+
+		if(!audioBitrate.getText().toString().isEmpty()) {
 			int audioBit = Integer.parseInt(audioBitrate.getText().toString());
 			if(audioBitrateFormat.getSelectedItemPosition() == 0)
 				audioBit *= 1000;
@@ -204,7 +201,7 @@ public class SettingActivity extends Activity {
 				audioBit *= 1000000;
 			ab = String.valueOf(audioBit);
 		}
-		
+
 		enc.edit().putString("type", (String)type.getSelectedItem())
 				.putString("containerFormat", (String)containerFormat.getSelectedItem())
 				.putString("videoCodec", (String)videoCodec.getSelectedItem())
@@ -214,7 +211,7 @@ public class SettingActivity extends Activity {
 				.putString("videoSize", videoSize.getText().toString())
 				.putString("frame", frame.getText().toString())
 				.commit();
-		
+
 		SQLiteDatabase db = new ServerSQLHelper(this).getWritableDatabase();
 		db.execSQL("update servers set " +
 				"chinachuAddress='" + raw_chinachuAddress + "', " +
@@ -233,18 +230,18 @@ public class SettingActivity extends Activity {
 				"where chinachuAddress='" + oldChinachuAddress + "'");
 		finish();
 	}
-	
+
 	public void background(View v){
 		InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 		inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
 	}
-	
-	@Override  
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
-		if(item.getItemId() == android.R.id.home){
-				finish();
-				return true;
+		if(item.getItemId() == android.R.id.home) {
+			finish();
+			return true;
 		}
-	    return super.onOptionsItemSelected(item);
+		return super.onOptionsItemSelected(item);
 	}
 }

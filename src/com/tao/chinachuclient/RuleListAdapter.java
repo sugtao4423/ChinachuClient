@@ -21,13 +21,13 @@ public class RuleListAdapter extends ArrayAdapter<Rule>{
 	class ViewHolder{
 		TextView title, channel;
 	}
-	
+
 	@SuppressLint("InflateParams")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent){
 		final ViewHolder holder;
 		final Rule item = getItem(position);
-		
+
 		if(convertView == null) {
 			convertView = mInflater.inflate(R.layout.program_list_layout, null);
 			TextView title = (TextView)convertView.findViewById(R.id.program_title);
@@ -41,8 +41,8 @@ public class RuleListAdapter extends ArrayAdapter<Rule>{
 		}else{
 			holder = (ViewHolder)convertView.getTag();
 		}
-		
-		if(item.getCategories().length > 0){
+
+		if(item.getCategories().length > 0) {
 			switch(item.getCategories()[0]){
 			case "anime":
 				convertView.setBackgroundResource(R.drawable.anime);
@@ -75,29 +75,29 @@ public class RuleListAdapter extends ArrayAdapter<Rule>{
 				break;
 			}
 		}
-		
+
 		String[] titles = item.getReserve_titles();
 		String title = "";
-		if(titles.length != 0){
+		if(titles.length != 0) {
 			for(String s : titles)
 				title += s + ", ";
 			title = title.substring(0, title.length() - 2);
 		}else
 			title = "any";
-		
+
 		String[] channels = item.getChannels();
 		String channel = "";
-		if(channels.length != 0){
+		if(channels.length != 0) {
 			for(String s : channels)
 				channel += s + ", ";
 			channel = channel.substring(0, channel.length() - 2);
-		}else
+		}else{
 			channel = "any";
-		
-		
+		}
+
 		holder.title.setText(title);
 		holder.channel.setText(channel);
-		
+
 		return convertView;
 	}
 }

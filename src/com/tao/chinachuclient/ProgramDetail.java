@@ -43,16 +43,16 @@ public class ProgramDetail extends Activity{
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_program_detail);
-		
+
 		appClass = (ApplicationClass)getApplicationContext();
 
 		Program tmp = (Program)appClass.getTmp();
-		
+
 		ActionBar actionbar = getActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(false);
 		actionbar.setTitle(tmp.getTitle());
-		
+
 		programId = tmp.getId();
 		fullTitle = tmp.getFullTitle();
 		String detail = tmp.getDetail();
@@ -64,7 +64,6 @@ public class ProgramDetail extends Activity{
 		String channelType = tmp.getChannel().getType();
 		String channelName = tmp.getChannel().getName();
 		type = getIntent().getIntExtra("type", -1);
-
 
 		final ImageView image = (ImageView)findViewById(R.id.programs_detail_image);
 		if(type == 3 || type == 4)
@@ -89,9 +88,8 @@ public class ProgramDetail extends Activity{
 			flag = "なし";
 		else
 			flag = flag.substring(0, flag.length() - 2);
-		String otherText =
-				"<p>" + startStr + " 〜 " + endStr + " (" + minute + ")<br /><br />" + category + " / " + channelType
-						+ ": " + channelName + "<br /><br />フラグ：" + flag + "<br /><br />id：" + programId + "</p>";
+		String otherText = "<p>" + startStr + " 〜 " + endStr + " (" + minute + ")<br /><br />" + category + " / " +
+			channelType + ": " + channelName + "<br /><br />フラグ：" + flag + "<br /><br />id：" + programId + "</p>";
 		otherView.setText(Html.fromHtml(otherText));
 
 		if(type == 3 || type == 4) {
@@ -158,8 +156,7 @@ public class ProgramDetail extends Activity{
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
 			}
-		}
-		else if(item.getTitle().equals("ストリーミング再生(エンコ有)")){
+		}else if(item.getTitle().equals("ストリーミング再生(エンコ有)")) {
 			String[] params = new String[7];
 			SharedPreferences enc = getSharedPreferences("encodeConfig", MODE_PRIVATE);
 			String t = enc.getString("type", null);
@@ -180,8 +177,7 @@ public class ProgramDetail extends Activity{
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
 			}
-		}
-		else if(type == 0 || type == 2 || type == 4 || type == 5){
+		}else if(type == 0 || type == 2 || type == 4 || type == 5) {
 			Confirm();
 		}
 

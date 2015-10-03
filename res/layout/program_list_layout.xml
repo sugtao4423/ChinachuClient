@@ -9,8 +9,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="3dp"
+        android:layout_marginTop="5dp"
         android:text="タイトル"
         android:textColor="#6687a6"
         android:textSize="13sp"
@@ -22,11 +22,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/program_title"
-        android:layout_marginTop="2sp"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="3dp"
-        android:textColor="#9b9e98"
+        android:layout_marginTop="2sp"
         android:text="date"
+        android:textColor="#9b9e98"
         android:textSize="12sp" />
-    
+
 </RelativeLayout>

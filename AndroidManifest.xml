@@ -7,7 +7,8 @@
     <uses-sdk
         android:minSdkVersion="19"
         android:targetSdkVersion="19" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name="com.tao.chinachuclient.ApplicationClass"
@@ -24,14 +25,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="SettingActivity" android:windowSoftInputMode="adjustResize"></activity>
-        <activity android:name="ChannelScheduleActivity"></activity>
-        <activity android:name="ProgramDetail"></activity>
-        <activity android:name="ProgramActivity"></activity>
-        <activity android:name="Preference"></activity>
-        <activity android:name="AddServer"></activity>
-        <activity android:name="RuleActivity"></activity>
-        <activity android:name="RuleDetail"></activity>
+        <activity
+            android:name="SettingActivity"
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+        <activity android:name="ChannelScheduleActivity" >
+        </activity>
+        <activity android:name="ProgramDetail" >
+        </activity>
+        <activity android:name="ProgramActivity" >
+        </activity>
+        <activity android:name="Preference" >
+        </activity>
+        <activity android:name="AddServer" >
+        </activity>
+        <activity android:name="RuleActivity" >
+        </activity>
+        <activity android:name="RuleDetail" >
+        </activity>
     </application>
 
 </manifest>

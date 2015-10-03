@@ -98,7 +98,7 @@ public class Preference extends PreferenceActivity{
 					return true;
 				}
 			});
-			
+
 			delServer.setOnPreferenceClickListener(new OnPreferenceClickListener(){
 				@Override
 				public boolean onPreferenceClick(android.preference.Preference preference){
@@ -147,13 +147,13 @@ public class Preference extends PreferenceActivity{
 		appClass.setStreaming(pref.getBoolean("streaming", false));
 		appClass.setEncStreaming(pref.getBoolean("encStreaming", false));
 	}
-	
-	@Override  
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
-		if(item.getItemId() == android.R.id.home){
-				finish();
-				return true;
+		if(item.getItemId() == android.R.id.home) {
+			finish();
+			return true;
 		}
-	    return super.onOptionsItemSelected(item);
+		return super.onOptionsItemSelected(item);
 	}
 }

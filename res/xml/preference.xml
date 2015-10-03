@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    <PreferenceCategory android:title="有効／無効"><CheckBoxPreference android:title="ストリーミング再生" android:key="streaming" android:summaryOff="無効" android:summaryOn="有効"/>
-    <CheckBoxPreference android:key="encStreaming" android:title="エンコ有りストリーミング再生" android:summaryOff="無効" android:summaryOn="有効"/>
-</PreferenceCategory>
-    
-    <PreferenceCategory android:title="設定">
-        
-        <Preference android:key="addServer" android:title="サーバー追加"/><Preference android:title="サーバー設定変更" android:key="settingActivity" />
-        <Preference android:key="delServer" android:title="サーバー削除"/>
+
+    <PreferenceCategory android:title="有効／無効" >
+        <CheckBoxPreference
+            android:key="streaming"
+            android:summaryOff="無効"
+            android:summaryOn="有効"
+            android:title="ストリーミング再生" />
+        <CheckBoxPreference
+            android:key="encStreaming"
+            android:summaryOff="無効"
+            android:summaryOn="有効"
+            android:title="エンコ有りストリーミング再生" />
     </PreferenceCategory>
-    
+    <PreferenceCategory android:title="設定" >
+        <Preference
+            android:key="addServer"
+            android:title="サーバー追加" />
+        <Preference
+            android:key="settingActivity"
+            android:title="サーバー設定変更" />
+        <Preference
+            android:key="delServer"
+            android:title="サーバー削除" />
+    </PreferenceCategory>
 
 </PreferenceScreen>

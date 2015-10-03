@@ -24,44 +24,46 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class RuleActivity extends Activity implements OnRefreshListener, OnItemClickListener{
-	
+
 	private ListView list;
 	private SwipeRefreshLayout swipeRefresh;
 	private RuleListAdapter adapter;
 	private ApplicationClass appClass;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_program);
 
 		appClass = (ApplicationClass)getApplicationContext();
-		
+
 		list = (ListView)findViewById(R.id.programList);
 		adapter = new RuleListAdapter(this);
 		list.setAdapter(adapter);
 		list.setOnItemClickListener(this);
-		
+
 		swipeRefresh = (SwipeRefreshLayout)findViewById(R.id.swipe_refresh);
 		swipeRefresh.setColorSchemeColors(Color.parseColor("#2196F3"));
 		swipeRefresh.setOnRefreshListener(this);
-		
+
 		ActionBar actionBar = getActionBar();
 		actionBar.setTitle("ルール");
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowHomeEnabled(false);
-		
+
 		AsyncTask<Void, Void, Rule[]> task = new AsyncTask<Void, Void, Rule[]>(){
 			private ProgressDialog progDailog;
+
 			@Override
-	        protected void onPreExecute() {
-	            progDailog = new ProgressDialog(RuleActivity.this);
-	            progDailog.setMessage("Loading...");
-	            progDailog.setIndeterminate(false);
-	            progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-	            progDailog.setCancelable(true);
-	            progDailog.show();
-	        }
+			protected void onPreExecute(){
+				progDailog = new ProgressDialog(RuleActivity.this);
+				progDailog.setMessage("Loading...");
+				progDailog.setIndeterminate(false);
+				progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+				progDailog.setCancelable(true);
+				progDailog.show();
+			}
+
 			@Override
 			protected Rule[] doInBackground(Void... params){
 				try{
@@ -70,11 +72,12 @@ public class RuleActivity extends Activity implements OnRefreshListener, OnItemC
 					return null;
 				}
 			}
+
 			@Override
 			protected void onPostExecute(Rule[] result){
 				progDailog.dismiss();
-				if(result == null){
-					Toast.makeText(RuleActivity.this,"ルール取得エラー", Toast.LENGTH_SHORT).show();
+				if(result == null) {
+					Toast.makeText(RuleActivity.this, "ルール取得エラー", Toast.LENGTH_SHORT).show();
 					return;
 				}
 				adapter.addAll(result);
@@ -82,12 +85,12 @@ public class RuleActivity extends Activity implements OnRefreshListener, OnItemC
 		};
 		task.execute();
 	}
-	
-	@Override  
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
-		if(item.getItemId() == android.R.id.home){
-				finish();
-				return true;
+		if(item.getItemId() == android.R.id.home) {
+			finish();
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -104,11 +107,12 @@ public class RuleActivity extends Activity implements OnRefreshListener, OnItemC
 					return null;
 				}
 			}
+
 			@Override
 			protected void onPostExecute(Rule[] result){
 				swipeRefresh.setRefreshing(false);
-				if(result == null){
-					Toast.makeText(RuleActivity.this,"ルール取得エラー", Toast.LENGTH_SHORT).show();
+				if(result == null) {
+					Toast.makeText(RuleActivity.this, "ルール取得エラー", Toast.LENGTH_SHORT).show();
 					return;
 				}
 				adapter.addAll(result);

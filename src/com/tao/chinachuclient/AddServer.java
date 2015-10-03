@@ -17,22 +17,22 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class AddServer extends Activity{
-	
+
 	private EditText chinachuAddress, username, password;
 	private boolean startMain;
-	
+
 	private Spinner type, containerFormat, videoCodec, audioCodec, videoBitrateFormat, audioBitrateFormat;
 	private EditText videoBitrate, audioBitrate, videoSize, frame;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setTitle("サーバー追加");
-		
+
 		startMain = getIntent().getBooleanExtra("startMain", false);
-		
+
 		chinachuAddress = (EditText)findViewById(R.id.chinachuAddress);
 		username = (EditText)findViewById(R.id.username);
 		password = (EditText)findViewById(R.id.password);
@@ -49,10 +49,10 @@ public class AddServer extends Activity{
 		videoSize = (EditText)findViewById(R.id.enc_setting_videoSize);
 		frame = (EditText)findViewById(R.id.enc_setting_frame);
 	}
-	
+
 	public void ok(View v){
 		String raw_chinachuAddress = chinachuAddress.getText().toString();
-		if(!(raw_chinachuAddress.startsWith("http://") || raw_chinachuAddress.startsWith("https://"))){
+		if(!(raw_chinachuAddress.startsWith("http://") || raw_chinachuAddress.startsWith("https://"))) {
 			Toast.makeText(this, "サーバーアドレスが間違っています", Toast.LENGTH_SHORT).show();
 			return;
 		}
@@ -60,14 +60,14 @@ public class AddServer extends Activity{
 		SQLiteDatabase db = new ServerSQLHelper(this).getWritableDatabase();
 		Cursor already = db.rawQuery("select * from servers where chinachuAddress=?", new String[]{raw_chinachuAddress});
 		already.moveToFirst();
-		if(already.getCount() > 0){
+		if(already.getCount() > 0) {
 			Toast.makeText(this, "すでに登録されています", Toast.LENGTH_SHORT).show();
 			return;
 		}
-		
+
 		String vb = null;
 		String ab = null;
-		if(!videoBitrate.getText().toString().isEmpty()){
+		if(!videoBitrate.getText().toString().isEmpty()) {
 			int videoBit = Integer.parseInt(videoBitrate.getText().toString());
 			if(videoBitrateFormat.getSelectedItemPosition() == 0)
 				videoBit *= 1000;
@@ -75,8 +75,8 @@ public class AddServer extends Activity{
 				videoBit *= 1000000;
 			vb = String.valueOf(videoBit);
 		}
-		
-		if(!audioBitrate.getText().toString().isEmpty()){
+
+		if(!audioBitrate.getText().toString().isEmpty()) {
 			int audioBit = Integer.parseInt(audioBitrate.getText().toString());
 			if(audioBitrateFormat.getSelectedItemPosition() == 0)
 				audioBit *= 1000;
@@ -99,14 +99,14 @@ public class AddServer extends Activity{
 				"'" + videoSize.getText().toString() + "', " +
 				"'" + frame.getText().toString() + "')");
 		
-		if(startMain){
+		if(startMain) {
 			SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 			pref.edit()
 			.putString("chinachuAddress", raw_chinachuAddress)
 			.putString("username", Base64.encodeToString(username.getText().toString().getBytes(), Base64.DEFAULT))
 			.putString("password", Base64.encodeToString(password.getText().toString().getBytes(), Base64.DEFAULT))
 			.commit();
-			
+
 			SharedPreferences enc = getSharedPreferences("encodeConfig", MODE_PRIVATE);
 			enc.edit().putString("type", (String)type.getSelectedItem())
 			.putString("containerFormat", (String)containerFormat.getSelectedItem())
@@ -117,23 +117,23 @@ public class AddServer extends Activity{
 			.putString("videoSize", videoSize.getText().toString())
 			.putString("frame", frame.getText().toString())
 			.commit();
-			
+
 			startActivity(new Intent(this, MainActivity.class));
 		}
 		finish();
 	}
-	
+
 	public void background(View v){
 		InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 		inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
 	}
-	
-	@Override  
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
-		if(item.getItemId() == android.R.id.home){
-				finish();
-				return true;
+		if(item.getItemId() == android.R.id.home) {
+			finish();
+			return true;
 		}
-	    return super.onOptionsItemSelected(item);
+		return super.onOptionsItemSelected(item);
 	}
 }
