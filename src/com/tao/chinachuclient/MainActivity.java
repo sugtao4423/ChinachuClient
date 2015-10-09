@@ -152,8 +152,9 @@ public class MainActivity extends Activity implements OnItemClickListener{
 					.putString("videoSize", encode[6])
 					.putString("frame", encode[7])
 					.commit();
+					dialog.dismiss();
 				}
-			}).setPositiveButton("OK", null);
+			}).setPositiveButton("キャンセル", null);
 			selectServer.create().show();
 		}
 		return super.onOptionsItemSelected(item);
