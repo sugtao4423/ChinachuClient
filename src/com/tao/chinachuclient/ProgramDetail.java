@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.Random;
 
 import Chinachu4j.Chinachu4j;
+import Chinachu4j.ChinachuResponse;
 import Chinachu4j.Program;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -72,8 +73,7 @@ public class ProgramDetail extends Activity{
 			image.setVisibility(View.GONE);
 
 		TextView detailView = (TextView)findViewById(R.id.program_detail_detail);
-		String detailText = "<p><strong>フルタイトル</strong><br />" + fullTitle + "<br /></p><p><strong>詳細</strong><br />"
-				+ detail + "</p>";
+		String detailText = "<p><strong>フルタイトル</strong><br />" + fullTitle + "<br /></p><p><strong>詳細</strong><br />" + detail + "</p>";
 		detailView.setText(Html.fromHtml(detailText));
 
 		TextView otherView = (TextView)findViewById(R.id.program_detail_other);
@@ -88,8 +88,8 @@ public class ProgramDetail extends Activity{
 			flag = "なし";
 		else
 			flag = flag.substring(0, flag.length() - 2);
-		String otherText = "<p>" + startStr + " 〜 " + endStr + " (" + minute + ")<br /><br />" + category + " / " +
-			channelType + ": " + channelName + "<br /><br />フラグ：" + flag + "<br /><br />id：" + programId + "</p>";
+		String otherText = "<p>" + startStr + " 〜 " + endStr + " (" + minute + ")<br /><br />" + category + " / " + channelType
+				+ ": " + channelName + "<br /><br />フラグ：" + flag + "<br /><br />id：" + programId + "</p>";
 		otherView.setText(Html.fromHtml(otherText));
 
 		if(type == 3 || type == 4) {
@@ -205,7 +205,7 @@ public class ProgramDetail extends Activity{
 		before.setMessage(fullTitle).setNegativeButton("キャンセル", null).setPositiveButton("OK", new OnClickListener(){
 			@Override
 			public void onClick(DialogInterface dialog, int which){
-				AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>(){
+				AsyncTask<Void, Void, ChinachuResponse> task = new AsyncTask<Void, Void, ChinachuResponse>(){
 					private ProgressDialog progDailog;
 
 					@Override
@@ -219,32 +219,35 @@ public class ProgramDetail extends Activity{
 					}
 
 					@Override
-					protected Boolean doInBackground(Void... params){
+					protected ChinachuResponse doInBackground(Void... params){
 						try{
 							switch(type){
 							case 0:
 							case 5:
-								chinachu.putReserve(programId);
-								break;
+								return chinachu.putReserve(programId);
 							case 2:
-								chinachu.delReserve(programId);
-								break;
+								return chinachu.delReserve(programId);
 							case 4:
-								chinachu.delRecordedFile(programId);
+								return chinachu.delRecordedFile(programId);
 							}
-							return true;
+							return null;
 						}catch(KeyManagementException | NoSuchAlgorithmException | IOException e){
-							return false;
+							return null;
 						}
 					}
 
 					@Override
-					protected void onPostExecute(Boolean result){
+					protected void onPostExecute(ChinachuResponse result){
 						progDailog.dismiss();
-						if(!result) {
-							Toast.makeText(ProgramDetail.this, "エラー", Toast.LENGTH_SHORT).show();
+						if(result == null) {
+							Toast.makeText(ProgramDetail.this, "通信エラー", Toast.LENGTH_SHORT).show();
 							return;
 						}
+						if(!result.getResult()) {
+							Toast.makeText(ProgramDetail.this, result.getMessage(), Toast.LENGTH_LONG).show();
+							return;
+						}
+
 						AlertDialog.Builder after = new Builder(ProgramDetail.this);
 						switch(type){
 						case 0:

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
+import Chinachu4j.ChinachuResponse;
 import Chinachu4j.Rule;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -161,7 +162,7 @@ public class RuleDetail extends Activity{
 			.setPositiveButton("OK", new OnClickListener(){
 				@Override
 				public void onClick(DialogInterface dialog, int which){
-					AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>(){
+					AsyncTask<Void, Void, ChinachuResponse> task = new AsyncTask<Void, Void, ChinachuResponse>(){
 						private ProgressDialog progDailog;
 
 						@Override
@@ -175,22 +176,26 @@ public class RuleDetail extends Activity{
 						}
 
 						@Override
-						protected Boolean doInBackground(Void... params){
+						protected ChinachuResponse doInBackground(Void... params){
 							try{
-								((ApplicationClass)getApplicationContext()).getChinachu().delRule(position);
-								return true;
+								return ((ApplicationClass)getApplicationContext()).getChinachu().delRule(position);
 							}catch(KeyManagementException | NoSuchAlgorithmException | IOException e){
-								return false;
+								return null;
 							}
 						}
 
 						@Override
-						protected void onPostExecute(Boolean result){
+						protected void onPostExecute(ChinachuResponse result){
 							progDailog.dismiss();
-							if(!result) {
-								Toast.makeText(RuleDetail.this, "ルール削除失敗", Toast.LENGTH_SHORT).show();
+							if(result == null) {
+								Toast.makeText(RuleDetail.this, "通信エラー", Toast.LENGTH_SHORT).show();
 								return;
 							}
+							if(!result.getResult()){
+								Toast.makeText(RuleDetail.this, result.getMessage(), Toast.LENGTH_LONG).show();
+								return;
+							}
+
 							AlertDialog.Builder builder = new AlertDialog.Builder(RuleDetail.this);
 							builder.setTitle("削除完了")
 							.setMessage("削除が完了しました。\n\n前の画面に戻り、リストを上に引っ張るなどでルール一覧を更新してください。")

@@ -5,6 +5,7 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import org.json.JSONException;
 
+import Chinachu4j.ChinachuResponse;
 import Chinachu4j.Program;
 import Chinachu4j.Recorded;
 import Chinachu4j.Reserve;
@@ -159,7 +160,7 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 			.setPositiveButton("OK", new OnClickListener(){
 				@Override
 				public void onClick(DialogInterface dialog, int which){
-					AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>(){
+					AsyncTask<Void, Void, ChinachuResponse> task = new AsyncTask<Void, Void, ChinachuResponse>(){
 						private ProgressDialog progDailog;
 
 						@Override
@@ -173,22 +174,26 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 						}
 
 						@Override
-						protected Boolean doInBackground(Void... params){
+						protected ChinachuResponse doInBackground(Void... params){
 							try{
-								appClass.getChinachu().recordedCleanUp();
-								return true;
+								return appClass.getChinachu().recordedCleanUp();
 							}catch(KeyManagementException | NoSuchAlgorithmException | IOException e){
-								return false;
+								return null;
 							}
 						}
 
 						@Override
-						protected void onPostExecute(Boolean result){
+						protected void onPostExecute(ChinachuResponse result){
 							progDailog.dismiss();
-							if(!result) {
-								Toast.makeText(ProgramActivity.this, "クリーンアップに失敗しました", Toast.LENGTH_SHORT).show();
+							if(result == null) {
+								Toast.makeText(ProgramActivity.this, "通信エラー", Toast.LENGTH_SHORT).show();
 								return;
 							}
+							if(!result.getResult()){
+								Toast.makeText(ProgramActivity.this, result.getMessage(), Toast.LENGTH_LONG).show();
+								return;
+							}
+
 							AlertDialog.Builder ok = new AlertDialog.Builder(ProgramActivity.this);
 							ok.setTitle("完了")
 							.setMessage("クリーンアップに成功しました\n更新しますか？")
