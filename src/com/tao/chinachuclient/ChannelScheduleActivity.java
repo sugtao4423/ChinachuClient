@@ -11,6 +11,7 @@ import Chinachu4j.Program;
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -47,6 +48,10 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 		actionbar.setDisplayShowHomeEnabled(false);
 
 		spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item);
+		// チャンネルリストの取得
+		SharedPreferences channels = getSharedPreferences("channels", MODE_PRIVATE);
+		channelIdList = channels.getString("channelIds", null).split(",", 0);
+		spinnerAdapter.addAll(channels.getString("channelNames", null).split(",", 0));
 
 		actionbar.setListNavigationCallbacks(spinnerAdapter, this);
 
@@ -56,47 +61,6 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 
 		chinachu = ((ApplicationClass)getApplicationContext()).getChinachu();
 
-		// チャンネルリストの取得
-		AsyncTask<Void, Void, String[]> task = new AsyncTask<Void, Void, String[]>(){
-			private ProgressDialog progDailog;
-
-			@Override
-			protected void onPreExecute(){
-				progDailog = new ProgressDialog(ChannelScheduleActivity.this);
-				progDailog.setMessage("Loading...");
-				progDailog.setIndeterminate(false);
-				progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-				progDailog.setCancelable(true);
-				progDailog.show();
-			}
-
-			@Override
-			protected String[] doInBackground(Void... params){
-				try{
-					return chinachu.getChannelList();
-				}catch(KeyManagementException | NoSuchAlgorithmException | IOException | JSONException e){
-					return new String[]{"[ERROR]", e.getMessage()};
-				}
-			}
-
-			@Override
-			protected void onPostExecute(String[] result){
-				progDailog.dismiss();
-				if(result[0].equals("[ERROR]")) {
-					Toast.makeText(ChannelScheduleActivity.this, result[1], Toast.LENGTH_LONG).show();
-					return;
-				}
-				channelIdList = new String[result.length];
-				for(int i = 0; i < result.length; i++)
-					channelIdList[i] = result[i].split(",")[1];
-
-				String[] channelNameList = new String[result.length];
-				for(int i = 0; i < result.length; i++)
-					channelNameList[i] = result[i].split(",")[0];
-				spinnerAdapter.addAll(channelNameList);
-			}
-		};
-		task.execute();
 	}
 
 	// ActionBarのSpinnerで選択された時呼ばれる

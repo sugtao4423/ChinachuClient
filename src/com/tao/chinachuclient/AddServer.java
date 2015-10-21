@@ -1,11 +1,22 @@
 package com.tao.chinachuclient;
 
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+
+import org.json.JSONException;
+
+import Chinachu4j.Chinachu4j;
+import Chinachu4j.Program;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Base64;
@@ -23,6 +34,9 @@ public class AddServer extends Activity{
 
 	private Spinner type, containerFormat, videoCodec, audioCodec, videoBitrateFormat, audioBitrateFormat;
 	private EditText videoBitrate, audioBitrate, videoSize, frame;
+	
+	private SQLiteDatabase db;
+	private String raw_chinachuAddress;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -51,76 +65,130 @@ public class AddServer extends Activity{
 	}
 
 	public void ok(View v){
-		String raw_chinachuAddress = chinachuAddress.getText().toString();
+		raw_chinachuAddress = chinachuAddress.getText().toString();
 		if(!(raw_chinachuAddress.startsWith("http://") || raw_chinachuAddress.startsWith("https://"))) {
 			Toast.makeText(this, "サーバーアドレスが間違っています", Toast.LENGTH_SHORT).show();
 			return;
 		}
 
-		SQLiteDatabase db = new ServerSQLHelper(this).getWritableDatabase();
+		db = new ServerSQLHelper(this).getWritableDatabase();
 		Cursor already = db.rawQuery("select * from servers where chinachuAddress=?", new String[]{raw_chinachuAddress});
 		already.moveToFirst();
 		if(already.getCount() > 0) {
 			Toast.makeText(this, "すでに登録されています", Toast.LENGTH_SHORT).show();
 			return;
 		}
-
-		String vb = null;
-		String ab = null;
-		if(!videoBitrate.getText().toString().isEmpty()) {
-			int videoBit = Integer.parseInt(videoBitrate.getText().toString());
-			if(videoBitrateFormat.getSelectedItemPosition() == 0)
-				videoBit *= 1000;
-			else
-				videoBit *= 1000000;
-			vb = String.valueOf(videoBit);
-		}
-
-		if(!audioBitrate.getText().toString().isEmpty()) {
-			int audioBit = Integer.parseInt(audioBitrate.getText().toString());
-			if(audioBitrateFormat.getSelectedItemPosition() == 0)
-				audioBit *= 1000;
-			else
-				audioBit *= 1000000;
-			ab = String.valueOf(audioBit);
-		}
-
-		db.execSQL("insert into servers values(" +
-				"'" + raw_chinachuAddress + "', " +
-				"'" + Base64.encodeToString(username.getText().toString().getBytes(), Base64.DEFAULT) + "', " +
-				"'" + Base64.encodeToString(password.getText().toString().getBytes(), Base64.DEFAULT) + "', " +
-				"'false', 'false', " +
-				"'" + (String)type.getSelectedItem() + "', " +
-				"'" + (String)containerFormat.getSelectedItem() + "', " +
-				"'" + (String)videoCodec.getSelectedItem() + "', " +
-				"'" + (String)audioCodec.getSelectedItem() + "', " +
-				"'" + vb + "', " +
-				"'" + ab + "', " +
-				"'" + videoSize.getText().toString() + "', " +
-				"'" + frame.getText().toString() + "')");
 		
-		if(startMain) {
-			SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-			pref.edit()
-			.putString("chinachuAddress", raw_chinachuAddress)
-			.putString("username", Base64.encodeToString(username.getText().toString().getBytes(), Base64.DEFAULT))
-			.putString("password", Base64.encodeToString(password.getText().toString().getBytes(), Base64.DEFAULT))
-			.commit();
+		AsyncTask<Void, Void, Program[]> getChannels = new AsyncTask<Void, Void, Program[]>(){
+			private ProgressDialog progDailog;
 
-			SharedPreferences enc = getSharedPreferences("encodeConfig", MODE_PRIVATE);
-			enc.edit().putString("type", (String)type.getSelectedItem())
-			.putString("containerFormat", (String)containerFormat.getSelectedItem())
-			.putString("videoCodec", (String)videoCodec.getSelectedItem())
-			.putString("audioCodec", (String)audioCodec.getSelectedItem())
-			.putString("videoBitrate", vb)
-			.putString("audioBitrate", ab)
-			.putString("videoSize", videoSize.getText().toString())
-			.putString("frame", frame.getText().toString())
-			.commit();
+			@Override
+			protected void onPreExecute(){
+				progDailog = new ProgressDialog(AddServer.this);
+				progDailog.setMessage("チャンネルリストの取得中...");
+				progDailog.setIndeterminate(false);
+				progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+				progDailog.setCancelable(true);
+				progDailog.show();
+			}
+			
+			@Override
+			protected Program[] doInBackground(Void... params){
+				try{
+					Chinachu4j chinachu = new Chinachu4j(raw_chinachuAddress, username.getText().toString(), password.getText().toString());
+					return chinachu.getAllSchedule();
+				}catch(KeyManagementException | NoSuchAlgorithmException | IOException | JSONException e){
+					return null;
+				}
+			}
+			
+			@Override
+			protected void onPostExecute(Program[] result){
+				progDailog.dismiss();
+				if(result == null){
+					Toast.makeText(AddServer.this, "チャンネル取得に失敗しました\nやり直してください", Toast.LENGTH_SHORT).show();
+					return;
+				}
+				ArrayList<String> id_name = new ArrayList<String>();
+				for(Program p : result){
+					if(id_name.indexOf(p.getChannel().getId() + "," + p.getChannel().getName()) == -1){
+						id_name.add(p.getChannel().getId() + "," + p.getChannel().getName());
+					}
+				}
+				String channelIds = "";
+				String channelNames = "";
+				for(String s : id_name){
+					channelIds += s.split(",")[0] + ",";
+					channelNames += s.split(",")[1] + ",";
+				}
+				
+				String vb = null;
+				String ab = null;
+				if(!videoBitrate.getText().toString().isEmpty()) {
+					int videoBit = Integer.parseInt(videoBitrate.getText().toString());
+					if(videoBitrateFormat.getSelectedItemPosition() == 0)
+						videoBit *= 1000;
+					else
+						videoBit *= 1000000;
+					vb = String.valueOf(videoBit);
+				}
 
-			startActivity(new Intent(this, MainActivity.class));
-		}
-		finish();
+				if(!audioBitrate.getText().toString().isEmpty()) {
+					int audioBit = Integer.parseInt(audioBitrate.getText().toString());
+					if(audioBitrateFormat.getSelectedItemPosition() == 0)
+						audioBit *= 1000;
+					else
+						audioBit *= 1000000;
+					ab = String.valueOf(audioBit);
+				}
+
+				db.execSQL("insert into servers values(" +
+						"'" + raw_chinachuAddress + "', " +
+						"'" + Base64.encodeToString(username.getText().toString().getBytes(), Base64.DEFAULT) + "', " +
+						"'" + Base64.encodeToString(password.getText().toString().getBytes(), Base64.DEFAULT) + "', " +
+						"'false', 'false', " +
+						"'" + (String)type.getSelectedItem() + "', " +
+						"'" + (String)containerFormat.getSelectedItem() + "', " +
+						"'" + (String)videoCodec.getSelectedItem() + "', " +
+						"'" + (String)audioCodec.getSelectedItem() + "', " +
+						"'" + vb + "', " +
+						"'" + ab + "', " +
+						"'" + videoSize.getText().toString() + "', " +
+						"'" + frame.getText().toString() + "', " +
+						"'" + channelIds + "', " +
+						"'" + channelNames + "')");
+				
+				if(startMain) {
+					SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(AddServer.this);
+					pref.edit()
+					.putString("chinachuAddress", raw_chinachuAddress)
+					.putString("username", Base64.encodeToString(username.getText().toString().getBytes(), Base64.DEFAULT))
+					.putString("password", Base64.encodeToString(password.getText().toString().getBytes(), Base64.DEFAULT))
+					.commit();
+
+					SharedPreferences enc = getSharedPreferences("encodeConfig", MODE_PRIVATE);
+					enc.edit().putString("type", (String)type.getSelectedItem())
+					.putString("containerFormat", (String)containerFormat.getSelectedItem())
+					.putString("videoCodec", (String)videoCodec.getSelectedItem())
+					.putString("audioCodec", (String)audioCodec.getSelectedItem())
+					.putString("videoBitrate", vb)
+					.putString("audioBitrate", ab)
+					.putString("videoSize", videoSize.getText().toString())
+					.putString("frame", frame.getText().toString())
+					.commit();
+					
+					SharedPreferences channels = getSharedPreferences("channels", MODE_PRIVATE);
+					channels.edit()
+					.putString("channelIds", channelIds)
+					.putString("channelNames", channelNames)
+					.commit();
+
+					startActivity(new Intent(AddServer.this, MainActivity.class));
+				}
+				finish();
+			}
+		};
+		getChannels.execute();
 	}
 
 	public void background(View v){

@@ -152,6 +152,13 @@ public class MainActivity extends Activity implements OnItemClickListener{
 					.putString("videoSize", encode[6])
 					.putString("frame", encode[7])
 					.commit();
+
+					SharedPreferences channels = getSharedPreferences("channels", MODE_PRIVATE);
+					channels.edit()
+					.putString("channelIds", allGet.getString(13))
+					.putString("channelNames", allGet.getString(14))
+					.commit();
+
 					dialog.dismiss();
 				}
 			}).setPositiveButton("キャンセル", null);

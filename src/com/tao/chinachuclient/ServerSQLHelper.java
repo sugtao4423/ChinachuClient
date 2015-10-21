@@ -13,7 +13,7 @@ public class ServerSQLHelper extends SQLiteOpenHelper{
 	@Override
 	public void onCreate(SQLiteDatabase db){
 		db.execSQL("create table servers(chinachuAddress, username, password, streaming, encStreaming, "
-				+ "type, containerFormat, videoCodec, audioCodec, videoBitrate, audioBitrate, videoSize, frame)");
+				+ "type, containerFormat, videoCodec, audioCodec, videoBitrate, audioBitrate, videoSize, frame, channelIds, channelNames)");
 	}
 
 	@Override
