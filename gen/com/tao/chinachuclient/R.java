@@ -50,9 +50,12 @@ public final class R {
         public static final int music=0x7f020006;
         public static final int news=0x7f020007;
         public static final int sports=0x7f020008;
+        public static final int transparameter=0x7f02000a;
         public static final int variety=0x7f020009;
     }
     public static final class id {
+        public static final int cap_pos=0x7f0b001c;
+        public static final int cap_size=0x7f0b001d;
         public static final int chinachuAddress=0x7f0b0007;
         public static final int enc_setting_audioBitrate=0x7f0b0016;
         public static final int enc_setting_audioCodec_spinner=0x7f0b0013;
@@ -71,13 +74,13 @@ public final class R {
         public static final int enc_setting_video_codec=0x7f0b0010;
         public static final int password=0x7f0b000b;
         public static final int programList=0x7f0b0001;
-        public static final int program_date=0x7f0b001d;
+        public static final int program_date=0x7f0b001f;
         public static final int program_detail_detail=0x7f0b0002;
         public static final int program_detail_other=0x7f0b0003;
-        public static final int program_title=0x7f0b001c;
+        public static final int program_title=0x7f0b001e;
         public static final int programs_detail_image=0x7f0b0004;
         public static final int rule_list_text=0x7f0b0005;
-        public static final int search_view=0x7f0b001e;
+        public static final int search_view=0x7f0b0020;
         public static final int swipe_refresh=0x7f0b0000;
         public static final int textView1=0x7f0b0006;
         public static final int textView2=0x7f0b0008;
@@ -90,7 +93,8 @@ public final class R {
         public static final int activity_program_detail=0x7f030001;
         public static final int activity_rule_detail=0x7f030002;
         public static final int activity_setting=0x7f030003;
-        public static final int program_list_layout=0x7f030004;
+        public static final int capture_dialog=0x7f030004;
+        public static final int program_list_layout=0x7f030005;
     }
     public static final class menu {
         public static final int search=0x7f0a0000;
@@ -126,6 +130,7 @@ public final class R {
         /**  Application theme. 
          */
         public static final int AppTheme=0x7f090001;
+        public static final int Theme_TranslucentBackground=0x7f090005;
         public static final int actionSpinnerItemStyle=0x7f090004;
         public static final int actionbar=0x7f090002;
         public static final int actionbarTextColor=0x7f090003;

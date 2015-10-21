@@ -11,6 +11,7 @@ import java.util.Random;
 import Chinachu4j.Chinachu4j;
 import Chinachu4j.ChinachuResponse;
 import Chinachu4j.Program;
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -27,9 +28,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Base64;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +42,7 @@ public class ProgramDetail extends Activity{
 	private String fullTitle, programId;
 	private int type;
 	private ApplicationClass appClass;
+	private String capture;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -118,12 +122,87 @@ public class ProgramDetail extends Activity{
 					if(result.startsWith("data:image/jpeg;base64,"))
 						result = result.substring(23);
 					byte[] decodedString = Base64.decode(result, Base64.DEFAULT);
-					Bitmap bmp = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-					image.setImageBitmap(bmp);
+					Bitmap img = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+					image.setImageBitmap(img);
+					capture = result;
 				}
 			};
 			task.execute();
 		}
+	}
+	
+	@SuppressLint("InflateParams")
+	public void imageClick(View v){
+		View view = LayoutInflater.from(this).inflate(R.layout.capture_dialog, null);
+		final EditText cap_pos = (EditText)view.findViewById(R.id.cap_pos);
+		final EditText cap_size = (EditText)view.findViewById(R.id.cap_size);
+
+		if(type == 3)
+			cap_pos.setHint("録画中なので関係ありません");
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this)
+		.setView(view)
+		.setNegativeButton("キャンセル", null)
+		.setPositiveButton("OK", new OnClickListener(){
+
+			@Override
+			public void onClick(DialogInterface dialog, int which){
+				AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>(){
+					private ProgressDialog progDailog;
+
+					@Override
+					protected void onPreExecute(){
+						progDailog = new ProgressDialog(ProgramDetail.this);
+						progDailog.setMessage("Loading...");
+						progDailog.setIndeterminate(false);
+						progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+						progDailog.setCancelable(true);
+						progDailog.show();
+					}
+
+					@Override
+					protected String doInBackground(Void... params){
+						try{
+							if(type == 3){
+								return appClass.getChinachu().getRecordingImage(programId, cap_size.getText().toString());
+							}
+							if(type == 4){
+								return appClass.getChinachu().getRecordedImage(programId, Integer.parseInt(cap_pos.getText().toString()),
+										cap_size.getText().toString());
+							}
+							return null;
+						}catch(KeyManagementException | NumberFormatException | NoSuchAlgorithmException | IOException e){
+							return null;
+						}
+					}
+
+					@Override
+					protected void onPostExecute(String result){
+						progDailog.dismiss();
+						if(result == null){
+							Toast.makeText(ProgramDetail.this, "画像の取得に失敗しました", Toast.LENGTH_SHORT).show();
+							return;
+						}
+						if(result.startsWith("data:image/jpeg;base64,"))
+							result = result.substring(23);
+						Intent i = new Intent(ProgramDetail.this, Show_Image.class);
+						i.putExtra("base64", result);
+						startActivity(i);
+					}
+				};
+				task.execute();
+			}
+		});
+		builder.setNeutralButton("このまま拡大", new OnClickListener(){
+
+			@Override
+			public void onClick(DialogInterface dialog, int which){
+				Intent i = new Intent(ProgramDetail.this, Show_Image.class);
+				i.putExtra("base64", capture);
+				startActivity(i);
+			}
+		});
+		builder.create().show();
 	}
 
 	@Override

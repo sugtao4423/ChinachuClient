@@ -43,6 +43,10 @@
         </activity>
         <activity android:name="RuleDetail" >
         </activity>
+        <activity
+            android:name="Show_Image"
+            android:theme="@style/Theme.TranslucentBackground" >
+        </activity>
     </application>
 
 </manifest>

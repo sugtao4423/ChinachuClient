@@ -36,7 +36,8 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/program_detail_other"
             android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:onClick="imageClick" />
     </RelativeLayout>
 
 </ScrollView>
