@@ -34,6 +34,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +45,8 @@ public class ProgramDetail extends Activity{
 	private int type;
 	private ApplicationClass appClass;
 	private String capture;
+	private int seconds;
+	private int randomSecond;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -63,7 +67,7 @@ public class ProgramDetail extends Activity{
 		String detail = tmp.getDetail();
 		long start = tmp.getStart();
 		long end = tmp.getEnd();
-		final int seconds = tmp.getSeconds();
+		seconds = tmp.getSeconds();
 		String category = tmp.getCategory();
 		String[] flags = tmp.getFlags();
 		String channelType = tmp.getChannel().getType();
@@ -104,8 +108,8 @@ public class ProgramDetail extends Activity{
 						if(type == 3)
 							return appClass.getChinachu().getRecordingImage(programId, "1280x720");
 						if(type == 4) {
-							int r = new Random().nextInt(seconds) + 1;
-							return appClass.getChinachu().getRecordedImage(programId, r, "1280x720");
+							randomSecond = new Random().nextInt(seconds) + 1;
+							return appClass.getChinachu().getRecordedImage(programId, randomSecond, "1280x720");
 						}
 						return null;
 					}catch(KeyManagementException | NoSuchAlgorithmException | IOException e){
@@ -130,15 +134,39 @@ public class ProgramDetail extends Activity{
 			task.execute();
 		}
 	}
-	
+
 	@SuppressLint("InflateParams")
 	public void imageClick(View v){
 		View view = LayoutInflater.from(this).inflate(R.layout.capture_dialog, null);
 		final EditText cap_pos = (EditText)view.findViewById(R.id.cap_pos);
 		final EditText cap_size = (EditText)view.findViewById(R.id.cap_size);
+		final SeekBar cap_seek = (SeekBar)view.findViewById(R.id.cap_seek);
 
-		if(type == 3)
-			cap_pos.setHint("録画中なので関係ありません");
+		if(type == 3){
+			cap_pos.setVisibility(View.GONE);
+			cap_seek.setVisibility(View.GONE);
+		}else if(type == 4){
+			cap_pos.setText(String.valueOf(randomSecond));
+			final float textSize = cap_pos.getTextSize();
+			cap_pos.setWidth((int)((String.valueOf(seconds).length() + 1) * textSize));
+			cap_seek.setMax(seconds - 10);
+			cap_seek.setProgress(randomSecond);
+			cap_seek.setOnSeekBarChangeListener(new OnSeekBarChangeListener(){
+
+				@Override
+				public void onStopTrackingTouch(SeekBar seekBar){
+				}
+
+				@Override
+				public void onStartTrackingTouch(SeekBar seekBar){
+				}
+
+				@Override
+				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+					cap_pos.setText(String.valueOf(progress));
+				}
+			});
+		}
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this)
 		.setView(view)

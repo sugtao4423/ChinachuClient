@@ -7,11 +7,9 @@
         android:id="@+id/cap_pos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:ems="10"
-        android:hint="秒数"
         android:inputType="number" >
 
         <requestFocus />
@@ -26,6 +24,15 @@
         android:layout_below="@+id/cap_pos"
         android:ems="10"
         android:hint="解像度"
-        android:text="1280x720" />
+        android:text="1280x720"
+        android:inputType="text" />
+
+    <SeekBar
+        android:id="@+id/cap_seek"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/cap_pos" />
 
 </RelativeLayout>
