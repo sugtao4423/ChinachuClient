@@ -5,7 +5,7 @@ Android端末からでも簡単に[Chinachu](https://github.com/kanreisa/Chinach
 
 複数サーバー対応しました
 
-# Chromecast対応版
+# Chromecast with Chromecast
 [kazukioishi氏](https://github.com/kazukioishi/)により[このcommit](https://github.com/sugtao4423/ChinachuClient/commit/bd837b69c22496f5d605a534edff3d64cb634c67)のChromecast対応版が製作されました。ありがとうございます。  
 Chromecast対応版ソースは[こちら](https://github.com/kazukioishi/ChinachuClient)
 
