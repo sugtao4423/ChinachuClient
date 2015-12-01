@@ -45,13 +45,14 @@ public final class R {
         public static final int cinema=0x7f020001;
         public static final int drama=0x7f020002;
         public static final int etc=0x7f020003;
-        public static final int ic_launcher=0x7f020004;
-        public static final int information=0x7f020005;
-        public static final int music=0x7f020006;
-        public static final int news=0x7f020007;
-        public static final int sports=0x7f020008;
-        public static final int transparameter=0x7f02000a;
-        public static final int variety=0x7f020009;
+        public static final int ic_action_settings=0x7f020004;
+        public static final int ic_launcher=0x7f020005;
+        public static final int information=0x7f020006;
+        public static final int music=0x7f020007;
+        public static final int news=0x7f020008;
+        public static final int sports=0x7f020009;
+        public static final int transparameter=0x7f02000b;
+        public static final int variety=0x7f02000a;
     }
     public static final class id {
         public static final int cap_pos=0x7f0b001c;
@@ -81,7 +82,9 @@ public final class R {
         public static final int program_title=0x7f0b001f;
         public static final int programs_detail_image=0x7f0b0004;
         public static final int rule_list_text=0x7f0b0005;
-        public static final int search_view=0x7f0b0021;
+        public static final int search_view=0x7f0b0023;
+        public static final int show_image_image=0x7f0b0021;
+        public static final int show_image_option=0x7f0b0022;
         public static final int swipe_refresh=0x7f0b0000;
         public static final int textView1=0x7f0b0006;
         public static final int textView2=0x7f0b0008;
@@ -96,6 +99,7 @@ public final class R {
         public static final int activity_setting=0x7f030003;
         public static final int capture_dialog=0x7f030004;
         public static final int program_list_layout=0x7f030005;
+        public static final int show_image=0x7f030006;
     }
     public static final class menu {
         public static final int search=0x7f0a0000;

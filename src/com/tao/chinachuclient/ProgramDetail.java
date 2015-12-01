@@ -215,6 +215,9 @@ public class ProgramDetail extends Activity{
 							result = result.substring(23);
 						Intent i = new Intent(ProgramDetail.this, Show_Image.class);
 						i.putExtra("base64", result);
+						i.putExtra("programId", programId);
+						if(type == 4)
+							i.putExtra("pos", Integer.parseInt(cap_pos.getText().toString()));
 						startActivity(i);
 					}
 				};
