@@ -230,6 +230,9 @@ public class ProgramDetail extends Activity{
 			public void onClick(DialogInterface dialog, int which){
 				Intent i = new Intent(ProgramDetail.this, Show_Image.class);
 				i.putExtra("base64", capture);
+				i.putExtra("programId", programId);
+				if(type == 4)
+					i.putExtra("pos", Integer.parseInt(cap_pos.getText().toString()));
 				startActivity(i);
 			}
 		});
