@@ -29,6 +29,7 @@ public class RuleActivity extends Activity implements OnRefreshListener, OnItemC
 	private SwipeRefreshLayout swipeRefresh;
 	private RuleListAdapter adapter;
 	private ApplicationClass appClass;
+	private ActionBar actionBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -46,22 +47,29 @@ public class RuleActivity extends Activity implements OnRefreshListener, OnItemC
 		swipeRefresh.setColorSchemeColors(Color.parseColor("#2196F3"));
 		swipeRefresh.setOnRefreshListener(this);
 
-		ActionBar actionBar = getActionBar();
+		actionBar = getActionBar();
 		actionBar.setTitle("ルール");
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowHomeEnabled(false);
 
-		AsyncTask<Void, Void, Rule[]> task = new AsyncTask<Void, Void, Rule[]>(){
+		asyncLoad(false);
+	}
+
+	public void asyncLoad(final boolean isRefresh){
+		adapter.clear();
+		new AsyncTask<Void, Void, Rule[]>(){
 			private ProgressDialog progDailog;
 
 			@Override
 			protected void onPreExecute(){
-				progDailog = new ProgressDialog(RuleActivity.this);
-				progDailog.setMessage("Loading...");
-				progDailog.setIndeterminate(false);
-				progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-				progDailog.setCancelable(true);
-				progDailog.show();
+				if(!isRefresh){
+					progDailog = new ProgressDialog(RuleActivity.this);
+					progDailog.setMessage("Loading...");
+					progDailog.setIndeterminate(false);
+					progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+					progDailog.setCancelable(true);
+					progDailog.show();
+				}
 			}
 
 			@Override
@@ -75,15 +83,22 @@ public class RuleActivity extends Activity implements OnRefreshListener, OnItemC
 
 			@Override
 			protected void onPostExecute(Rule[] result){
-				progDailog.dismiss();
+				if(!isRefresh)
+					progDailog.dismiss();
+				else
+					swipeRefresh.setRefreshing(false);
 				if(result == null) {
 					Toast.makeText(RuleActivity.this, "ルール取得エラー", Toast.LENGTH_SHORT).show();
 					return;
 				}
 				adapter.addAll(result);
+				setActionBarCount(result.length);
 			}
-		};
-		task.execute();
+		}.execute();
+	}
+
+	public void setActionBarCount(int length){
+		actionBar.setTitle("ルール (" + String.valueOf(length) + ")");
 	}
 
 	@Override
@@ -97,28 +112,7 @@ public class RuleActivity extends Activity implements OnRefreshListener, OnItemC
 
 	@Override
 	public void onRefresh(){
-		adapter.clear();
-		AsyncTask<Void, Void, Rule[]> task = new AsyncTask<Void, Void, Rule[]>(){
-			@Override
-			protected Rule[] doInBackground(Void... params){
-				try{
-					return appClass.getChinachu().getRules();
-				}catch(KeyManagementException | NoSuchAlgorithmException | IOException | JSONException e){
-					return null;
-				}
-			}
-
-			@Override
-			protected void onPostExecute(Rule[] result){
-				swipeRefresh.setRefreshing(false);
-				if(result == null) {
-					Toast.makeText(RuleActivity.this, "ルール取得エラー", Toast.LENGTH_SHORT).show();
-					return;
-				}
-				adapter.addAll(result);
-			}
-		};
-		task.execute();
+		asyncLoad(true);
 	}
 
 	@Override

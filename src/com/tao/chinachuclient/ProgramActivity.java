@@ -32,6 +32,7 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 	private SwipeRefreshLayout swipeRefresh;
 	private ProgramListAdapter programListAdapter;
 	private ApplicationClass appClass;
+	private ActionBar actionbar;
 
 	private int type;
 	private String query;
@@ -44,7 +45,7 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 		list = (ListView)findViewById(R.id.programList);
 		swipeRefresh = (SwipeRefreshLayout)findViewById(R.id.swipe_refresh);
 
-		ActionBar actionbar = getActionBar();
+		actionbar = getActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(false);
 
@@ -79,17 +80,24 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 			break;
 		}
 
-		AsyncTask<Void, Void, Program[]> task = new AsyncTask<Void, Void, Program[]>(){
+		asyncLoad(false);
+	}
+
+	public void asyncLoad(final boolean isRefresh){
+		programListAdapter.clear();
+		new AsyncTask<Void, Void, Program[]>(){
 			private ProgressDialog progDailog;
 
 			@Override
 			protected void onPreExecute(){
-				progDailog = new ProgressDialog(ProgramActivity.this);
-				progDailog.setMessage("Loading...");
-				progDailog.setIndeterminate(false);
-				progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-				progDailog.setCancelable(true);
-				progDailog.show();
+				if(!isRefresh){
+					progDailog = new ProgressDialog(ProgramActivity.this);
+					progDailog.setMessage("Loading...");
+					progDailog.setIndeterminate(false);
+					progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+					progDailog.setCancelable(true);
+					progDailog.show();
+				}
 			}
 
 			@Override
@@ -99,15 +107,18 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 
 			@Override
 			protected void onPostExecute(Program[] result){
-				progDailog.dismiss();
+				if(!isRefresh)
+					progDailog.dismiss();
+				else
+					swipeRefresh.setRefreshing(false);
 				if(result == null) {
 					Toast.makeText(ProgramActivity.this, "番組取得エラー", Toast.LENGTH_SHORT).show();
 					return;
 				}
 				programListAdapter.addAll(result);
+				setActionBarCount(result.length);
 			}
-		};
-		task.execute();
+		}.execute();
 	}
 
 	public Program[] load(){
@@ -135,6 +146,29 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 		}catch(KeyManagementException | NoSuchAlgorithmException | IOException | JSONException e){
 			return null;
 		}
+	}
+
+	public void setActionBarCount(int length){
+		String title;
+		String len = String.valueOf(length);
+		switch(type){
+		case 2:
+			title = "予約済み (" + len + ")";
+			break;
+		case 3:
+			title = "録画中 (" + len + ")";
+			break;
+		case 4:
+			title = "録画済み (" + len + ")";
+			break;
+		case 5:
+			title = "番組検索 (" + len + ")";
+			break;
+		default:
+			title = "";
+			break;
+		}
+		actionbar.setTitle(title);
 	}
 
 	@Override
@@ -219,23 +253,6 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 
 	@Override
 	public void onRefresh(){
-		programListAdapter.clear();
-		AsyncTask<Void, Void, Program[]> task = new AsyncTask<Void, Void, Program[]>(){
-			@Override
-			protected Program[] doInBackground(Void... params){
-				return load();
-			}
-
-			@Override
-			protected void onPostExecute(Program[] result){
-				swipeRefresh.setRefreshing(false);
-				if(result == null) {
-					Toast.makeText(ProgramActivity.this, "番組取得エラー", Toast.LENGTH_SHORT).show();
-					return;
-				}
-				programListAdapter.addAll(result);
-			}
-		};
-		task.execute();
+		asyncLoad(true);
 	}
 }
