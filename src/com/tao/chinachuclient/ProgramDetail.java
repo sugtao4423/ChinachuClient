@@ -168,7 +168,7 @@ public class ProgramDetail extends Activity{
 			});
 		}
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(this)
+		new AlertDialog.Builder(this)
 		.setView(view)
 		.setNegativeButton("キャンセル", null)
 		.setPositiveButton("OK", new OnClickListener(){
@@ -223,8 +223,7 @@ public class ProgramDetail extends Activity{
 				};
 				task.execute();
 			}
-		});
-		builder.setNeutralButton("このまま拡大", new OnClickListener(){
+		}).setNeutralButton("このまま拡大", new OnClickListener(){
 
 			@Override
 			public void onClick(DialogInterface dialog, int which){
@@ -235,8 +234,7 @@ public class ProgramDetail extends Activity{
 					i.putExtra("pos", Integer.parseInt(cap_pos.getText().toString()));
 				startActivity(i);
 			}
-		});
-		builder.create().show();
+		}).show();
 	}
 
 	@Override
@@ -377,12 +375,12 @@ public class ProgramDetail extends Activity{
 							after.setMessage(fullTitle + "\n\n録画済みリストへの反映にはクリーンアップが必要です");
 							break;
 						}
-						after.create().show();
+						after.show();
 					}
 				};
 				task.execute();
 			}
 		});
-		before.create().show();
+		before.show();
 	}
 }

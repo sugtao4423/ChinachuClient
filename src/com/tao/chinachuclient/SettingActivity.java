@@ -40,17 +40,17 @@ public class SettingActivity extends Activity{
 		pref = PreferenceManager.getDefaultSharedPreferences(this);
 		enc = getSharedPreferences("encodeConfig", MODE_PRIVATE);
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("設定変更")
+		new AlertDialog.Builder(this)
+		.setTitle("設定変更")
 		.setMessage("現在選択されているサーバーの設定を変更します\n\n現在選択中のサーバー\n" + pref.getString("chinachuAddress", ""))
+		.setCancelable(false)
 		.setPositiveButton("OK", null)
 		.setNegativeButton("キャンセル", new OnClickListener(){
 			@Override
 			public void onClick(DialogInterface dialog, int which){
 				finish();
 			}
-		});
-		builder.create().show();
+		}).show();
 
 		chinachuAddress = (EditText)findViewById(R.id.chinachuAddress);
 		username = (EditText)findViewById(R.id.username);

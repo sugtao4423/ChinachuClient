@@ -187,8 +187,8 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 			return true;
 		}
 		if(item.getTitle().equals("クリーンアップ")) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle("クリーンアップ")
+			new AlertDialog.Builder(this)
+			.setTitle("クリーンアップ")
 			.setMessage("録画済みリストをクリーンアップしますか？")
 			.setNegativeButton("キャンセル", null)
 			.setPositiveButton("OK", new OnClickListener(){
@@ -228,8 +228,8 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 								return;
 							}
 
-							AlertDialog.Builder ok = new AlertDialog.Builder(ProgramActivity.this);
-							ok.setTitle("完了")
+							new AlertDialog.Builder(ProgramActivity.this)
+							.setTitle("完了")
 							.setMessage("クリーンアップに成功しました\n更新しますか？")
 							.setNegativeButton("キャンセル", null)
 							.setPositiveButton("OK", new OnClickListener(){
@@ -239,14 +239,12 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 									onRefresh();
 								}
 
-							});
-							ok.create().show();
+							}).show();
 						}
 					};
 					task.execute();
 				}
-			});
-			builder.create().show();
+			}).show();
 		}
 		return super.onOptionsItemSelected(item);
 	}

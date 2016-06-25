@@ -83,8 +83,8 @@ public class Preference extends PreferenceActivity{
 					db.execSQL("update servers set encStreaming='" + String.valueOf((boolean)newValue) + "' "
 							+ "where chinachuAddress='" + chinachuAddress + "'");
 					if((boolean)newValue) {
-						AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-						builder.setTitle("設定の確認")
+						new AlertDialog.Builder(getActivity())
+						.setTitle("設定の確認")
 						.setMessage("エンコードの設定を確認してからご使用ください")
 						.setNegativeButton("キャンセル", null)
 						.setPositiveButton("OK", new OnClickListener(){
@@ -92,8 +92,7 @@ public class Preference extends PreferenceActivity{
 							public void onClick(DialogInterface dialog, int which){
 								startActivity(new Intent(getActivity(), SettingActivity.class));
 							}
-						});
-						builder.create().show();
+						}).show();
 					}
 					return true;
 				}
@@ -112,13 +111,13 @@ public class Preference extends PreferenceActivity{
 						rowid.add(result.getString(1));
 						mov = result.moveToNext();
 					}
-					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-					builder.setTitle("削除するサーバーを選択")
+					new AlertDialog.Builder(getActivity())
+					.setTitle("削除するサーバーを選択")
 					.setItems((String[])address.toArray(new String[0]), new OnClickListener(){
 						@Override
 						public void onClick(DialogInterface dialog, final int which){
-							AlertDialog.Builder buil = new AlertDialog.Builder(getActivity());
-							buil.setTitle("削除の確認")
+							new AlertDialog.Builder(getActivity())
+							.setTitle("削除の確認")
 							.setMessage("以下のサーバーを削除しますか？\n" + address.get(which))
 							.setNegativeButton("キャンセル", null)
 							.setPositiveButton("OK", new OnClickListener(){
@@ -128,11 +127,9 @@ public class Preference extends PreferenceActivity{
 									db.execSQL("delete from servers where ROWID=" + delRowid);
 									Toast.makeText(getActivity(), "削除しました", Toast.LENGTH_SHORT).show();
 								}
-							});
-							buil.create().show();
+							}).show();
 						}
-					});
-					builder.create().show();
+					}).show();
 					return false;
 				}
 			});

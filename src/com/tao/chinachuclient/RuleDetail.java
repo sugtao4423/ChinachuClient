@@ -155,8 +155,8 @@ public class RuleDetail extends Activity{
 			return true;
 		}
 		if(item.getTitle().equals("ルール削除")) {
-			AlertDialog.Builder confirm = new AlertDialog.Builder(this);
-			confirm.setTitle("削除しますか？")
+			new AlertDialog.Builder(this)
+			.setTitle("削除しますか？")
 			.setMessage("ルールNo." + position + "\n対象タイトル：" + reserve_title)
 			.setNegativeButton("キャンセル", null)
 			.setPositiveButton("OK", new OnClickListener(){
@@ -196,8 +196,8 @@ public class RuleDetail extends Activity{
 								return;
 							}
 
-							AlertDialog.Builder builder = new AlertDialog.Builder(RuleDetail.this);
-							builder.setTitle("削除完了")
+							new AlertDialog.Builder(RuleDetail.this)
+							.setTitle("削除完了")
 							.setMessage("削除が完了しました。\n\n前の画面に戻り、リストを上に引っ張るなどでルール一覧を更新してください。")
 							.setNegativeButton("キャンセル", null)
 							.setPositiveButton("OK", new OnClickListener(){
@@ -205,14 +205,12 @@ public class RuleDetail extends Activity{
 								public void onClick(DialogInterface dialog, int which){
 									finish();
 								}
-							});
-							builder.create().show();
+							}).show();
 						}
 					};
 					task.execute();
 				}
-			});
-			confirm.create().show();
+			}).show();
 		}
 		return super.onOptionsItemSelected(item);
 	}

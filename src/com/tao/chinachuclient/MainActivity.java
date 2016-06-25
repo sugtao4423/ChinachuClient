@@ -103,8 +103,7 @@ public class MainActivity extends Activity implements OnItemClickListener{
 				mov = result.moveToNext();
 			}
 			int settingNow = address.indexOf(pref.getString("chinachuAddress", ""));
-			AlertDialog.Builder selectServer = new AlertDialog.Builder(this);
-			selectServer.setTitle("サーバーを選択してください")
+			new AlertDialog.Builder(this).setTitle("サーバーを選択してください")
 			.setSingleChoiceItems((String[])address.toArray(new String[0]), settingNow, new OnClickListener(){
 				@Override
 				public void onClick(DialogInterface dialog, int which){
@@ -161,8 +160,7 @@ public class MainActivity extends Activity implements OnItemClickListener{
 
 					dialog.dismiss();
 				}
-			}).setPositiveButton("キャンセル", null);
-			selectServer.create().show();
+			}).setPositiveButton("キャンセル", null).show();
 		}
 		return super.onOptionsItemSelected(item);
 	}

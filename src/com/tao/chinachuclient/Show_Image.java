@@ -41,16 +41,15 @@ public class Show_Image extends Activity{
 	}
 	
 	public void image_option_click(View v){
-		AlertDialog.Builder save = new AlertDialog.Builder(this);
-		save.setMessage("保存しますか？")
+		new AlertDialog.Builder(this)
+		.setMessage("保存しますか？")
 		.setNegativeButton("キャンセル", null)
 		.setPositiveButton("OK", new OnClickListener(){
 			@Override
 			public void onClick(DialogInterface dialog, int which){
 				saveImage();
 			}
-		});
-		save.create().show();
+		}).show();
 	}
 	
 	public void saveImage(){
@@ -79,8 +78,8 @@ public class Show_Image extends Activity{
 					break;
 				}
 			}
-			AlertDialog.Builder exists = new AlertDialog.Builder(this);
-			exists.setTitle(title)
+			new AlertDialog.Builder(this)
+			.setTitle(title)
 			.setItems(new String[]{"上書き", "_" + i + "をつけて保存", "キャンセル"}, new OnClickListener(){
 				@Override
 				public void onClick(DialogInterface dialog, int which){
@@ -89,8 +88,7 @@ public class Show_Image extends Activity{
 					if(which == 1)
 						save(newPath);
 				}
-			});
-			exists.create().show();
+			}).show();
 		}else{
 			save(imgPath);
 		}
