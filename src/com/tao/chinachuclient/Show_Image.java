@@ -16,10 +16,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Base64;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class Show_Image extends Activity{
-	
+
 	private String programId;
 	private int pos;
 	private byte[] byteImage;
@@ -39,7 +40,7 @@ public class Show_Image extends Activity{
 
 		image.setImageBitmap(BitmapFactory.decodeByteArray(byteImage, 0, byteImage.length));
 	}
-	
+
 	public void image_option_click(View v){
 		new AlertDialog.Builder(this)
 		.setMessage("保存しますか？")
@@ -51,42 +52,43 @@ public class Show_Image extends Activity{
 			}
 		}).show();
 	}
-	
+
 	public void saveImage(){
-		String fileName;
+		final String fileName;
 		if(pos == -1)
 			fileName = programId;
 		else
 			fileName = programId + "-" + pos;
-		String type = ".jpg";
+		final String type = ".jpg";
 		final String saveDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + Environment.DIRECTORY_DOWNLOADS;
 		final String imgPath = saveDir + "/" + fileName + type;
 
 		if(new File(imgPath).exists()) {
-			final String newPath;
-			String title;
-			int i = 2;
-			while(true){
-				if(new File(saveDir + "/" + fileName +  "_" + i + type).exists()){
-					i++;
-				}else{
-					newPath = saveDir + "/" + fileName + "_" + i + type;
-					if(i == 2)
-						title = fileName + type + "という名前のファイルが既に存在しています";
-					else
-						title = fileName + "_" + (i - 1) + type + "という名前のファイルが既に存在しています";
-					break;
-				}
-			}
 			new AlertDialog.Builder(this)
-			.setTitle(title)
-			.setItems(new String[]{"上書き", "_" + i + "をつけて保存", "キャンセル"}, new OnClickListener(){
+			.setTitle("エラー:ファイルが既に存在しています")
+			.setItems(new String[]{"上書き", "ファイル名を指定して保存", "キャンセル"}, new OnClickListener(){
 				@Override
 				public void onClick(DialogInterface dialog, int which){
-					if(which == 0)
+					if(which == 0) {
 						save(imgPath);
-					if(which == 1)
-						save(newPath);
+					}else if(which == 1) {
+						final EditText edit = new EditText(Show_Image.this);
+						edit.setText(fileName);
+						new AlertDialog.Builder(Show_Image.this)
+						.setTitle("ファイル名を指定してください")
+						.setView(edit)
+						.setNegativeButton("キャンセル", null)
+						.setPositiveButton("OK", new OnClickListener(){
+							@Override
+							public void onClick(DialogInterface dialog, int which){
+								String newPath = saveDir + "/" + edit.getText().toString() + type;
+								if(new File(newPath).exists())
+									saveImage();
+								else
+									save(newPath);
+							}
+						}).show();
+					}
 				}
 			}).show();
 		}else{
