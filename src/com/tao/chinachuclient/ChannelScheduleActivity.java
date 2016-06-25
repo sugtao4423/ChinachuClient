@@ -66,7 +66,7 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 	// ActionBarのSpinnerで選択された時呼ばれる
 	@Override
 	public boolean onNavigationItemSelected(final int itemPosition, long itemId){
-		AsyncTask<Void, Void, Program[]> task = new AsyncTask<Void, Void, Program[]>(){
+		new AsyncTask<Void, Void, Program[]>(){
 			private ProgressDialog progDailog;
 
 			@Override
@@ -98,8 +98,7 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 				}
 				programListAdapter.addAll(result);
 			}
-		};
-		task.execute();
+		}.execute();
 		return false;
 	}
 

@@ -162,7 +162,7 @@ public class RuleDetail extends Activity{
 			.setPositiveButton("OK", new OnClickListener(){
 				@Override
 				public void onClick(DialogInterface dialog, int which){
-					AsyncTask<Void, Void, ChinachuResponse> task = new AsyncTask<Void, Void, ChinachuResponse>(){
+					new AsyncTask<Void, Void, ChinachuResponse>(){
 						private ProgressDialog progDailog;
 
 						@Override
@@ -207,8 +207,7 @@ public class RuleDetail extends Activity{
 								}
 							}).show();
 						}
-					};
-					task.execute();
+					}.execute();
 				}
 			}).show();
 		}

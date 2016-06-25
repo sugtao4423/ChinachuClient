@@ -34,7 +34,7 @@ public class AddServer extends Activity{
 
 	private Spinner type, containerFormat, videoCodec, audioCodec, videoBitrateFormat, audioBitrateFormat;
 	private EditText videoBitrate, audioBitrate, videoSize, frame;
-	
+
 	private SQLiteDatabase db;
 	private String raw_chinachuAddress;
 
@@ -78,8 +78,8 @@ public class AddServer extends Activity{
 			Toast.makeText(this, "すでに登録されています", Toast.LENGTH_SHORT).show();
 			return;
 		}
-		
-		AsyncTask<Void, Void, Program[]> getChannels = new AsyncTask<Void, Void, Program[]>(){
+
+		new AsyncTask<Void, Void, Program[]>(){
 			private ProgressDialog progDailog;
 
 			@Override
@@ -91,7 +91,7 @@ public class AddServer extends Activity{
 				progDailog.setCancelable(true);
 				progDailog.show();
 			}
-			
+
 			@Override
 			protected Program[] doInBackground(Void... params){
 				try{
@@ -101,7 +101,7 @@ public class AddServer extends Activity{
 					return null;
 				}
 			}
-			
+
 			@Override
 			protected void onPostExecute(Program[] result){
 				progDailog.dismiss();
@@ -121,7 +121,7 @@ public class AddServer extends Activity{
 					channelIds += s.split(",")[0] + ",";
 					channelNames += s.split(",")[1] + ",";
 				}
-				
+
 				String vb = null;
 				String ab = null;
 				if(!videoBitrate.getText().toString().isEmpty()) {
@@ -157,7 +157,7 @@ public class AddServer extends Activity{
 						"'" + frame.getText().toString() + "', " +
 						"'" + channelIds + "', " +
 						"'" + channelNames + "')");
-				
+
 				if(startMain) {
 					SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(AddServer.this);
 					pref.edit()
@@ -176,7 +176,7 @@ public class AddServer extends Activity{
 					.putString("videoSize", videoSize.getText().toString())
 					.putString("frame", frame.getText().toString())
 					.commit();
-					
+
 					SharedPreferences channels = getSharedPreferences("channels", MODE_PRIVATE);
 					channels.edit()
 					.putString("channelIds", channelIds)
@@ -187,8 +187,7 @@ public class AddServer extends Activity{
 				}
 				finish();
 			}
-		};
-		getChannels.execute();
+		}.execute();
 	}
 
 	public void background(View v){

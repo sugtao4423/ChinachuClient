@@ -101,7 +101,7 @@ public class ProgramDetail extends Activity{
 		otherView.setText(Html.fromHtml(otherText));
 
 		if(type == 3 || type == 4) {
-			AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>(){
+			new AsyncTask<Void, Void, String>(){
 				@Override
 				protected String doInBackground(Void... params){
 					try{
@@ -130,8 +130,7 @@ public class ProgramDetail extends Activity{
 					image.setImageBitmap(img);
 					capture = result;
 				}
-			};
-			task.execute();
+			}.execute();
 		}
 	}
 
@@ -175,7 +174,7 @@ public class ProgramDetail extends Activity{
 
 			@Override
 			public void onClick(DialogInterface dialog, int which){
-				AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>(){
+				new AsyncTask<Void, Void, String>(){
 					private ProgressDialog progDailog;
 
 					@Override
@@ -220,8 +219,7 @@ public class ProgramDetail extends Activity{
 							i.putExtra("pos", Integer.parseInt(cap_pos.getText().toString()));
 						startActivity(i);
 					}
-				};
-				task.execute();
+				}.execute();
 			}
 		}).setNeutralButton("このまま拡大", new OnClickListener(){
 
@@ -316,7 +314,7 @@ public class ProgramDetail extends Activity{
 		before.setMessage(fullTitle).setNegativeButton("キャンセル", null).setPositiveButton("OK", new OnClickListener(){
 			@Override
 			public void onClick(DialogInterface dialog, int which){
-				AsyncTask<Void, Void, ChinachuResponse> task = new AsyncTask<Void, Void, ChinachuResponse>(){
+				new AsyncTask<Void, Void, ChinachuResponse>(){
 					private ProgressDialog progDailog;
 
 					@Override
@@ -377,8 +375,7 @@ public class ProgramDetail extends Activity{
 						}
 						after.show();
 					}
-				};
-				task.execute();
+				}.execute();
 			}
 		});
 		before.show();
