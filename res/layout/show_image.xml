@@ -5,11 +5,11 @@
     android:layout_height="match_parent"
     tools:context=".Show_Image" >
 
-    <jp.ogwork.gesturetransformableview.view.GestureTransformableImageView
+    <com.tenthbit.view.ZoomImageView
         android:id="@+id/show_image_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/show_image_option"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true" />

@@ -1,10 +1,10 @@
 package com.tao.chinachuclient;
 
-import jp.ogwork.gesturetransformableview.view.GestureTransformableImageView;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import com.tenthbit.view.ZoomImageView;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,13 +23,13 @@ public class Show_Image extends Activity{
 	private String programId;
 	private int pos;
 	private byte[] byteImage;
-	private GestureTransformableImageView image;
+	private ZoomImageView image;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.show_image);
-		image = (GestureTransformableImageView)findViewById(R.id.show_image_image);
+		image = (ZoomImageView)findViewById(R.id.show_image_image);
 
 		Intent i = getIntent();
 		final String base64 = i.getStringExtra("base64");
