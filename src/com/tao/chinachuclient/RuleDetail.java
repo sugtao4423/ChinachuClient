@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -36,9 +37,9 @@ public class RuleDetail extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_rule_detail);
 
-		position = getIntent().getStringExtra("position");
-
-		Rule tmp = (Rule)((ApplicationClass)getApplicationContext()).getTmp();
+		Intent i = getIntent();
+		position = i.getStringExtra("position");
+		Rule tmp = (Rule)i.getSerializableExtra("rule");
 
 		ActionBar actionBar = getActionBar();
 		if(tmp.getReserve_titles().length > 0)

@@ -117,10 +117,10 @@ public class RuleActivity extends Activity implements OnRefreshListener, OnItemC
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-		Rule tmp = (Rule)parent.getItemAtPosition(position);
-		appClass.setTmp(tmp);
+		Rule rule = (Rule)parent.getItemAtPosition(position);
 		Intent i = new Intent(this, RuleDetail.class);
 		i.putExtra("position", String.valueOf(position));
+		i.putExtra("rule", rule);
 		startActivity(i);
 	}
 }

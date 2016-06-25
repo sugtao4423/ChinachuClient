@@ -20,9 +20,9 @@ public class ProgramListClickListener implements OnItemClickListener{
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id){
 		Program item = (Program)parent.getItemAtPosition(position);
-		((ApplicationClass)context.getApplicationContext()).setTmp(item);
 		Intent i = new Intent(context, ProgramDetail.class);
 		i.putExtra("type", type);
+		i.putExtra("program", item);
 		context.startActivity(i);
 	}
 }

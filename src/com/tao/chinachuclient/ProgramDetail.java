@@ -55,23 +55,23 @@ public class ProgramDetail extends Activity{
 
 		appClass = (ApplicationClass)getApplicationContext();
 
-		Program tmp = (Program)appClass.getTmp();
+		Program program = (Program)getIntent().getSerializableExtra("program");
 
 		ActionBar actionbar = getActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(false);
-		actionbar.setTitle(tmp.getTitle());
+		actionbar.setTitle(program.getTitle());
 
-		programId = tmp.getId();
-		fullTitle = tmp.getFullTitle();
-		String detail = tmp.getDetail();
-		long start = tmp.getStart();
-		long end = tmp.getEnd();
-		seconds = tmp.getSeconds();
-		String category = tmp.getCategory();
-		String[] flags = tmp.getFlags();
-		String channelType = tmp.getChannel().getType();
-		String channelName = tmp.getChannel().getName();
+		programId = program.getId();
+		fullTitle = program.getFullTitle();
+		String detail = program.getDetail();
+		long start = program.getStart();
+		long end = program.getEnd();
+		seconds = program.getSeconds();
+		String category = program.getCategory();
+		String[] flags = program.getFlags();
+		String channelType = program.getChannel().getType();
+		String channelName = program.getChannel().getName();
 		type = getIntent().getIntExtra("type", -1);
 
 		final ImageView image = (ImageView)findViewById(R.id.programs_detail_image);
