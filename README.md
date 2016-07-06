@@ -5,7 +5,7 @@ Android端末からでも簡単に[Chinachu](https://github.com/kanreisa/Chinach
 
 複数サーバー対応しました
 
-##### apk公開しちゃった♡
+##### [Google Playに公開しました](https://play.google.com/store/apps/details?id=com.tao.chinachuclient)
 
 # Chromecast with Chromecast
 [kazukioishi氏](https://github.com/kazukioishi/)により[このcommit](https://github.com/sugtao4423/ChinachuClient/commit/bd837b69c22496f5d605a534edff3d64cb634c67)のChromecast対応版が製作されました。ありがとうございます。  
