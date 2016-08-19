@@ -1,5 +1,8 @@
 package com.tao.chinachuclient;
 
+import com.tao.chinachuclient.data.Encode;
+import com.tao.chinachuclient.data.Server;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -7,7 +10,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Base64;
@@ -170,18 +172,6 @@ public class SettingActivity extends Activity{
 
 		String oldChinachuAddress = pref.getString("chinachuAddress", "");
 
-		String raw_username = username.getText().toString();
-		String raw_password = password.getText().toString();
-
-		String user = Base64.encodeToString(raw_username.getBytes(), Base64.DEFAULT);
-		String passwd = Base64.encodeToString(raw_password.getBytes(), Base64.DEFAULT);
-
-		pref.edit()
-		.putString("chinachuAddress", raw_chinachuAddress)
-		.putString("username", user)
-		.putString("password", passwd)
-		.commit();
-
 		String vb = null;
 		String ab = null;
 		if(!videoBitrate.getText().toString().isEmpty()) {
@@ -202,32 +192,41 @@ public class SettingActivity extends Activity{
 			ab = String.valueOf(audioBit);
 		}
 
-		enc.edit().putString("type", (String)type.getSelectedItem())
-				.putString("containerFormat", (String)containerFormat.getSelectedItem())
-				.putString("videoCodec", (String)videoCodec.getSelectedItem())
-				.putString("audioCodec", (String)audioCodec.getSelectedItem())
-				.putString("videoBitrate", vb)
-				.putString("audioBitrate", ab)
-				.putString("videoSize", videoSize.getText().toString())
-				.putString("frame", frame.getText().toString())
+		Encode encode = new Encode((String)type.getSelectedItem(),
+				(String)containerFormat.getSelectedItem(),
+				(String)videoCodec.getSelectedItem(),
+				(String)audioCodec.getSelectedItem(),
+				vb,
+				ab,
+				videoSize.getText().toString(),
+				frame.getText().toString());
+		Server server = new Server(raw_chinachuAddress,
+				Base64.encodeToString(username.getText().toString().getBytes(), Base64.DEFAULT),
+				Base64.encodeToString(password.getText().toString().getBytes(), Base64.DEFAULT),
+				pref.getBoolean("streaming", false),
+				pref.getBoolean("encStreaming", false),
+				encode,
+				null, null);
+
+		pref.edit()
+				.putString("chinachuAddress", server.getChinachuAddress())
+				.putString("username", server.getUsername())
+				.putString("password", server.getPassword())
+				.commit();
+		enc.edit()
+				.putString("type", encode.getType())
+				.putString("containerFormat", encode.getContainerFormat())
+				.putString("videoCodec", encode.getVideoCodec())
+				.putString("audioCodec", encode.getAudioCodec())
+				.putString("videoBitrate", encode.getVideoBitrate())
+				.putString("audioBitrate", encode.getAudioBitrate())
+				.putString("videoSize", encode.getVideoSize())
+				.putString("frame", encode.getFrame())
 				.commit();
 
-		SQLiteDatabase db = new ServerSQLHelper(this).getWritableDatabase();
-		db.execSQL("update servers set " +
-				"chinachuAddress='" + raw_chinachuAddress + "', " +
-				"username='" + Base64.encodeToString(username.getText().toString().getBytes(), Base64.DEFAULT) + "', " +
-				"password='" + Base64.encodeToString(password.getText().toString().getBytes(), Base64.DEFAULT) + "', " +
-				"streaming='" + String.valueOf(pref.getBoolean("streaming", false)) + "', " +
-				"encStreaming='" + String.valueOf(pref.getBoolean("encStreaming", false)) + "', " +
-				"type='" + (String)type.getSelectedItem() + "', " +
-				"containerFormat='" + (String)containerFormat.getSelectedItem() + "', " +
-				"videoCodec='" + (String)videoCodec.getSelectedItem() + "', " +
-				"audioCodec='" + (String)audioCodec.getSelectedItem() + "', " +
-				"videoBitrate='" + vb + "', " +
-				"audioBitrate='" + ab + "', " +
-				"videoSize='" + videoSize.getText().toString() + "', " +
-				"frame='" + frame.getText().toString() + "' " +
-				"where chinachuAddress='" + oldChinachuAddress + "'");
+		DBUtils dbUtils = new DBUtils(this);
+		dbUtils.updateServer(server, oldChinachuAddress, this);
+		dbUtils.close();
 		finish();
 	}
 

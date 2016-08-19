@@ -90,6 +90,25 @@ public class DBUtils{
 				"'" + server.getChannelNames() + "')");
 	}
 
+	public void updateServer(Server server, String targetChinachuAddress, Context context){
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		db.execSQL("update servers set " +
+				"chinachuAddress='" + server.getChinachuAddress() + "', " +
+				"username='" + server.getUsername() + "', " +
+				"password='" + server.getPassword() + "', " +
+				"streaming='" + pref.getBoolean("streaming", false) + "', " +
+				"encStreaming='" + pref.getBoolean("encStreaming", false) + "', " +
+				"type='" + server.getEncode().getType() + "', " +
+				"containerFormat='" + server.getEncode().getContainerFormat() + "', " +
+				"videoCodec='" + server.getEncode().getVideoCodec() + "', " +
+				"audioCodec='" + server.getEncode().getAudioCodec() + "', " +
+				"videoBitrate='" + server.getEncode().getVideoBitrate() + "', " +
+				"audioBitrate='" + server.getEncode().getAudioBitrate() + "', " +
+				"videoSize='" + server.getEncode().getVideoSize() + "', " +
+				"frame='" + server.getEncode().getFrame() + "' " +
+				"where chinachuAddress='" + targetChinachuAddress + "'");
+	}
+
 	public boolean serverExists(String chinachuAddress){
 		Cursor c = db.rawQuery("select * from servers where chinachuAddress=?", new String[]{chinachuAddress});
 		c.moveToFirst();
