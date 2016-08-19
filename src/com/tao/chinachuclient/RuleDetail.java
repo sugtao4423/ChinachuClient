@@ -23,13 +23,7 @@ import android.widget.Toast;
 
 public class RuleDetail extends Activity{
 
-	private String type, category, channel, ignore_channel, reserve_flag, ignore_flag;
-	private String start_end, min_max;
-	private String reserve_title, ignore_title, reserve_description, ignore_description;
-	private String recorded_format, isDisabled;
-
-	private TextView textView;
-
+	private String reserve_title;
 	private String position;
 
 	@Override
@@ -42,87 +36,28 @@ public class RuleDetail extends Activity{
 		Rule tmp = (Rule)i.getSerializableExtra("rule");
 
 		ActionBar actionBar = getActionBar();
-		if(tmp.getReserve_titles().length > 0)
-			actionBar.setTitle(tmp.getReserve_titles()[0]);
-		else
-			actionBar.setTitle("any");
+		actionBar.setTitle(tmp.getReserve_titles().length > 0 ? tmp.getReserve_titles()[0] : "any");
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowHomeEnabled(false);
 
-		textView = (TextView)findViewById(R.id.rule_list_text);
+		TextView textView = (TextView)findViewById(R.id.rule_list_text);
 
-		if(tmp.getTypes().length > 0)
-			type = array2string(tmp.getTypes());
-		else
-			type = "any";
+		String type = tmp.getTypes().length > 0 ? array2string(tmp.getTypes()) : "any";
+		String category = tmp.getCategories().length > 0 ? array2string(tmp.getCategories()) : "any";
+		String channel = tmp.getChannels().length > 0 ? array2string(tmp.getChannels()) : "any";
+		String ignore_channel = tmp.getIgnore_channels().length > 0 ? array2string(tmp.getIgnore_channels()) : "none";
+		String reserve_flag = tmp.getReserve_flags().length > 0 ? array2string(tmp.getReserve_flags()) : "any";
+		String ignore_flag = tmp.getIgnore_flags().length > 0 ? array2string(tmp.getIgnore_flags()) : "none";
 
-		if(tmp.getCategories().length > 0)
-			category = array2string(tmp.getCategories());
-		else
-			category = "any";
+		String start_end = (tmp.getStart() == -1 ? 0 : tmp.getStart()) + "〜" + (tmp.getEnd() == -1 ? 0 : tmp.getEnd());
+		String min_max = tmp.getMin() == -1 && tmp.getMax() == -1 ? "all" : String.valueOf((tmp.getMin() / 60) + "〜" + (tmp.getMax() / 60));
 
-		if(tmp.getChannels().length > 0)
-			channel = array2string(tmp.getChannels());
-		else
-			channel = "any";
-
-		if(tmp.getIgnore_channels().length > 0)
-			ignore_channel = array2string(tmp.getIgnore_channels());
-		else
-			ignore_channel = "none";
-
-		if(tmp.getReserve_flags().length > 0)
-			reserve_flag = array2string(tmp.getReserve_flags());
-		else
-			reserve_flag = "any";
-
-		if(tmp.getIgnore_flags().length > 0)
-			ignore_flag = array2string(tmp.getIgnore_flags());
-		else
-			ignore_flag = "none";
-
-		int start = tmp.getStart();
-		if(start == -1)
-			start = 0;
-		int end = tmp.getEnd();
-		if(end == -1)
-			end = 0;
-		start_end = start + "〜" + end;
-
-		int min = tmp.getMin();
-		int max = tmp.getMax();
-		if(min == -1 && max == -1)
-			min_max = "all";
-		else
-			min_max = String.valueOf((min / 60) + "〜" + (max / 60));
-
-		if(tmp.getReserve_titles().length > 0)
-			reserve_title = array2string(tmp.getReserve_titles());
-		else
-			reserve_title = "any";
-
-		if(tmp.getIgnore_titles().length > 0)
-			ignore_title = array2string(tmp.getIgnore_titles());
-		else
-			ignore_title = "none";
-
-		if(tmp.getReserve_descriptions().length > 0)
-			reserve_description = array2string(tmp.getReserve_descriptions());
-		else
-			reserve_description = "any";
-
-		if(tmp.getIgnore_descriptions().length > 0)
-			ignore_description = array2string(tmp.getIgnore_descriptions());
-		else
-			ignore_description = "none";
-
-		if(recorded_format == null)
-			recorded_format = "default";
-
-		if(tmp.getIsDisabled())
-			isDisabled = "無効";
-		else
-			isDisabled = "有効";
+		reserve_title = tmp.getReserve_titles().length > 0 ? array2string(tmp.getReserve_titles()) : "any";
+		String ignore_title = tmp.getIgnore_titles().length > 0 ? array2string(tmp.getIgnore_titles()) : "none";
+		String reserve_description = tmp.getReserve_descriptions().length > 0 ? array2string(tmp.getReserve_descriptions()) : "any";
+		String ignore_description = tmp.getIgnore_descriptions().length > 0 ? array2string(tmp.getIgnore_descriptions()) : "none";
+		String recorded_format = tmp.getRecorded_format() == null || tmp.getRecorded_format().equals("") ? "default" : tmp.getRecorded_format();
+		String isDisabled = tmp.getIsDisabled() ? "無効" : "有効";
 
 		String txt = "タイプ： " + type + "<br /><br />ジャンル：" + category + "<br /><br />対象CH：" + channel +
 				"<br /><br />無視CH：" + ignore_channel + "<br /><br />対象フラグ：" + reserve_flag +
@@ -145,7 +80,7 @@ public class RuleDetail extends Activity{
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu){
-		menu.add("ルール削除");
+		menu.add(0, Menu.FIRST, Menu.NONE, "ルール削除");
 		return true;
 	}
 
@@ -154,8 +89,7 @@ public class RuleDetail extends Activity{
 		if(item.getItemId() == android.R.id.home) {
 			finish();
 			return true;
-		}
-		if(item.getTitle().equals("ルール削除")) {
+		}else if(item.getItemId() == Menu.FIRST) {
 			new AlertDialog.Builder(this)
 			.setTitle("削除しますか？")
 			.setMessage("ルールNo." + position + "\n対象タイトル：" + reserve_title)

@@ -4,6 +4,7 @@ import Chinachu4j.Rule;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,12 @@ import android.widget.TextView;
 
 public class RuleListAdapter extends ArrayAdapter<Rule>{
 	private LayoutInflater mInflater;
+	private boolean oldCategoryColor;
 
 	public RuleListAdapter(Context context){
 		super(context, android.R.layout.simple_list_item_1);
 		mInflater = (LayoutInflater)context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		oldCategoryColor = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("oldCategoryColor", false);
 	}
 
 	class ViewHolder{
@@ -43,36 +46,66 @@ public class RuleListAdapter extends ArrayAdapter<Rule>{
 		}
 
 		if(item.getCategories().length > 0) {
-			switch(item.getCategories()[0]){
-			case "anime":
-				convertView.setBackgroundResource(R.drawable.anime);
-				break;
-			case "information":
-				convertView.setBackgroundResource(R.drawable.information);
-				break;
-			case "news":
-				convertView.setBackgroundResource(R.drawable.news);
-				break;
-			case "sports":
-				convertView.setBackgroundResource(R.drawable.sports);
-				break;
-			case "variety":
-				convertView.setBackgroundResource(R.drawable.variety);
-				break;
-			case "drama":
-				convertView.setBackgroundResource(R.drawable.drama);
-				break;
-			case "music":
-				convertView.setBackgroundResource(R.drawable.music);
-				break;
-			case "cinema":
-				convertView.setBackgroundResource(R.drawable.cinema);
-				break;
-			case "etc":
-				convertView.setBackgroundResource(R.drawable.etc);
-				break;
-			default:
-				break;
+			if(oldCategoryColor){
+				switch(item.getCategories()[0]){
+				case "anime":
+					convertView.setBackgroundResource(R.drawable.old_anime);
+					break;
+				case "information":
+					convertView.setBackgroundResource(R.drawable.old_information);
+					break;
+				case "news":
+					convertView.setBackgroundResource(R.drawable.old_news);
+					break;
+				case "sports":
+					convertView.setBackgroundResource(R.drawable.old_sports);
+					break;
+				case "variety":
+					convertView.setBackgroundResource(R.drawable.old_variety);
+					break;
+				case "drama":
+					convertView.setBackgroundResource(R.drawable.old_drama);
+					break;
+				case "music":
+					convertView.setBackgroundResource(R.drawable.old_music);
+					break;
+				case "cinema":
+					convertView.setBackgroundResource(R.drawable.old_cinema);
+					break;
+				case "etc":
+					convertView.setBackgroundResource(R.drawable.old_etc);
+					break;
+				}
+			}else{
+				switch(item.getCategories()[0]){
+				case "anime":
+					convertView.setBackgroundResource(R.drawable.anime);
+					break;
+				case "information":
+					convertView.setBackgroundResource(R.drawable.information);
+					break;
+				case "news":
+					convertView.setBackgroundResource(R.drawable.news);
+					break;
+				case "sports":
+					convertView.setBackgroundResource(R.drawable.sports);
+					break;
+				case "variety":
+					convertView.setBackgroundResource(R.drawable.variety);
+					break;
+				case "drama":
+					convertView.setBackgroundResource(R.drawable.drama);
+					break;
+				case "music":
+					convertView.setBackgroundResource(R.drawable.music);
+					break;
+				case "cinema":
+					convertView.setBackgroundResource(R.drawable.cinema);
+					break;
+				case "etc":
+					convertView.setBackgroundResource(R.drawable.etc);
+					break;
+				}
 			}
 		}
 
@@ -82,8 +115,9 @@ public class RuleListAdapter extends ArrayAdapter<Rule>{
 			for(String s : titles)
 				title += s + ", ";
 			title = title.substring(0, title.length() - 2);
-		}else
+		}else{
 			title = "any";
+		}
 
 		String[] channels = item.getChannels();
 		String channel = "";

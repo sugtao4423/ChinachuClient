@@ -71,9 +71,9 @@ public class MainActivity extends Activity implements OnItemClickListener{
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id){
 		if(position == 0)
 			startActivity(new Intent(this, ChannelScheduleActivity.class));
-		if(position == 1)
+		else if(position == 1)
 			startActivity(new Intent(this, RuleActivity.class));
-		if(position > 1) {
+		else if(position > 1) {
 			Intent i = new Intent(this, ProgramActivity.class);
 			i.putExtra("type", position);
 			startActivity(i);
@@ -82,18 +82,16 @@ public class MainActivity extends Activity implements OnItemClickListener{
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu){
-		MenuItem changeServer = menu.add("鯖変更");
+		MenuItem changeServer = menu.add(0, Menu.FIRST, Menu.NONE, "鯖変更");
 		changeServer.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		MenuItem item = menu.add("設定");
+		MenuItem item = menu.add(0, Menu.FIRST + 1, Menu.NONE, "設定");
 		item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
-		if(item.getTitle().equals("設定"))
-			startActivity(new Intent(this, Preference.class));
-		if(item.getTitle().equals("鯖変更")) {
+		if(item.getItemId() == Menu.FIRST) {
 			final DBUtils dbUtils = new DBUtils(this);
 			final ArrayList<String> address = new ArrayList<String>();
 			Server[] servers = dbUtils.getServers();
@@ -120,6 +118,8 @@ public class MainActivity extends Activity implements OnItemClickListener{
 					dialog.dismiss();
 				}
 			}).setPositiveButton("キャンセル", null).show();
+		}else if(item.getItemId() == Menu.FIRST + 1){
+			startActivity(new Intent(this, Preference.class));
 		}
 		return super.onOptionsItemSelected(item);
 	}

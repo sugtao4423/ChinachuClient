@@ -238,23 +238,24 @@ public class ProgramDetail extends Activity{
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu){
 		if(type == 0 || type == 5)
-			menu.add("予約");
-		if(type == 2)
-			menu.add("予約削除");
-		if(type == 3 || type == 4) {
+			menu.add(0, Menu.FIRST, Menu.NONE, "予約");
+		else if(type == 2)
+			menu.add(0, Menu.FIRST + 1, Menu.NONE, "予約削除");
+		else if(type == 3 || type == 4) {
 			if(appClass.getStreaming())
-				menu.add("ストリーミング再生");
-			if(appClass.getEncStreaming())
-				menu.add("ストリーミング再生(エンコ有)");
-		}
-		if(type == 4)
-			menu.add("録画ファイル削除");
+				menu.add(0, Menu.FIRST + 2, Menu.NONE, "ストリーミング再生");
+			else if(appClass.getEncStreaming())
+				menu.add(0, Menu.FIRST + 3, Menu.NONE, "ストリーミング再生(エンコ有)");
+		}else if(type == 4)
+			menu.add(0, Menu.FIRST + 4, Menu.NONE, "録画ファイル削除");
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
-		if(item.getTitle().equals("ストリーミング再生")) {
+		if(item.getItemId() == android.R.id.home)
+			finish();
+		else if(item.getItemId() == Menu.FIRST + 2) {
 			if(type == 3) {
 				Uri uri = Uri.parse(appClass.getChinachu().getNonEncRecordingMovie(programId));
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -265,7 +266,7 @@ public class ProgramDetail extends Activity{
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
 			}
-		}else if(item.getTitle().equals("ストリーミング再生(エンコ有)")) {
+		}else if(item.getItemId() == Menu.FIRST + 3) {
 			String[] params = new String[7];
 			SharedPreferences enc = getSharedPreferences("encodeConfig", MODE_PRIVATE);
 			String t = enc.getString("type", null);
@@ -286,16 +287,12 @@ public class ProgramDetail extends Activity{
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
 			}
-		}else if(type == 0 || type == 2 || type == 4 || type == 5) {
-			Confirm();
-		}
-
-		if(item.getItemId() == android.R.id.home)
-			finish();
+		}else if(type == 0 || type == 2 || type == 4 || type == 5)
+			confirm();
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void Confirm(){
+	public void confirm(){
 		final Chinachu4j chinachu = appClass.getChinachu();
 
 		AlertDialog.Builder before = new Builder(this);
@@ -377,7 +374,6 @@ public class ProgramDetail extends Activity{
 					}
 				}.execute();
 			}
-		});
-		before.show();
+		}).show();
 	}
 }
