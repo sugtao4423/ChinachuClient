@@ -2,6 +2,8 @@ package com.tao.chinachuclient;
 
 import java.util.ArrayList;
 
+import com.tao.chinachuclient.data.Server;
+
 import Chinachu4j.Chinachu4j;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,8 +11,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Base64;
@@ -94,70 +94,29 @@ public class MainActivity extends Activity implements OnItemClickListener{
 		if(item.getTitle().equals("設定"))
 			startActivity(new Intent(this, Preference.class));
 		if(item.getTitle().equals("鯖変更")) {
-			final SQLiteDatabase db = new ServerSQLHelper(this).getReadableDatabase();
+			final DBUtils dbUtils = new DBUtils(this);
 			final ArrayList<String> address = new ArrayList<String>();
-			Cursor result = db.rawQuery("select chinachuAddress from servers", null);
-			boolean mov = result.moveToFirst();
-			while(mov){
-				address.add(result.getString(0));
-				mov = result.moveToNext();
-			}
+			Server[] servers = dbUtils.getServers();
+			for(Server s : servers)
+				address.add(s.getChinachuAddress());
+
 			int settingNow = address.indexOf(pref.getString("chinachuAddress", ""));
 			new AlertDialog.Builder(this).setTitle("サーバーを選択してください")
 			.setSingleChoiceItems((String[])address.toArray(new String[0]), settingNow, new OnClickListener(){
 				@Override
 				public void onClick(DialogInterface dialog, int which){
 					String selectedAddress = address.get(which);
-					Cursor allGet = db.rawQuery("select * from servers where chinachuAddress=?", new String[]{selectedAddress});
-					allGet.moveToFirst();
-					String ca = allGet.getString(0);
-					String u = allGet.getString(1);
-					String p = allGet.getString(2);
-					boolean s = Boolean.valueOf(allGet.getString(3));
-					boolean encS = Boolean.valueOf(allGet.getString(4));
-					pref.edit()
-					.putString("chinachuAddress", ca)
-					.putString("username", u)
-					.putString("password", p)
-					.putBoolean("streaming", s)
-					.putBoolean("encStreaming", encS)
-					.commit();
-					chinachu = new Chinachu4j(ca, new String(Base64.decode(u, Base64.DEFAULT)), new String(Base64.decode(p, Base64.DEFAULT)));
+					Server server = dbUtils.getServerFromAddress(selectedAddress);
+					dbUtils.serverPutPref(MainActivity.this, server);
+
+					chinachu = new Chinachu4j(server.getChinachuAddress(),
+							new String(Base64.decode(server.getUsername(), Base64.DEFAULT)),
+							new String(Base64.decode(server.getPassword(), Base64.DEFAULT)));
 					appClass.setChinachu(chinachu);
-					appClass.setStreaming(s);
-					appClass.setStreaming(encS);
+					appClass.setStreaming(server.getStreaming());
+					appClass.setStreaming(server.getEncStreaming());
 
-					SharedPreferences enc = getSharedPreferences("encodeConfig", MODE_PRIVATE);
-					String[] encode = new String[8];
-					encode[0] = allGet.getString(5);
-					encode[1] = allGet.getString(6);
-					encode[2] = allGet.getString(7);
-					encode[3] = allGet.getString(8);
-					encode[4] = allGet.getString(9);
-					encode[5] = allGet.getString(10);
-					encode[6] = allGet.getString(11);
-					encode[7] = allGet.getString(12);
-					for(int i = 0; i < encode.length; i++){
-						if(encode[i].isEmpty() || encode[i].equals("null"))
-							encode[i] = null;
-					}
-					enc.edit()
-					.putString("type", encode[0])
-					.putString("containerFormat", encode[1])
-					.putString("videoCodec", encode[2])
-					.putString("audioCodec", encode[3])
-					.putString("videoBitrate", encode[4])
-					.putString("audioBitrate", encode[5])
-					.putString("videoSize", encode[6])
-					.putString("frame", encode[7])
-					.commit();
-
-					SharedPreferences channels = getSharedPreferences("channels", MODE_PRIVATE);
-					channels.edit()
-					.putString("channelIds", allGet.getString(13))
-					.putString("channelNames", allGet.getString(14))
-					.commit();
-
+					dbUtils.close();
 					dialog.dismiss();
 				}
 			}).setPositiveButton("キャンセル", null).show();

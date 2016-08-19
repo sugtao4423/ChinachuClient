@@ -7,18 +7,17 @@ import java.util.ArrayList;
 
 import org.json.JSONException;
 
+import com.tao.chinachuclient.data.Encode;
+import com.tao.chinachuclient.data.Server;
+
 import Chinachu4j.Chinachu4j;
 import Chinachu4j.Program;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,7 +34,6 @@ public class AddServer extends Activity{
 	private Spinner type, containerFormat, videoCodec, audioCodec, videoBitrateFormat, audioBitrateFormat;
 	private EditText videoBitrate, audioBitrate, videoSize, frame;
 
-	private SQLiteDatabase db;
 	private String raw_chinachuAddress;
 
 	@Override
@@ -71,11 +69,10 @@ public class AddServer extends Activity{
 			return;
 		}
 
-		db = new ServerSQLHelper(this).getWritableDatabase();
-		Cursor already = db.rawQuery("select * from servers where chinachuAddress=?", new String[]{raw_chinachuAddress});
-		already.moveToFirst();
-		if(already.getCount() > 0) {
+		final DBUtils dbUtils = new DBUtils(this);
+		if(dbUtils.serverExists(raw_chinachuAddress)){
 			Toast.makeText(this, "すでに登録されています", Toast.LENGTH_SHORT).show();
+			dbUtils.close();
 			return;
 		}
 
@@ -142,47 +139,25 @@ public class AddServer extends Activity{
 					ab = String.valueOf(audioBit);
 				}
 
-				db.execSQL("insert into servers values(" +
-						"'" + raw_chinachuAddress + "', " +
-						"'" + Base64.encodeToString(username.getText().toString().getBytes(), Base64.DEFAULT) + "', " +
-						"'" + Base64.encodeToString(password.getText().toString().getBytes(), Base64.DEFAULT) + "', " +
-						"'false', 'false', " +
-						"'" + (String)type.getSelectedItem() + "', " +
-						"'" + (String)containerFormat.getSelectedItem() + "', " +
-						"'" + (String)videoCodec.getSelectedItem() + "', " +
-						"'" + (String)audioCodec.getSelectedItem() + "', " +
-						"'" + vb + "', " +
-						"'" + ab + "', " +
-						"'" + videoSize.getText().toString() + "', " +
-						"'" + frame.getText().toString() + "', " +
-						"'" + channelIds + "', " +
-						"'" + channelNames + "')");
+				Encode encode = new Encode((String)type.getSelectedItem(),
+						(String)containerFormat.getSelectedItem(),
+						(String)videoCodec.getSelectedItem(),
+						(String)audioCodec.getSelectedItem(),
+						vb,
+						ab,
+						videoSize.getText().toString(),
+						frame.getText().toString());
+
+				Server server = new Server(raw_chinachuAddress,
+						Base64.encodeToString(username.getText().toString().getBytes(), Base64.DEFAULT),
+						Base64.encodeToString(password.getText().toString().getBytes(), Base64.DEFAULT),
+						false, false, encode, channelIds, channelNames);
+
+				dbUtils.insertServer(server);
+				dbUtils.close();
 
 				if(startMain) {
-					SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(AddServer.this);
-					pref.edit()
-					.putString("chinachuAddress", raw_chinachuAddress)
-					.putString("username", Base64.encodeToString(username.getText().toString().getBytes(), Base64.DEFAULT))
-					.putString("password", Base64.encodeToString(password.getText().toString().getBytes(), Base64.DEFAULT))
-					.commit();
-
-					SharedPreferences enc = getSharedPreferences("encodeConfig", MODE_PRIVATE);
-					enc.edit().putString("type", (String)type.getSelectedItem())
-					.putString("containerFormat", (String)containerFormat.getSelectedItem())
-					.putString("videoCodec", (String)videoCodec.getSelectedItem())
-					.putString("audioCodec", (String)audioCodec.getSelectedItem())
-					.putString("videoBitrate", vb)
-					.putString("audioBitrate", ab)
-					.putString("videoSize", videoSize.getText().toString())
-					.putString("frame", frame.getText().toString())
-					.commit();
-
-					SharedPreferences channels = getSharedPreferences("channels", MODE_PRIVATE);
-					channels.edit()
-					.putString("channelIds", channelIds)
-					.putString("channelNames", channelNames)
-					.commit();
-
+					dbUtils.serverPutPref(AddServer.this, server);
 					startActivity(new Intent(AddServer.this, MainActivity.class));
 				}
 				finish();
