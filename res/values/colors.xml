@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="anime">#fcbde1</color>
-    <color name="information">#bdfce8</color>
-    <color name="news">#d7fcbd</color>
-    <color name="sports">#bdf1fc</color>
-    <color name="variety">#fbfcbd</color>
-    <color name="drama">#fce1c4</color>
-    <color name="music">#bdc9fc</color>
-    <color name="cinema">#d6bdfc</color>
-    <color name="etc">#eeeeee</color>
+    <color name="old_anime">#fcbde1</color>
+    <color name="old_information">#bdfce8</color>
+    <color name="old_news">#d7fcbd</color>
+    <color name="old_sports">#bdf1fc</color>
+    <color name="old_variety">#fbfcbd</color>
+    <color name="old_drama">#fce1c4</color>
+    <color name="old_music">#bdc9fc</color>
+    <color name="old_cinema">#d6bdfc</color>
+    <color name="old_etc">#eeeeee</color>
+    
+    <color name="anime">#ffe0ff</color>
+    <color name="information">#ffe0f0</color>
+    <color name="news">#ffffe0</color>
+    <color name="sports">#e0e0ff</color>
+    <color name="variety">#e0ffff</color>
+    <color name="drama">#ffe0e0</color>
+    <color name="music">#e0ffe0</color>
+    <color name="cinema">#fff0e0</color>
+    <color name="etc">#f0f0f0</color>
     
     <color name="Press">#99ccff</color>
 </resources>

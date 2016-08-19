@@ -38,28 +38,13 @@ public class Preference extends PreferenceActivity{
 			super.onCreate(savedInstanceState);
 			addPreferencesFromResource(R.xml.preference);
 
+			android.preference.CheckBoxPreference checkStreaming = (CheckBoxPreference)findPreference("streaming");
+			android.preference.CheckBoxPreference checkEncode = (CheckBoxPreference)findPreference("encStreaming");
+			android.preference.CheckBoxPreference oldCateColor = (CheckBoxPreference)findPreference("oldCategoryColor");
+
 			android.preference.Preference addServer = findPreference("addServer");
 			android.preference.Preference settingActivity = findPreference("settingActivity");
 			android.preference.Preference delServer = findPreference("delServer");
-
-			android.preference.CheckBoxPreference checkStreaming = (CheckBoxPreference)findPreference("streaming");
-			android.preference.CheckBoxPreference checkEncode = (CheckBoxPreference)findPreference("encStreaming");
-
-			addServer.setOnPreferenceClickListener(new OnPreferenceClickListener(){
-				@Override
-				public boolean onPreferenceClick(android.preference.Preference preference){
-					startActivity(new Intent(getActivity(), AddServer.class));
-					return false;
-				}
-			});
-
-			settingActivity.setOnPreferenceClickListener(new OnPreferenceClickListener(){
-				@Override
-				public boolean onPreferenceClick(android.preference.Preference preference){
-					startActivity(new Intent(getActivity(), SettingActivity.class));
-					return false;
-				}
-			});
 
 			checkStreaming.setOnPreferenceChangeListener(new OnPreferenceChangeListener(){
 
@@ -97,7 +82,33 @@ public class Preference extends PreferenceActivity{
 					return true;
 				}
 			});
+			oldCateColor.setOnPreferenceChangeListener(new OnPreferenceChangeListener(){
 
+				@Override
+				public boolean onPreferenceChange(android.preference.Preference preference, Object newValue){
+					SQLiteDatabase db = new ServerSQLHelper(getActivity()).getWritableDatabase();
+					SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+					String chinachuAddress = pref.getString("chinachuAddress", "");
+					db.execSQL("update servers set oldCategoryColor='" + String.valueOf((boolean)newValue) + "' "
+							+ "where chinachuAddress='" + chinachuAddress + "'");
+					return true;
+				}
+			});
+
+			addServer.setOnPreferenceClickListener(new OnPreferenceClickListener(){
+				@Override
+				public boolean onPreferenceClick(android.preference.Preference preference){
+					startActivity(new Intent(getActivity(), AddServer.class));
+					return false;
+				}
+			});
+			settingActivity.setOnPreferenceClickListener(new OnPreferenceClickListener(){
+				@Override
+				public boolean onPreferenceClick(android.preference.Preference preference){
+					startActivity(new Intent(getActivity(), SettingActivity.class));
+					return false;
+				}
+			});
 			delServer.setOnPreferenceClickListener(new OnPreferenceClickListener(){
 				@Override
 				public boolean onPreferenceClick(android.preference.Preference preference){

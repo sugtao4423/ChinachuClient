@@ -8,6 +8,7 @@ import Chinachu4j.Program;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,12 @@ import android.widget.TextView;
 
 public class ProgramListAdapter extends ArrayAdapter<Program>{
 	private LayoutInflater mInflater;
+	private boolean oldCategoryColor;
 
 	public ProgramListAdapter(Context context){
 		super(context, android.R.layout.simple_list_item_1);
 		mInflater = (LayoutInflater)context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		oldCategoryColor = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("oldCategoryColor", false);
 	}
 
 	class ViewHolder{
@@ -47,34 +50,66 @@ public class ProgramListAdapter extends ArrayAdapter<Program>{
 		}
 
 		String category = item.getCategory();
-		switch(category){
-		case "anime":
-			convertView.setBackgroundResource(R.drawable.anime);
-			break;
-		case "information":
-			convertView.setBackgroundResource(R.drawable.information);
-			break;
-		case "news":
-			convertView.setBackgroundResource(R.drawable.news);
-			break;
-		case "sports":
-			convertView.setBackgroundResource(R.drawable.sports);
-			break;
-		case "variety":
-			convertView.setBackgroundResource(R.drawable.variety);
-			break;
-		case "drama":
-			convertView.setBackgroundResource(R.drawable.drama);
-			break;
-		case "music":
-			convertView.setBackgroundResource(R.drawable.music);
-			break;
-		case "cinema":
-			convertView.setBackgroundResource(R.drawable.cinema);
-			break;
-		case "etc":
-			convertView.setBackgroundResource(R.drawable.etc);
-			break;
+		if(oldCategoryColor){
+			switch(category){
+			case "anime":
+				convertView.setBackgroundResource(R.drawable.old_anime);
+				break;
+			case "information":
+				convertView.setBackgroundResource(R.drawable.old_information);
+				break;
+			case "news":
+				convertView.setBackgroundResource(R.drawable.old_news);
+				break;
+			case "sports":
+				convertView.setBackgroundResource(R.drawable.old_sports);
+				break;
+			case "variety":
+				convertView.setBackgroundResource(R.drawable.old_variety);
+				break;
+			case "drama":
+				convertView.setBackgroundResource(R.drawable.old_drama);
+				break;
+			case "music":
+				convertView.setBackgroundResource(R.drawable.old_music);
+				break;
+			case "cinema":
+				convertView.setBackgroundResource(R.drawable.old_cinema);
+				break;
+			case "etc":
+				convertView.setBackgroundResource(R.drawable.old_etc);
+				break;
+			}
+		}else{
+			switch(category){
+			case "anime":
+				convertView.setBackgroundResource(R.drawable.anime);
+				break;
+			case "information":
+				convertView.setBackgroundResource(R.drawable.information);
+				break;
+			case "news":
+				convertView.setBackgroundResource(R.drawable.news);
+				break;
+			case "sports":
+				convertView.setBackgroundResource(R.drawable.sports);
+				break;
+			case "variety":
+				convertView.setBackgroundResource(R.drawable.variety);
+				break;
+			case "drama":
+				convertView.setBackgroundResource(R.drawable.drama);
+				break;
+			case "music":
+				convertView.setBackgroundResource(R.drawable.music);
+				break;
+			case "cinema":
+				convertView.setBackgroundResource(R.drawable.cinema);
+				break;
+			case "etc":
+				convertView.setBackgroundResource(R.drawable.etc);
+				break;
+			}
 		}
 
 		holder.title.setText(item.getTitle());

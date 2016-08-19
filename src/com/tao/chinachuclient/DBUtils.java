@@ -39,9 +39,10 @@ public class DBUtils{
 			String frame = result.getString(12);
 			String channelIds = result.getString(13);
 			String channelNames = result.getString(14);
+			boolean oldCategoryColor = Boolean.parseBoolean(result.getString(15));
 
 			Encode encode = new Encode(type, containerFormat, videoCodec, audioCodec, videoBitrate, audioBitrate, videoSize, frame);
-			Server server = new Server(chinachuAddress, username, password, streaming, encStreaming, encode, channelIds, channelNames);
+			Server server = new Server(chinachuAddress, username, password, streaming, encStreaming, encode, channelIds, channelNames, oldCategoryColor);
 
 			arr.add(server);
 			mov = result.moveToNext();
@@ -66,9 +67,10 @@ public class DBUtils{
 		String frame = c.getString(12);
 		String channelIds = c.getString(13);
 		String channelNames = c.getString(14);
+		boolean oldCategoryColor = Boolean.parseBoolean(c.getString(15));
 
 		Encode encode = new Encode(type, containerFormat, videoCodec, audioCodec, videoBitrate, audioBitrate, videoSize, frame);
-		return new Server(chinachuAddress, username, password, streaming, encStreaming, encode, channelIds, channelNames);
+		return new Server(chinachuAddress, username, password, streaming, encStreaming, encode, channelIds, channelNames, oldCategoryColor);
 	}
 
 	public void insertServer(Server server){

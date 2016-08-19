@@ -10,9 +10,10 @@ public class Server{
 	private Encode encode;
 	private String channelIds;
 	private String channelNames;
+	private boolean oldCategoryColor;
 
 	public Server(String chinachuAddress, String username, String password, boolean streaming, boolean encStreaming,
-			Encode encode, String channelIds, String channelNames){
+			Encode encode, String channelIds, String channelNames, boolean oldCategoryColor){
 		this.chinachuAddress = chinachuAddress;
 		this.username = username;
 		this.password = password;
@@ -21,6 +22,7 @@ public class Server{
 		this.encode = encode;
 		this.channelIds = channelIds;
 		this.channelNames = channelNames;
+		this.oldCategoryColor = oldCategoryColor;
 	}
 
 	public String getChinachuAddress(){
@@ -53,5 +55,9 @@ public class Server{
 
 	public String getChannelNames(){
 		return channelNames;
+	}
+
+	public boolean getOldCategoryColor(){
+		return oldCategoryColor;
 	}
 }

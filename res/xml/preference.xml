@@ -12,6 +12,7 @@
             android:summaryOff="無効"
             android:summaryOn="有効"
             android:title="エンコ有りストリーミング再生" />
+        <CheckBoxPreference android:summaryOn="有効" android:summaryOff="無効" android:title="古いカテゴリー配色を使用" android:key="oldCategoryColor"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="設定" >
         <Preference

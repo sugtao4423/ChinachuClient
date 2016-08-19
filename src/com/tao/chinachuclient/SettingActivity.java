@@ -206,7 +206,8 @@ public class SettingActivity extends Activity{
 				pref.getBoolean("streaming", false),
 				pref.getBoolean("encStreaming", false),
 				encode,
-				null, null);
+				null, null,
+				pref.getBoolean("oldCategoryColor", false));
 
 		pref.edit()
 				.putString("chinachuAddress", server.getChinachuAddress())

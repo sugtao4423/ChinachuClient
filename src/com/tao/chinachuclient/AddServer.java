@@ -151,7 +151,7 @@ public class AddServer extends Activity{
 				Server server = new Server(raw_chinachuAddress,
 						Base64.encodeToString(username.getText().toString().getBytes(), Base64.DEFAULT),
 						Base64.encodeToString(password.getText().toString().getBytes(), Base64.DEFAULT),
-						false, false, encode, channelIds, channelNames);
+						false, false, encode, channelIds, channelNames, false);
 
 				dbUtils.insertServer(server);
 				dbUtils.close();
