@@ -89,7 +89,8 @@ public class DBUtils{
 				"'" + server.getEncode().getVideoSize() + "', " +
 				"'" + server.getEncode().getFrame() + "', " +
 				"'" + server.getChannelIds() + "', " +
-				"'" + server.getChannelNames() + "')");
+				"'" + server.getChannelNames() + "', " +
+				"'" + server.getOldCategoryColor() + "')");
 	}
 
 	public void updateServer(Server server, String targetChinachuAddress, Context context){
@@ -107,7 +108,8 @@ public class DBUtils{
 				"videoBitrate='" + server.getEncode().getVideoBitrate() + "', " +
 				"audioBitrate='" + server.getEncode().getAudioBitrate() + "', " +
 				"videoSize='" + server.getEncode().getVideoSize() + "', " +
-				"frame='" + server.getEncode().getFrame() + "' " +
+				"frame='" + server.getEncode().getFrame() + "', " +
+				"oldCategoryColor='" + pref.getBoolean("oldCategoryColor", false) + "' " +
 				"where chinachuAddress='" + targetChinachuAddress + "'");
 	}
 
@@ -130,6 +132,9 @@ public class DBUtils{
 		.putString("chinachuAddress", server.getChinachuAddress())
 		.putString("username", server.getUsername())
 		.putString("password", server.getPassword())
+		.putBoolean("streaming", server.getStreaming())
+		.putBoolean("encStreaming", server.getEncStreaming())
+		.putBoolean("oldCategoryColor", server.getOldCategoryColor())
 		.commit();
 
 		String[] encode = new String[8];
