@@ -3,6 +3,7 @@ package com.tao.chinachuclient;
 import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 
 import org.json.JSONException;
 
@@ -10,9 +11,13 @@ import Chinachu4j.Chinachu4j;
 import Chinachu4j.Program;
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,11 +34,13 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 	private ArrayAdapter<String> spinnerAdapter;
 
 	private String[] channelIdList;
+	private String showingChannelId;
 
 	private ListView programList;
 	private ProgramListAdapter programListAdapter;
 
 	private Chinachu4j chinachu;
+	private ApplicationClass appClass;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -53,19 +60,20 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 		channelIdList = channels.getString("channelIds", null).split(",", 0);
 		spinnerAdapter.addAll(channels.getString("channelNames", null).split(",", 0));
 
-		actionbar.setListNavigationCallbacks(spinnerAdapter, this);
-
 		programListAdapter = new ProgramListAdapter(this);
 		programList.setAdapter(programListAdapter);
 		programList.setOnItemClickListener(new ProgramListClickListener(this, 0));
 
-		chinachu = ((ApplicationClass)getApplicationContext()).getChinachu();
+		appClass = (ApplicationClass)getApplicationContext();
+		chinachu = appClass.getChinachu();
 
+		actionbar.setListNavigationCallbacks(spinnerAdapter, this);
 	}
 
 	// ActionBarのSpinnerで選択された時呼ばれる
 	@Override
 	public boolean onNavigationItemSelected(final int itemPosition, long itemId){
+		showingChannelId = channelIdList[itemPosition];
 		new AsyncTask<Void, Void, Program[]>(){
 			private ProgressDialog progDailog;
 
@@ -82,7 +90,7 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 			@Override
 			protected Program[] doInBackground(Void... params){
 				try{
-					return chinachu.getChannelSchedule(channelIdList[itemPosition]);
+					return chinachu.getChannelSchedule(showingChannelId);
 				}catch(KeyManagementException | NoSuchAlgorithmException | IOException | JSONException e){
 					return null;
 				}
@@ -103,16 +111,12 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item){
-		if(item.getItemId() == android.R.id.home) {
-			finish();
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
 	public boolean onCreateOptionsMenu(Menu menu){
+		if(appClass.getStreaming())
+			menu.add(0, Menu.FIRST, Menu.NONE, "ライブ再生");
+		if(appClass.getEncStreaming())
+			menu.add(0, Menu.FIRST + 1, Menu.NONE, "ライブ再生(エンコ有)");
+
 		getMenuInflater().inflate(R.menu.search, menu);
 		SearchView searchView = (SearchView)menu.findItem(R.id.search_view).getActionView();
 		searchView.setQueryHint("全チャンネルから番組検索");
@@ -133,5 +137,56 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 			}
 		});
 		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item){
+		if(item.getItemId() == Menu.FIRST || item.getItemId() == Menu.FIRST + 1){
+			String nowProgramTitle = null;
+			for(int i = 0; i < programListAdapter.getCount(); i++){
+				Program program = programListAdapter.getItem(i);
+				long start = program.getStart();
+				long end = program.getEnd();
+				long now = new Date().getTime();
+				if(start < now && end > now){
+					nowProgramTitle = program.getTitle();
+					break;
+				}
+			}
+			String title = item.getItemId() == Menu.FIRST ? "ライブ視聴しますか？" : "エンコ有ライブ視聴しますか？";
+			new AlertDialog.Builder(this)
+			.setTitle(title)
+			.setMessage("放送中：" + nowProgramTitle)
+			.setNegativeButton("キャンセル", null)
+			.setPositiveButton("OK", new OnClickListener(){
+
+				@Override
+				public void onClick(DialogInterface dialog, int which){
+					if(item.getItemId() == Menu.FIRST){
+						Uri uri = Uri.parse(appClass.getChinachu().getNonEncLiveMovieURL(showingChannelId));
+						Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+						startActivity(intent);
+					}else{
+						String[] params = new String[7];
+						SharedPreferences enc = getSharedPreferences("encodeConfig", MODE_PRIVATE);
+						String t = enc.getString("type", null);
+						params[0] = enc.getString("containerFormat", null);
+						params[1] = enc.getString("videoCodec", null);
+						params[2] = enc.getString("audioCodec", null);
+						params[3] = enc.getString("videoBitrate", null);
+						params[4] = enc.getString("audioBitrate", null);
+						params[5] = enc.getString("videoSize", null);
+						params[6] = enc.getString("frame", null);
+						Uri uri = Uri.parse(appClass.getChinachu().getEncLiveMovieURL(showingChannelId, t, params));
+						Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+						startActivity(intent);
+					}
+				}
+			}).show();
+		}else if(item.getItemId() == android.R.id.home){
+			finish();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

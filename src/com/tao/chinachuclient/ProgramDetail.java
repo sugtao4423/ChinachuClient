@@ -257,12 +257,12 @@ public class ProgramDetail extends Activity{
 			finish();
 		else if(item.getItemId() == Menu.FIRST + 2) {
 			if(type == 3) {
-				Uri uri = Uri.parse(appClass.getChinachu().getNonEncRecordingMovie(programId));
+				Uri uri = Uri.parse(appClass.getChinachu().getNonEncRecordingMovieURL(programId));
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
 			}
 			if(type == 4) {
-				Uri uri = Uri.parse(appClass.getChinachu().getNonEncRecordedMovie(programId));
+				Uri uri = Uri.parse(appClass.getChinachu().getNonEncRecordedMovieURL(programId));
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
 			}
@@ -278,12 +278,12 @@ public class ProgramDetail extends Activity{
 			params[5] = enc.getString("videoSize", null);
 			params[6] = enc.getString("frame", null);
 			if(type == 3) {
-				Uri uri = Uri.parse(appClass.getChinachu().getEncRecordingMovie(programId, t, params));
+				Uri uri = Uri.parse(appClass.getChinachu().getEncRecordingMovieURL(programId, t, params));
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
 			}
 			if(type == 4) {
-				Uri uri = Uri.parse(appClass.getChinachu().getEncRecordedMovie(programId, t, params));
+				Uri uri = Uri.parse(appClass.getChinachu().getEncRecordedMovieURL(programId, t, params));
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
 			}
