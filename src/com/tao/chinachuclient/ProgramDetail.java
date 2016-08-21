@@ -244,7 +244,7 @@ public class ProgramDetail extends Activity{
 		else if(type == 3 || type == 4) {
 			if(appClass.getStreaming())
 				menu.add(0, Menu.FIRST + 2, Menu.NONE, "ストリーミング再生");
-			else if(appClass.getEncStreaming())
+			if(appClass.getEncStreaming())
 				menu.add(0, Menu.FIRST + 3, Menu.NONE, "ストリーミング再生(エンコ有)");
 		}else if(type == 4)
 			menu.add(0, Menu.FIRST + 4, Menu.NONE, "録画ファイル削除");
