@@ -78,7 +78,7 @@ public class DBUtils{
 				"'" + server.getChinachuAddress() + "', " +
 				"'" + server.getUsername() + "', " +
 				"'" + server.getPassword() + "', " +
-				"'" + server.getEncode() + "', " +
+				"'" + server.getStreaming() + "', " +
 				"'" + server.getEncStreaming() + "', " +
 				"'" + server.getEncode().getType() + "', " +
 				"'" + server.getEncode().getContainerFormat() + "', " +
@@ -147,8 +147,10 @@ public class DBUtils{
 		encode[6] = server.getEncode().getVideoSize();
 		encode[7] = server.getEncode().getFrame();
 		for(int i = 0; i < encode.length; i++){
-			if(encode[i].isEmpty() || encode[i].equals("null"))
-				encode[i] = null;
+			if(encode[i] != null){
+				if(encode[i].isEmpty() || encode[i].equals("null"))
+					encode[i] = null;
+			}
 		}
 
 		SharedPreferences enc = context.getSharedPreferences("encodeConfig", Context.MODE_PRIVATE);

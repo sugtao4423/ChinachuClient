@@ -1,16 +1,18 @@
 package com.tao.chinachuclient;
 
-import java.util.ArrayList;
-
 import android.content.Context;
-import android.database.Cursor;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.PreferenceManager;
 
 public class ServerSQLHelper extends SQLiteOpenHelper{
 
+	private Context context;
+
 	public ServerSQLHelper(Context context){
-		super(context, "servers", null, 2);
+		super(context, "servers", null, 3);
+		this.context = context;
 	}
 
 	@Override
@@ -21,18 +23,11 @@ public class ServerSQLHelper extends SQLiteOpenHelper{
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
-		if(oldVersion == 1 && newVersion == 2){
-			db.execSQL("alter table servers add column oldCategoryColor");
-
-			ArrayList<String> arr = new ArrayList<String>();
-			Cursor result = db.rawQuery("select * from servers", null);
-			boolean mov = result.moveToFirst();
-			while(mov){
-				arr.add(result.getString(0));
-				mov = result.moveToNext();
-			}
-			for(String s : arr)
-				db.execSQL("update servers set oldCategoryColor='false' where chinachuAddress='" + s + "'");
+		if(oldVersion < 3 && newVersion == 3){
+			db.execSQL("drop table servers");
+			onCreate(db);
+			SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+			pref.edit().clear().commit();
 		}
 	}
 }

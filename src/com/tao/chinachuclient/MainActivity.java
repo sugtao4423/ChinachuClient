@@ -11,6 +11,8 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Base64;
@@ -40,6 +42,15 @@ public class MainActivity extends Activity implements OnItemClickListener{
 
 		pref = PreferenceManager.getDefaultSharedPreferences(this);
 		appClass = (ApplicationClass)getApplicationContext();
+
+		try{
+			PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+			int versionCode = pi.versionCode;
+			if(pref.getInt("versionCode", 0) < versionCode){
+				new DBUtils(this).close();
+				pref.edit().putInt("versionCode", versionCode).commit();
+			}
+		}catch(NameNotFoundException e){}
 
 		chinachuAddress = pref.getString("chinachuAddress", null);
 		username = pref.getString("username", null);
