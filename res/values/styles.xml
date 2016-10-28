@@ -14,28 +14,32 @@
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
+
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:actionBarStyle">@style/actionbar</item>
         <item name="android:spinnerDropDownItemStyle">@style/actionSpinnerItemStyle</item>
     </style>
-    
+
     <style name="actionbar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">#b52574</item>
         <item name="android:titleTextStyle">@style/actionbarTextColor</item>
     </style>
+
     <style name="actionbarTextColor">
         <item name="android:textColor">#ffffff</item>
     </style>
-    
+
     <style name="actionSpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
         <item name="android:background">#b52574</item>
         <item name="android:textColor">#ffffff</item>
     </style>
-    
+
     <drawable name="transparameter">#bb000000</drawable>
-    <style name="Theme.TranslucentBackground" parent="android:style/Theme.Translucent">
+
+    <style name="Theme.TranslucentBackground" parent="android:Theme.Light.NoTitleBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowBackground">@drawable/transparameter</item>
-        <item name="android:windowNoTitle">true</item>
     </style>
-    
+
 </resources>

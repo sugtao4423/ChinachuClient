@@ -8,4 +8,10 @@
         <!-- API 11 theme customizations can go here. -->
     </style>
 
+    <style name="Theme.TranslucentBackground" parent="android:Theme.Holo.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowBackground">@drawable/transparameter</item>
+    </style>
+
 </resources>
