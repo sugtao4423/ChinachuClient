@@ -98,16 +98,16 @@ public class RuleDetail extends Activity{
 				@Override
 				public void onClick(DialogInterface dialog, int which){
 					new AsyncTask<Void, Void, ChinachuResponse>(){
-						private ProgressDialog progDailog;
+						private ProgressDialog progDialog;
 
 						@Override
 						protected void onPreExecute(){
-							progDailog = new ProgressDialog(RuleDetail.this);
-							progDailog.setMessage("Sending...");
-							progDailog.setIndeterminate(false);
-							progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-							progDailog.setCancelable(true);
-							progDailog.show();
+							progDialog = new ProgressDialog(RuleDetail.this);
+							progDialog.setMessage("Sending...");
+							progDialog.setIndeterminate(false);
+							progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+							progDialog.setCancelable(true);
+							progDialog.show();
 						}
 
 						@Override
@@ -121,7 +121,7 @@ public class RuleDetail extends Activity{
 
 						@Override
 						protected void onPostExecute(ChinachuResponse result){
-							progDailog.dismiss();
+							progDialog.dismiss();
 							if(result == null) {
 								Toast.makeText(RuleDetail.this, "通信エラー", Toast.LENGTH_SHORT).show();
 								return;

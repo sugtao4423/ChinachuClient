@@ -75,16 +75,16 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 	public boolean onNavigationItemSelected(final int itemPosition, long itemId){
 		showingChannelId = channelIdList[itemPosition];
 		new AsyncTask<Void, Void, Program[]>(){
-			private ProgressDialog progDailog;
+			private ProgressDialog progDialog;
 
 			@Override
 			protected void onPreExecute(){
-				progDailog = new ProgressDialog(ChannelScheduleActivity.this);
-				progDailog.setMessage("Loading...");
-				progDailog.setIndeterminate(false);
-				progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-				progDailog.setCancelable(true);
-				progDailog.show();
+				progDialog = new ProgressDialog(ChannelScheduleActivity.this);
+				progDialog.setMessage("Loading...");
+				progDialog.setIndeterminate(false);
+				progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+				progDialog.setCancelable(true);
+				progDialog.show();
 			}
 
 			@Override
@@ -98,7 +98,7 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 
 			@Override
 			protected void onPostExecute(Program[] result){
-				progDailog.dismiss();
+				progDialog.dismiss();
 				programListAdapter.clear();
 				if(result == null) {
 					Toast.makeText(ChannelScheduleActivity.this, "番組取得エラー", Toast.LENGTH_SHORT).show();

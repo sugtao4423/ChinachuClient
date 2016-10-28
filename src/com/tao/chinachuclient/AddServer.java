@@ -77,16 +77,16 @@ public class AddServer extends Activity{
 		}
 
 		new AsyncTask<Void, Void, Program[]>(){
-			private ProgressDialog progDailog;
+			private ProgressDialog progDialog;
 
 			@Override
 			protected void onPreExecute(){
-				progDailog = new ProgressDialog(AddServer.this);
-				progDailog.setMessage("チャンネルリストの取得中...");
-				progDailog.setIndeterminate(false);
-				progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-				progDailog.setCancelable(true);
-				progDailog.show();
+				progDialog = new ProgressDialog(AddServer.this);
+				progDialog.setMessage("チャンネルリストの取得中...");
+				progDialog.setIndeterminate(false);
+				progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+				progDialog.setCancelable(true);
+				progDialog.show();
 			}
 
 			@Override
@@ -101,7 +101,7 @@ public class AddServer extends Activity{
 
 			@Override
 			protected void onPostExecute(Program[] result){
-				progDailog.dismiss();
+				progDialog.dismiss();
 				if(result == null){
 					Toast.makeText(AddServer.this, "チャンネル取得に失敗しました\nやり直してください", Toast.LENGTH_SHORT).show();
 					return;

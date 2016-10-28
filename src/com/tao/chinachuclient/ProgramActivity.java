@@ -86,17 +86,17 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 	public void asyncLoad(final boolean isRefresh){
 		programListAdapter.clear();
 		new AsyncTask<Void, Void, Program[]>(){
-			private ProgressDialog progDailog;
+			private ProgressDialog progDialog;
 
 			@Override
 			protected void onPreExecute(){
 				if(!isRefresh){
-					progDailog = new ProgressDialog(ProgramActivity.this);
-					progDailog.setMessage("Loading...");
-					progDailog.setIndeterminate(false);
-					progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-					progDailog.setCancelable(true);
-					progDailog.show();
+					progDialog = new ProgressDialog(ProgramActivity.this);
+					progDialog.setMessage("Loading...");
+					progDialog.setIndeterminate(false);
+					progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+					progDialog.setCancelable(true);
+					progDialog.show();
 				}
 			}
 
@@ -108,7 +108,7 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 			@Override
 			protected void onPostExecute(Program[] result){
 				if(!isRefresh)
-					progDailog.dismiss();
+					progDialog.dismiss();
 				else
 					swipeRefresh.setRefreshing(false);
 				if(result == null) {
@@ -195,16 +195,16 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 				@Override
 				public void onClick(DialogInterface dialog, int which){
 					new AsyncTask<Void, Void, ChinachuResponse>(){
-						private ProgressDialog progDailog;
+						private ProgressDialog progDialog;
 
 						@Override
 						protected void onPreExecute(){
-							progDailog = new ProgressDialog(ProgramActivity.this);
-							progDailog.setMessage("Loading...");
-							progDailog.setIndeterminate(false);
-							progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-							progDailog.setCancelable(true);
-							progDailog.show();
+							progDialog = new ProgressDialog(ProgramActivity.this);
+							progDialog.setMessage("Loading...");
+							progDialog.setIndeterminate(false);
+							progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+							progDialog.setCancelable(true);
+							progDialog.show();
 						}
 
 						@Override
@@ -218,7 +218,7 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 
 						@Override
 						protected void onPostExecute(ChinachuResponse result){
-							progDailog.dismiss();
+							progDialog.dismiss();
 							if(result == null) {
 								Toast.makeText(ProgramActivity.this, "通信エラー", Toast.LENGTH_SHORT).show();
 								return;

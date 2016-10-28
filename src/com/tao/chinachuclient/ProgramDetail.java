@@ -175,16 +175,16 @@ public class ProgramDetail extends Activity{
 			@Override
 			public void onClick(DialogInterface dialog, int which){
 				new AsyncTask<Void, Void, String>(){
-					private ProgressDialog progDailog;
+					private ProgressDialog progDialog;
 
 					@Override
 					protected void onPreExecute(){
-						progDailog = new ProgressDialog(ProgramDetail.this);
-						progDailog.setMessage("Loading...");
-						progDailog.setIndeterminate(false);
-						progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-						progDailog.setCancelable(true);
-						progDailog.show();
+						progDialog = new ProgressDialog(ProgramDetail.this);
+						progDialog.setMessage("Loading...");
+						progDialog.setIndeterminate(false);
+						progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+						progDialog.setCancelable(true);
+						progDialog.show();
 					}
 
 					@Override
@@ -205,7 +205,7 @@ public class ProgramDetail extends Activity{
 
 					@Override
 					protected void onPostExecute(String result){
-						progDailog.dismiss();
+						progDialog.dismiss();
 						if(result == null){
 							Toast.makeText(ProgramDetail.this, "画像の取得に失敗しました", Toast.LENGTH_SHORT).show();
 							return;
@@ -312,16 +312,16 @@ public class ProgramDetail extends Activity{
 			@Override
 			public void onClick(DialogInterface dialog, int which){
 				new AsyncTask<Void, Void, ChinachuResponse>(){
-					private ProgressDialog progDailog;
+					private ProgressDialog progDialog;
 
 					@Override
 					protected void onPreExecute(){
-						progDailog = new ProgressDialog(ProgramDetail.this);
-						progDailog.setMessage("Sending...");
-						progDailog.setIndeterminate(false);
-						progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-						progDailog.setCancelable(true);
-						progDailog.show();
+						progDialog = new ProgressDialog(ProgramDetail.this);
+						progDialog.setMessage("Sending...");
+						progDialog.setIndeterminate(false);
+						progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+						progDialog.setCancelable(true);
+						progDialog.show();
 					}
 
 					@Override
@@ -344,7 +344,7 @@ public class ProgramDetail extends Activity{
 
 					@Override
 					protected void onPostExecute(ChinachuResponse result){
-						progDailog.dismiss();
+						progDialog.dismiss();
 						if(result == null) {
 							Toast.makeText(ProgramDetail.this, "通信エラー", Toast.LENGTH_SHORT).show();
 							return;
