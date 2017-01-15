@@ -3,6 +3,8 @@ package com.tao.chinachuclient;
 import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 
 import org.json.JSONException;
@@ -104,7 +106,27 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 					Toast.makeText(ChannelScheduleActivity.this, "番組取得エラー", Toast.LENGTH_SHORT).show();
 					return;
 				}
+				Arrays.sort(result, new Comparator<Program>(){
+					@Override
+					public int compare(Program lhs, Program rhs){
+						if(lhs.getStart() > rhs.getStart())
+							return 1;
+						else if(lhs.getStart() < rhs.getStart())
+							return -1;
+						else
+							return 0;
+					}
+				});
 				programListAdapter.addAll(result);
+				for(int i = 0; i < result.length; i++){
+					long start = result[i].getStart();
+					long end = result[i].getEnd();
+					long now = new Date().getTime();
+					if(start < now && end > now){
+						programList.setSelection(i);
+						break;
+					}
+				}
 			}
 		}.execute();
 		return false;
