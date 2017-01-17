@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import Chinachu4j.Chinachu4j;
 import Chinachu4j.ChinachuResponse;
@@ -27,6 +29,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -81,6 +84,11 @@ public class ProgramDetail extends Activity{
 			image.setVisibility(View.GONE);
 
 		TextView detailView = (TextView)findViewById(R.id.program_detail_detail);
+		detail = detail.replace("\n", "<br />");
+		detailView.setMovementMethod(LinkMovementMethod.getInstance());
+		Matcher m = Pattern.compile("http(s)?://[\\w\\.\\-/:\\#\\?\\=\\&\\;\\%\\~\\+]+").matcher(detail);
+		while(m.find())
+			detail = detail.replace(m.group(), String.format("<a href=\"%s\">%s</a>", m.group(), m.group()));
 		String detailText = "<p><strong>フルタイトル</strong><br />" + fullTitle + "<br /></p><p><strong>詳細</strong><br />" + detail + "</p>";
 		detailView.setText(Html.fromHtml(detailText));
 
