@@ -94,7 +94,7 @@ public class ProgramDetail extends Activity{
 
 		TextView otherView = (TextView)findViewById(R.id.program_detail_other);
 
-		String startStr = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.JAPANESE).format(new Date(start));
+		String startStr = new SimpleDateFormat("yyyy/MM/dd (E) HH:mm", Locale.JAPANESE).format(new Date(start));
 		String endStr = new SimpleDateFormat("HH:mm", Locale.JAPANESE).format(new Date(end));
 		String minute = seconds / 60 + "分間";
 		String flag = "";

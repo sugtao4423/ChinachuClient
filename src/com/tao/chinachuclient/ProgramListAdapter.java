@@ -114,8 +114,8 @@ public class ProgramListAdapter extends ArrayAdapter<Program>{
 
 		holder.title.setText(item.getTitle());
 
-		String start = new SimpleDateFormat("MM/dd HH:mm", Locale.JAPANESE).format(new Date(item.getStart()));
-		String end = new SimpleDateFormat("MM/dd HH:mm", Locale.JAPANESE).format(new Date(item.getEnd()));
+		String start = new SimpleDateFormat("MM/dd (E) HH:mm", Locale.JAPANESE).format(new Date(item.getStart()));
+		String end = new SimpleDateFormat("MM/dd (E) HH:mm", Locale.JAPANESE).format(new Date(item.getEnd()));
 
 		holder.date.setText(start + " 〜 " + end);
 		return convertView;
