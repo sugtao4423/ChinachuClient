@@ -117,6 +117,12 @@ public class ProgramListAdapter extends ArrayAdapter<Program>{
 		String start = new SimpleDateFormat("MM/dd (E) HH:mm", Locale.JAPANESE).format(new Date(item.getStart()));
 		String end = new SimpleDateFormat("MM/dd (E) HH:mm", Locale.JAPANESE).format(new Date(item.getEnd()));
 
+		String startDay = start.substring(0, 9);
+		String endDay = end.substring(0, 9);
+
+		if(startDay.equals(endDay))
+			end = end.substring(10);
+
 		holder.date.setText(start + " 〜 " + end);
 		return convertView;
 	}
