@@ -21,7 +21,7 @@
     </style>
 
     <style name="actionbar" parent="@android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:background">#b52574</item>
+        <item name="android:background">@color/actionbar</item>
         <item name="android:titleTextStyle">@style/actionbarTextColor</item>
     </style>
 
@@ -30,7 +30,7 @@
     </style>
 
     <style name="actionSpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
-        <item name="android:background">#b52574</item>
+        <item name="android:background">@color/actionbar</item>
         <item name="android:textColor">#ffffff</item>
     </style>
 

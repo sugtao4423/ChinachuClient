@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="actionbar">#b52574</color>
+
     <color name="old_anime">#fcbde1</color>
     <color name="old_information">#bdfce8</color>
     <color name="old_news">#d7fcbd</color>
