@@ -51,6 +51,8 @@ public class ProgramDetail extends Activity{
 	private ApplicationClass appClass;
 	private String capture;
 	private int randomSecond;
+	private boolean reserveIsManualReserved;
+	private boolean reserveIsSkip;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -63,6 +65,8 @@ public class ProgramDetail extends Activity{
 		if(type == Type.RESERVES){
 			Reserve reserve = (Reserve)getIntent().getSerializableExtra("reserve");
 			program = reserve.getProgram();
+			reserveIsManualReserved = reserve.getIsManualReserved();
+			reserveIsSkip = reserve.getIsSkip();
 		}else if(type == Type.RECORDED){
 			Recorded recorded = (Recorded)getIntent().getSerializableExtra("recorded");
 			program = recorded.getProgram();
@@ -254,7 +258,14 @@ public class ProgramDetail extends Activity{
 		if(type == Type.CHANNEL_SCHEDULE_ACTIVITY || type == Type.SEARCH_PROGRAM){
 			menu.add(0, Menu.FIRST, Menu.NONE, "予約");
 		}else if(type == Type.RESERVES){
-			menu.add(0, Menu.FIRST + 1, Menu.NONE, "予約削除");
+			if(reserveIsManualReserved){
+				menu.add(0, Menu.FIRST + 1, Menu.NONE, "予約削除");
+			}else{
+				if(reserveIsSkip)
+					menu.add(0, Menu.FIRST + 1, Menu.NONE, "予約スキップ解除");
+				else
+					menu.add(0, Menu.FIRST + 1, Menu.NONE, "予約スキップ");
+			}
 		}else if(type == Type.RECORDING || type == Type.RECORDED){
 			if(appClass.getStreaming())
 				menu.add(0, Menu.FIRST + 2, Menu.NONE, "ストリーミング再生");
@@ -319,7 +330,14 @@ public class ProgramDetail extends Activity{
 			before.setTitle("予約しますか？");
 			break;
 		case Type.RESERVES:
-			before.setTitle("予約を削除しますか？");
+			if(reserveIsManualReserved){
+				before.setTitle("予約を削除しますか？");
+			}else{
+				if(reserveIsSkip)
+					before.setTitle("予約のスキップを解除しますか？");
+				else
+					before.setTitle("予約をスキップしますか？");
+			}
 			break;
 		case Type.RECORDED:
 			before.setTitle("録画ファイルを削除しますか？");
@@ -349,7 +367,14 @@ public class ProgramDetail extends Activity{
 							case Type.SEARCH_PROGRAM:
 								return chinachu.putReserve(program.getId());
 							case Type.RESERVES:
-								return chinachu.delReserve(program.getId());
+								if(reserveIsManualReserved){
+									return chinachu.delReserve(program.getId());
+								}else{
+									if(reserveIsSkip)
+										return chinachu.reserveUnskip(program.getId());
+									else
+										return chinachu.reserveSkip(program.getId());
+								}
 							case Type.RECORDED:
 								return chinachu.delRecordedFile(program.getId());
 							}
@@ -379,7 +404,14 @@ public class ProgramDetail extends Activity{
 							after.setMessage(program.getFullTitle());
 							break;
 						case Type.RESERVES:
-							after.setTitle("予約の削除完了");
+							if(reserveIsManualReserved){
+								after.setTitle("予約の削除完了");
+							}else{
+								if(reserveIsSkip)
+									after.setTitle("予約のスキップ解除完了");
+								else
+									after.setTitle("予約のスキップ完了");
+							}
 							after.setMessage(program.getFullTitle());
 							break;
 						case Type.RECORDED:
