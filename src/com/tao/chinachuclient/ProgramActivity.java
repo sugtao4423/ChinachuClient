@@ -165,10 +165,8 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu){
-		if(type == Type.RECORDED) {
-			MenuItem cleanUp = menu.add("クリーンアップ");
-			cleanUp.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		}
+		if(type == Type.RECORDED)
+			menu.add(0, Menu.FIRST, Menu.NONE, "クリーンアップ").setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		return true;
 	}
 
@@ -178,7 +176,7 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 			finish();
 			return true;
 		}
-		if(item.getTitle().equals("クリーンアップ")) {
+		if(item.getItemId() == Menu.FIRST) {
 			new AlertDialog.Builder(this)
 			.setTitle("クリーンアップ")
 			.setMessage("録画済みリストをクリーンアップしますか？")
