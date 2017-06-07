@@ -38,9 +38,9 @@ public class ProgramListAdapter extends ArrayAdapter<Object>{
 	public View getView(int position, View convertView, ViewGroup parent){
 		final ViewHolder holder;
 		Program item;
-		if(type == 2)
+		if(type == Type.RESERVES)
 			item = ((Reserve)getItem(position)).getProgram();
-		else if(type == 4)
+		else if(type == Type.RECORDED)
 			item = ((Recorded)getItem(position)).getProgram();
 		else
 			item = (Program)getItem(position);

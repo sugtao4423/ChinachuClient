@@ -22,9 +22,9 @@ public class ProgramListClickListener implements OnItemClickListener{
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id){
 		Intent i = new Intent(context, ProgramDetail.class);
-		if(type == 2)
+		if(type == Type.RESERVES)
 			i.putExtra("reserve", (Reserve)parent.getItemAtPosition(position));
-		else if(type == 4)
+		else if(type == Type.RECORDED)
 			i.putExtra("recorded", (Recorded)parent.getItemAtPosition(position));
 		else
 			i.putExtra("program", (Program)parent.getItemAtPosition(position));

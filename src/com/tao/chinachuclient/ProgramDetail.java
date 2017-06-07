@@ -60,10 +60,10 @@ public class ProgramDetail extends Activity{
 		appClass = (ApplicationClass)getApplicationContext();
 		type = getIntent().getIntExtra("type", -1);
 
-		if(type == 2){
+		if(type == Type.RESERVES){
 			Reserve reserve = (Reserve)getIntent().getSerializableExtra("reserve");
 			program = reserve.getProgram();
-		}else if(type == 4){
+		}else if(type == Type.RECORDED){
 			Recorded recorded = (Recorded)getIntent().getSerializableExtra("recorded");
 			program = recorded.getProgram();
 		}else{
@@ -84,7 +84,7 @@ public class ProgramDetail extends Activity{
 		String channelName = program.getChannel().getName();
 
 		final ImageView image = (ImageView)findViewById(R.id.programs_detail_image);
-		if(type == 3 || type == 4)
+		if(type == Type.RECORDING || type == Type.RECORDED)
 			image.setVisibility(View.VISIBLE);
 		else
 			image.setVisibility(View.GONE);
@@ -114,14 +114,14 @@ public class ProgramDetail extends Activity{
 				+ ": " + channelName + "<br /><br />フラグ：" + flag + "<br /><br />id：" + program.getId() + "</p>";
 		otherView.setText(Html.fromHtml(otherText));
 
-		if(type == 3 || type == 4) {
+		if(type == Type.RECORDING || type == Type.RECORDED) {
 			new AsyncTask<Void, Void, String>(){
 				@Override
 				protected String doInBackground(Void... params){
 					try{
-						if(type == 3)
+						if(type == Type.RECORDING)
 							return appClass.getChinachu().getRecordingImage(program.getId(), "1280x720");
-						if(type == 4) {
+						if(type == Type.RECORDED) {
 							randomSecond = new Random().nextInt(program.getSeconds()) + 1;
 							return appClass.getChinachu().getRecordedImage(program.getId(), randomSecond, "1280x720");
 						}
@@ -155,10 +155,10 @@ public class ProgramDetail extends Activity{
 		final EditText cap_size = (EditText)view.findViewById(R.id.cap_size);
 		final SeekBar cap_seek = (SeekBar)view.findViewById(R.id.cap_seek);
 
-		if(type == 3){
+		if(type == Type.RECORDING){
 			cap_pos.setVisibility(View.GONE);
 			cap_seek.setVisibility(View.GONE);
-		}else if(type == 4){
+		}else if(type == Type.RECORDED){
 			cap_pos.setText(String.valueOf(randomSecond));
 			final float textSize = cap_pos.getTextSize();
 			cap_pos.setWidth((int)((String.valueOf(program.getSeconds()).length() + 1) * textSize));
@@ -204,10 +204,10 @@ public class ProgramDetail extends Activity{
 					@Override
 					protected String doInBackground(Void... params){
 						try{
-							if(type == 3){
+							if(type == Type.RECORDING){
 								return appClass.getChinachu().getRecordingImage(program.getId(), cap_size.getText().toString());
 							}
-							if(type == 4){
+							if(type == Type.RECORDED){
 								return appClass.getChinachu().getRecordedImage(program.getId(), Integer.parseInt(cap_pos.getText().toString()),
 										cap_size.getText().toString());
 							}
@@ -229,7 +229,7 @@ public class ProgramDetail extends Activity{
 						Intent i = new Intent(ProgramDetail.this, Show_Image.class);
 						i.putExtra("base64", result);
 						i.putExtra("programId", program.getId());
-						if(type == 4)
+						if(type == Type.RECORDED)
 							i.putExtra("pos", Integer.parseInt(cap_pos.getText().toString()));
 						startActivity(i);
 					}
@@ -242,7 +242,7 @@ public class ProgramDetail extends Activity{
 				Intent i = new Intent(ProgramDetail.this, Show_Image.class);
 				i.putExtra("base64", capture);
 				i.putExtra("programId", program.getId());
-				if(type == 4)
+				if(type == Type.RECORDED)
 					i.putExtra("pos", Integer.parseInt(cap_pos.getText().toString()));
 				startActivity(i);
 			}
@@ -251,17 +251,17 @@ public class ProgramDetail extends Activity{
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu){
-		if(type == 0 || type == 5){
+		if(type == Type.CHANNEL_SCHEDULE_ACTIVITY || type == Type.SEARCH_PROGRAM){
 			menu.add(0, Menu.FIRST, Menu.NONE, "予約");
-		}else if(type == 2){
+		}else if(type == Type.RESERVES){
 			menu.add(0, Menu.FIRST + 1, Menu.NONE, "予約削除");
-		}else if(type == 3 || type == 4){
+		}else if(type == Type.RECORDING || type == Type.RECORDED){
 			if(appClass.getStreaming())
 				menu.add(0, Menu.FIRST + 2, Menu.NONE, "ストリーミング再生");
 			if(appClass.getEncStreaming())
 				menu.add(0, Menu.FIRST + 3, Menu.NONE, "ストリーミング再生(エンコ有)");
 		}
-		if(type == 4){
+		if(type == Type.RECORDED){
 			menu.add(0, Menu.FIRST + 4, Menu.NONE, "録画ファイル削除");
 		}
 		return true;
@@ -272,12 +272,12 @@ public class ProgramDetail extends Activity{
 		if(item.getItemId() == android.R.id.home){
 			finish();
 		}else if(item.getItemId() == Menu.FIRST + 2) {
-			if(type == 3) {
+			if(type == Type.RECORDING) {
 				Uri uri = Uri.parse(appClass.getChinachu().getNonEncRecordingMovieURL(program.getId()));
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
 			}
-			if(type == 4) {
+			if(type == Type.RECORDED) {
 				Uri uri = Uri.parse(appClass.getChinachu().getNonEncRecordedMovieURL(program.getId()));
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
@@ -293,17 +293,17 @@ public class ProgramDetail extends Activity{
 			params[4] = enc.getString("audioBitrate", null);
 			params[5] = enc.getString("videoSize", null);
 			params[6] = enc.getString("frame", null);
-			if(type == 3) {
+			if(type == Type.RECORDING) {
 				Uri uri = Uri.parse(appClass.getChinachu().getEncRecordingMovieURL(program.getId(), t, params));
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
 			}
-			if(type == 4) {
+			if(type == Type.RECORDED) {
 				Uri uri = Uri.parse(appClass.getChinachu().getEncRecordedMovieURL(program.getId(), t, params));
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
 			}
-		}else if(type == 0 || type == 2 || type == 4 || type == 5){
+		}else if(type == Type.CHANNEL_SCHEDULE_ACTIVITY || type == Type.RESERVES || type == Type.RECORDED || type == Type.SEARCH_PROGRAM){
 			confirm();
 		}
 		return super.onOptionsItemSelected(item);
@@ -314,14 +314,14 @@ public class ProgramDetail extends Activity{
 
 		AlertDialog.Builder before = new Builder(this);
 		switch(type){
-		case 0:
-		case 5:
+		case Type.CHANNEL_SCHEDULE_ACTIVITY:
+		case Type.SEARCH_PROGRAM:
 			before.setTitle("予約しますか？");
 			break;
-		case 2:
+		case Type.RESERVES:
 			before.setTitle("予約を削除しますか？");
 			break;
-		case 4:
+		case Type.RECORDED:
 			before.setTitle("録画ファイルを削除しますか？");
 			break;
 		}
@@ -345,12 +345,12 @@ public class ProgramDetail extends Activity{
 					protected ChinachuResponse doInBackground(Void... params){
 						try{
 							switch(type){
-							case 0:
-							case 5:
+							case Type.CHANNEL_SCHEDULE_ACTIVITY:
+							case Type.SEARCH_PROGRAM:
 								return chinachu.putReserve(program.getId());
-							case 2:
+							case Type.RESERVES:
 								return chinachu.delReserve(program.getId());
-							case 4:
+							case Type.RECORDED:
 								return chinachu.delRecordedFile(program.getId());
 							}
 							return null;
@@ -373,16 +373,16 @@ public class ProgramDetail extends Activity{
 
 						AlertDialog.Builder after = new Builder(ProgramDetail.this);
 						switch(type){
-						case 0:
-						case 5:
+						case Type.CHANNEL_SCHEDULE_ACTIVITY:
+						case Type.SEARCH_PROGRAM:
 							after.setTitle("予約完了");
 							after.setMessage(program.getFullTitle());
 							break;
-						case 2:
+						case Type.RESERVES:
 							after.setTitle("予約の削除完了");
 							after.setMessage(program.getFullTitle());
 							break;
-						case 4:
+						case Type.RECORDED:
 							after.setTitle("録画ファイルの削除完了");
 							after.setMessage(program.getFullTitle() + "\n\n録画済みリストへの反映にはクリーンアップが必要です");
 							break;

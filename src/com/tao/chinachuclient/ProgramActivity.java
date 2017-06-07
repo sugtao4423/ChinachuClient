@@ -53,7 +53,7 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 		type = intent.getIntExtra("type", -1);
 		if(type == -1)
 			finish();
-		else if(type == 5)
+		else if(type == Type.SEARCH_PROGRAM)
 			query = intent.getStringExtra("query");
 
 		programListAdapter = new ProgramListAdapter(this, type);
@@ -64,16 +64,16 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 		swipeRefresh.setOnRefreshListener(this);
 
 		switch(type){
-		case 2:
+		case Type.RESERVES:
 			actionbar.setTitle("予約済み");
 			break;
-		case 3:
+		case Type.RECORDING:
 			actionbar.setTitle("録画中");
 			break;
-		case 4:
+		case Type.RECORDED:
 			actionbar.setTitle("録画済み");
 			break;
-		case 5:
+		case Type.SEARCH_PROGRAM:
 			actionbar.setTitle("検索結果");
 			break;
 		}
@@ -121,17 +121,17 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 
 	public Object[] load(){
 		try{
-			if(type == 2){
+			if(type == Type.RESERVES){
 				return appClass.getChinachu().getReserves();
-			}else if(type == 3){
+			}else if(type == Type.RECORDING){
 				return appClass.getChinachu().getRecording();
-			}else if(type == 4){
+			}else if(type == Type.RECORDED){
 				Recorded[] recorded = appClass.getChinachu().getRecorded();
 				Recorded[] result = new Recorded[recorded.length];
 				for(int i = 0; i < recorded.length; i++)
 					result[recorded.length - i - 1] = recorded[i];
 				return result;
-			}else if(type == 5){
+			}else if(type == Type.SEARCH_PROGRAM){
 				return appClass.getChinachu().searchProgram(query);
 			}
 			return null;
@@ -144,16 +144,16 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 		String title;
 		String len = String.valueOf(length);
 		switch(type){
-		case 2:
+		case Type.RESERVES:
 			title = "予約済み (" + len + ")";
 			break;
-		case 3:
+		case Type.RECORDING:
 			title = "録画中 (" + len + ")";
 			break;
-		case 4:
+		case Type.RECORDED:
 			title = "録画済み (" + len + ")";
 			break;
-		case 5:
+		case Type.SEARCH_PROGRAM:
 			title = "番組検索 (" + len + ")";
 			break;
 		default:
@@ -165,7 +165,7 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu){
-		if(type == 4) {
+		if(type == Type.RECORDED) {
 			MenuItem cleanUp = menu.add("クリーンアップ");
 			cleanUp.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		}
