@@ -242,4 +242,13 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 	public void onRefresh(){
 		asyncLoad(true);
 	}
+
+	@Override
+	public void onResume(){
+		super.onResume();
+		if(appClass.getReloadList()){
+			asyncLoad(true);
+			appClass.setReloadList(false);
+		}
+	}
 }

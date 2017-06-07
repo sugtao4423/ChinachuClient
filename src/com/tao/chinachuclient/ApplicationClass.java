@@ -7,6 +7,7 @@ public class ApplicationClass extends Application{
 
 	private Chinachu4j chinachu;
 	private boolean streaming, encStreaming;
+	private boolean reloadList;
 
 	public void setChinachu(Chinachu4j chinachu){
 		this.chinachu = chinachu;
@@ -30,5 +31,13 @@ public class ApplicationClass extends Application{
 
 	public boolean getEncStreaming(){
 		return encStreaming;
+	}
+
+	public void setReloadList(boolean reloadList){
+		this.reloadList = reloadList;
+	}
+
+	public boolean getReloadList(){
+		return reloadList;
 	}
 }

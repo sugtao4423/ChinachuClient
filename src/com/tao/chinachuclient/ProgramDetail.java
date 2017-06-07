@@ -413,6 +413,7 @@ public class ProgramDetail extends Activity{
 									after.setTitle("予約のスキップ完了");
 							}
 							after.setMessage(program.getFullTitle());
+							appClass.setReloadList(true);
 							break;
 						case Type.RECORDED:
 							after.setTitle("録画ファイルの削除完了");
