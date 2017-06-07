@@ -62,7 +62,7 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 		channelIdList = channels.getString("channelIds", null).split(",", 0);
 		spinnerAdapter.addAll(channels.getString("channelNames", null).split(",", 0));
 
-		programListAdapter = new ProgramListAdapter(this);
+		programListAdapter = new ProgramListAdapter(this, 0);
 		programList.setAdapter(programListAdapter);
 		programList.setOnItemClickListener(new ProgramListClickListener(this, 0));
 
@@ -117,7 +117,7 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 							return 0;
 					}
 				});
-				programListAdapter.addAll(result);
+				programListAdapter.addAll((Object[])result);
 				for(int i = 0; i < result.length; i++){
 					long start = result[i].getStart();
 					long end = result[i].getEnd();
@@ -166,7 +166,7 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 		if(item.getItemId() == Menu.FIRST || item.getItemId() == Menu.FIRST + 1){
 			String nowProgramTitle = null;
 			for(int i = 0; i < programListAdapter.getCount(); i++){
-				Program program = programListAdapter.getItem(i);
+				Program program = (Program)programListAdapter.getItem(i);
 				long start = program.getStart();
 				long end = program.getEnd();
 				long now = new Date().getTime();

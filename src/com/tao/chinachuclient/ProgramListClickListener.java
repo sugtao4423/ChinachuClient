@@ -1,6 +1,8 @@
 package com.tao.chinachuclient;
 
 import Chinachu4j.Program;
+import Chinachu4j.Recorded;
+import Chinachu4j.Reserve;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -19,10 +21,14 @@ public class ProgramListClickListener implements OnItemClickListener{
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-		Program item = (Program)parent.getItemAtPosition(position);
 		Intent i = new Intent(context, ProgramDetail.class);
+		if(type == 2)
+			i.putExtra("reserve", (Reserve)parent.getItemAtPosition(position));
+		else if(type == 4)
+			i.putExtra("recorded", (Recorded)parent.getItemAtPosition(position));
+		else
+			i.putExtra("program", (Program)parent.getItemAtPosition(position));
 		i.putExtra("type", type);
-		i.putExtra("program", item);
 		context.startActivity(i);
 	}
 }

@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import Chinachu4j.Program;
+import Chinachu4j.Recorded;
+import Chinachu4j.Reserve;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -15,14 +17,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class ProgramListAdapter extends ArrayAdapter<Program>{
+public class ProgramListAdapter extends ArrayAdapter<Object>{
 	private LayoutInflater mInflater;
 	private boolean oldCategoryColor;
+	private int type;
 
-	public ProgramListAdapter(Context context){
+	public ProgramListAdapter(Context context, int type){
 		super(context, android.R.layout.simple_list_item_1);
 		mInflater = (LayoutInflater)context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		oldCategoryColor = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("oldCategoryColor", false);
+		this.type = type;
 	}
 
 	class ViewHolder{
@@ -33,7 +37,13 @@ public class ProgramListAdapter extends ArrayAdapter<Program>{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent){
 		final ViewHolder holder;
-		final Program item = getItem(position);
+		Program item;
+		if(type == 2)
+			item = ((Reserve)getItem(position)).getProgram();
+		else if(type == 4)
+			item = ((Recorded)getItem(position)).getProgram();
+		else
+			item = (Program)getItem(position);
 
 		if(convertView == null) {
 			convertView = mInflater.inflate(R.layout.program_list_layout, null);

@@ -6,9 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import org.json.JSONException;
 
 import Chinachu4j.ChinachuResponse;
-import Chinachu4j.Program;
 import Chinachu4j.Recorded;
-import Chinachu4j.Reserve;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -49,9 +47,6 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(false);
 
-		programListAdapter = new ProgramListAdapter(this);
-		list.setAdapter(programListAdapter);
-
 		appClass = (ApplicationClass)getApplicationContext();
 		// type 1: ルール 2: 予約済み 3: 録画中 4: 録画済み 5: 番組検索
 		Intent intent = getIntent();
@@ -60,6 +55,9 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 			finish();
 		else if(type == 5)
 			query = intent.getStringExtra("query");
+
+		programListAdapter = new ProgramListAdapter(this, type);
+		list.setAdapter(programListAdapter);
 
 		list.setOnItemClickListener(new ProgramListClickListener(this, type));
 		swipeRefresh.setColorSchemeColors(Color.parseColor("#2196F3"));
@@ -85,7 +83,7 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 
 	public void asyncLoad(final boolean isRefresh){
 		programListAdapter.clear();
-		new AsyncTask<Void, Void, Program[]>(){
+		new AsyncTask<Void, Void, Object[]>(){
 			private ProgressDialog progDialog;
 
 			@Override
@@ -101,12 +99,12 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 			}
 
 			@Override
-			protected Program[] doInBackground(Void... params){
+			protected Object[] doInBackground(Void... params){
 				return load();
 			}
 
 			@Override
-			protected void onPostExecute(Program[] result){
+			protected void onPostExecute(Object[] result){
 				if(!isRefresh)
 					progDialog.dismiss();
 				else
@@ -121,25 +119,19 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 		}.execute();
 	}
 
-	public Program[] load(){
+	public Object[] load(){
 		try{
-			if(type == 2) {
-				Reserve[] reserve = appClass.getChinachu().getReserves();
-				Program[] program = new Program[reserve.length];
-				for(int i = 0; i < reserve.length; i++)
-					program[i] = reserve[i].getProgram();
-				return program;
-			}
-			if(type == 3)
+			if(type == 2){
+				return appClass.getChinachu().getReserves();
+			}else if(type == 3){
 				return appClass.getChinachu().getRecording();
-			if(type == 4) {
+			}else if(type == 4){
 				Recorded[] recorded = appClass.getChinachu().getRecorded();
-				Program[] programs = new Program[recorded.length];
+				Recorded[] result = new Recorded[recorded.length];
 				for(int i = 0; i < recorded.length; i++)
-					programs[recorded.length - i - 1] = recorded[i].getProgram();
-				return programs;
-			}
-			if(type == 5) {
+					result[recorded.length - i - 1] = recorded[i];
+				return result;
+			}else if(type == 5){
 				return appClass.getChinachu().searchProgram(query);
 			}
 			return null;

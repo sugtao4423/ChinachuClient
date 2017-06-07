@@ -13,6 +13,8 @@ import java.util.regex.Pattern;
 import Chinachu4j.Chinachu4j;
 import Chinachu4j.ChinachuResponse;
 import Chinachu4j.Program;
+import Chinachu4j.Recorded;
+import Chinachu4j.Reserve;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -44,11 +46,10 @@ import android.widget.Toast;
 
 public class ProgramDetail extends Activity{
 
-	private String fullTitle, programId;
+	private Program program;
 	private int type;
 	private ApplicationClass appClass;
 	private String capture;
-	private int seconds;
 	private int randomSecond;
 
 	@Override
@@ -57,25 +58,30 @@ public class ProgramDetail extends Activity{
 		setContentView(R.layout.activity_program_detail);
 
 		appClass = (ApplicationClass)getApplicationContext();
+		type = getIntent().getIntExtra("type", -1);
 
-		Program program = (Program)getIntent().getSerializableExtra("program");
+		if(type == 2){
+			Reserve reserve = (Reserve)getIntent().getSerializableExtra("reserve");
+			program = reserve.getProgram();
+		}else if(type == 4){
+			Recorded recorded = (Recorded)getIntent().getSerializableExtra("recorded");
+			program = recorded.getProgram();
+		}else{
+			program = (Program)getIntent().getSerializableExtra("program");
+		}
 
 		ActionBar actionbar = getActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(false);
 		actionbar.setTitle(program.getTitle());
 
-		programId = program.getId();
-		fullTitle = program.getFullTitle();
 		String detail = program.getDetail();
 		long start = program.getStart();
 		long end = program.getEnd();
-		seconds = program.getSeconds();
 		String category = program.getCategory();
 		String[] flags = program.getFlags();
 		String channelType = program.getChannel().getType();
 		String channelName = program.getChannel().getName();
-		type = getIntent().getIntExtra("type", -1);
 
 		final ImageView image = (ImageView)findViewById(R.id.programs_detail_image);
 		if(type == 3 || type == 4)
@@ -89,14 +95,14 @@ public class ProgramDetail extends Activity{
 		Matcher m = Pattern.compile("http(s)?://[\\w\\.\\-/:\\#\\?\\=\\&\\;\\%\\~\\+]+").matcher(detail);
 		while(m.find())
 			detail = detail.replace(m.group(), String.format("<a href=\"%s\">%s</a>", m.group(), m.group()));
-		String detailText = "<p><strong>フルタイトル</strong><br />" + fullTitle + "<br /></p><p><strong>詳細</strong><br />" + detail + "</p>";
+		String detailText = "<p><strong>フルタイトル</strong><br />" + program.getFullTitle() + "<br /></p><p><strong>詳細</strong><br />" + detail + "</p>";
 		detailView.setText(Html.fromHtml(detailText));
 
 		TextView otherView = (TextView)findViewById(R.id.program_detail_other);
 
 		String startStr = new SimpleDateFormat("yyyy/MM/dd (E) HH:mm", Locale.JAPANESE).format(new Date(start));
 		String endStr = new SimpleDateFormat("HH:mm", Locale.JAPANESE).format(new Date(end));
-		String minute = seconds / 60 + "分間";
+		String minute = program.getSeconds() / 60 + "分間";
 		String flag = "";
 		for(String s : flags)
 			flag += s + ", ";
@@ -105,7 +111,7 @@ public class ProgramDetail extends Activity{
 		else
 			flag = flag.substring(0, flag.length() - 2);
 		String otherText = "<p>" + startStr + " 〜 " + endStr + " (" + minute + ")<br /><br />" + category + " / " + channelType
-				+ ": " + channelName + "<br /><br />フラグ：" + flag + "<br /><br />id：" + programId + "</p>";
+				+ ": " + channelName + "<br /><br />フラグ：" + flag + "<br /><br />id：" + program.getId() + "</p>";
 		otherView.setText(Html.fromHtml(otherText));
 
 		if(type == 3 || type == 4) {
@@ -114,10 +120,10 @@ public class ProgramDetail extends Activity{
 				protected String doInBackground(Void... params){
 					try{
 						if(type == 3)
-							return appClass.getChinachu().getRecordingImage(programId, "1280x720");
+							return appClass.getChinachu().getRecordingImage(program.getId(), "1280x720");
 						if(type == 4) {
-							randomSecond = new Random().nextInt(seconds) + 1;
-							return appClass.getChinachu().getRecordedImage(programId, randomSecond, "1280x720");
+							randomSecond = new Random().nextInt(program.getSeconds()) + 1;
+							return appClass.getChinachu().getRecordedImage(program.getId(), randomSecond, "1280x720");
 						}
 						return null;
 					}catch(KeyManagementException | NoSuchAlgorithmException | IOException e){
@@ -155,8 +161,8 @@ public class ProgramDetail extends Activity{
 		}else if(type == 4){
 			cap_pos.setText(String.valueOf(randomSecond));
 			final float textSize = cap_pos.getTextSize();
-			cap_pos.setWidth((int)((String.valueOf(seconds).length() + 1) * textSize));
-			cap_seek.setMax(seconds - 10);
+			cap_pos.setWidth((int)((String.valueOf(program.getSeconds()).length() + 1) * textSize));
+			cap_seek.setMax(program.getSeconds() - 10);
 			cap_seek.setProgress(randomSecond);
 			cap_seek.setOnSeekBarChangeListener(new OnSeekBarChangeListener(){
 
@@ -199,10 +205,10 @@ public class ProgramDetail extends Activity{
 					protected String doInBackground(Void... params){
 						try{
 							if(type == 3){
-								return appClass.getChinachu().getRecordingImage(programId, cap_size.getText().toString());
+								return appClass.getChinachu().getRecordingImage(program.getId(), cap_size.getText().toString());
 							}
 							if(type == 4){
-								return appClass.getChinachu().getRecordedImage(programId, Integer.parseInt(cap_pos.getText().toString()),
+								return appClass.getChinachu().getRecordedImage(program.getId(), Integer.parseInt(cap_pos.getText().toString()),
 										cap_size.getText().toString());
 							}
 							return null;
@@ -222,7 +228,7 @@ public class ProgramDetail extends Activity{
 							result = result.substring(23);
 						Intent i = new Intent(ProgramDetail.this, Show_Image.class);
 						i.putExtra("base64", result);
-						i.putExtra("programId", programId);
+						i.putExtra("programId", program.getId());
 						if(type == 4)
 							i.putExtra("pos", Integer.parseInt(cap_pos.getText().toString()));
 						startActivity(i);
@@ -235,7 +241,7 @@ public class ProgramDetail extends Activity{
 			public void onClick(DialogInterface dialog, int which){
 				Intent i = new Intent(ProgramDetail.this, Show_Image.class);
 				i.putExtra("base64", capture);
-				i.putExtra("programId", programId);
+				i.putExtra("programId", program.getId());
 				if(type == 4)
 					i.putExtra("pos", Integer.parseInt(cap_pos.getText().toString()));
 				startActivity(i);
@@ -267,12 +273,12 @@ public class ProgramDetail extends Activity{
 			finish();
 		}else if(item.getItemId() == Menu.FIRST + 2) {
 			if(type == 3) {
-				Uri uri = Uri.parse(appClass.getChinachu().getNonEncRecordingMovieURL(programId));
+				Uri uri = Uri.parse(appClass.getChinachu().getNonEncRecordingMovieURL(program.getId()));
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
 			}
 			if(type == 4) {
-				Uri uri = Uri.parse(appClass.getChinachu().getNonEncRecordedMovieURL(programId));
+				Uri uri = Uri.parse(appClass.getChinachu().getNonEncRecordedMovieURL(program.getId()));
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
 			}
@@ -288,12 +294,12 @@ public class ProgramDetail extends Activity{
 			params[5] = enc.getString("videoSize", null);
 			params[6] = enc.getString("frame", null);
 			if(type == 3) {
-				Uri uri = Uri.parse(appClass.getChinachu().getEncRecordingMovieURL(programId, t, params));
+				Uri uri = Uri.parse(appClass.getChinachu().getEncRecordingMovieURL(program.getId(), t, params));
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
 			}
 			if(type == 4) {
-				Uri uri = Uri.parse(appClass.getChinachu().getEncRecordedMovieURL(programId, t, params));
+				Uri uri = Uri.parse(appClass.getChinachu().getEncRecordedMovieURL(program.getId(), t, params));
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
 			}
@@ -319,7 +325,7 @@ public class ProgramDetail extends Activity{
 			before.setTitle("録画ファイルを削除しますか？");
 			break;
 		}
-		before.setMessage(fullTitle).setNegativeButton("キャンセル", null).setPositiveButton("OK", new OnClickListener(){
+		before.setMessage(program.getFullTitle()).setNegativeButton("キャンセル", null).setPositiveButton("OK", new OnClickListener(){
 			@Override
 			public void onClick(DialogInterface dialog, int which){
 				new AsyncTask<Void, Void, ChinachuResponse>(){
@@ -341,11 +347,11 @@ public class ProgramDetail extends Activity{
 							switch(type){
 							case 0:
 							case 5:
-								return chinachu.putReserve(programId);
+								return chinachu.putReserve(program.getId());
 							case 2:
-								return chinachu.delReserve(programId);
+								return chinachu.delReserve(program.getId());
 							case 4:
-								return chinachu.delRecordedFile(programId);
+								return chinachu.delRecordedFile(program.getId());
 							}
 							return null;
 						}catch(KeyManagementException | NoSuchAlgorithmException | IOException e){
@@ -370,15 +376,15 @@ public class ProgramDetail extends Activity{
 						case 0:
 						case 5:
 							after.setTitle("予約完了");
-							after.setMessage(fullTitle);
+							after.setMessage(program.getFullTitle());
 							break;
 						case 2:
 							after.setTitle("予約の削除完了");
-							after.setMessage(fullTitle);
+							after.setMessage(program.getFullTitle());
 							break;
 						case 4:
 							after.setTitle("録画ファイルの削除完了");
-							after.setMessage(fullTitle + "\n\n録画済みリストへの反映にはクリーンアップが必要です");
+							after.setMessage(program.getFullTitle() + "\n\n録画済みリストへの反映にはクリーンアップが必要です");
 							break;
 						}
 						after.show();
