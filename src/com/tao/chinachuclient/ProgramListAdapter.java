@@ -10,7 +10,10 @@ import Chinachu4j.Reserve;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.preference.PreferenceManager;
+import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -134,6 +137,20 @@ public class ProgramListAdapter extends ArrayAdapter<Object>{
 			end = end.substring(10);
 
 		holder.date.setText(start + " 〜 " + end);
+
+		if(type == Type.RESERVES){
+			Reserve reserve = (Reserve)getItem(position);
+			if(!reserve.getIsManualReserved() && reserve.getIsSkip()){
+				holder.title.setTextColor(Color.GRAY);
+				holder.date.setTextColor(Color.GRAY);
+				TextPaint titlePaint = holder.title.getPaint();
+				TextPaint datePaint = holder.date.getPaint();
+				titlePaint.setFlags(holder.title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+				titlePaint.setAntiAlias(true);
+				datePaint.setFlags(holder.date.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+				datePaint.setAntiAlias(true);
+			}
+		}
 		return convertView;
 	}
 }
