@@ -4,34 +4,33 @@
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
+    <style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         -->
+        <item name="android:actionBarStyle">@style/actionbarStyle</item>
+        <item name="android:spinnerDropDownItemStyle">@style/actionSpinnerItemStyle</item>
     </style>
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
-
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        <item name="android:actionBarStyle">@style/actionbar</item>
-        <item name="android:spinnerDropDownItemStyle">@style/actionSpinnerItemStyle</item>
     </style>
 
-    <style name="actionbar" parent="@android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:background">@color/actionbar</item>
+    <style name="actionbarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/chinachu</item>
         <item name="android:titleTextStyle">@style/actionbarTextColor</item>
     </style>
 
     <style name="actionbarTextColor">
-        <item name="android:textColor">#ffffff</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="actionSpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
-        <item name="android:background">@color/actionbar</item>
-        <item name="android:textColor">#ffffff</item>
+        <item name="android:background">@color/chinachu</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <drawable name="transparameter">#bb000000</drawable>
