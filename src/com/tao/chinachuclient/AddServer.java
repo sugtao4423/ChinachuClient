@@ -145,8 +145,8 @@ public class AddServer extends Activity{
 						(String)audioCodec.getSelectedItem(),
 						vb,
 						ab,
-						videoSize.getText().toString(),
-						frame.getText().toString());
+						videoSize.getText().toString().isEmpty() ? null : videoSize.getText().toString(),
+						frame.getText().toString().isEmpty() ? null : frame.getText().toString());
 
 				Server server = new Server(raw_chinachuAddress,
 						Base64.encodeToString(username.getText().toString().getBytes(), Base64.DEFAULT),
