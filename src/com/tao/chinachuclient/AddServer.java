@@ -119,34 +119,9 @@ public class AddServer extends Activity{
 					channelNames += s.split(",")[1] + ",";
 				}
 
-				String vb = null;
-				String ab = null;
-				if(!videoBitrate.getText().toString().isEmpty()) {
-					int videoBit = Integer.parseInt(videoBitrate.getText().toString());
-					if(videoBitrateFormat.getSelectedItemPosition() == 0)
-						videoBit *= 1000;
-					else
-						videoBit *= 1000000;
-					vb = String.valueOf(videoBit);
-				}
-
-				if(!audioBitrate.getText().toString().isEmpty()) {
-					int audioBit = Integer.parseInt(audioBitrate.getText().toString());
-					if(audioBitrateFormat.getSelectedItemPosition() == 0)
-						audioBit *= 1000;
-					else
-						audioBit *= 1000000;
-					ab = String.valueOf(audioBit);
-				}
-
-				Encode encode = new Encode((String)type.getSelectedItem(),
-						(String)containerFormat.getSelectedItem(),
-						(String)videoCodec.getSelectedItem(),
-						(String)audioCodec.getSelectedItem(),
-						vb,
-						ab,
-						videoSize.getText().toString().isEmpty() ? null : videoSize.getText().toString(),
-						frame.getText().toString().isEmpty() ? null : frame.getText().toString());
+				Encode encode = ((ApplicationClass)getApplicationContext()).getEncodeSetting(
+						type, containerFormat, videoCodec, audioCodec,
+						videoBitrate, videoBitrateFormat, audioBitrate, audioBitrateFormat, videoSize, frame);
 
 				Server server = new Server(raw_chinachuAddress,
 						Base64.encodeToString(username.getText().toString().getBytes(), Base64.DEFAULT),

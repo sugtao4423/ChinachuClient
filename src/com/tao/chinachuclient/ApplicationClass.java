@@ -1,7 +1,11 @@
 package com.tao.chinachuclient;
 
+import com.tao.chinachuclient.data.Encode;
+
 import Chinachu4j.Chinachu4j;
 import android.app.Application;
+import android.widget.EditText;
+import android.widget.Spinner;
 
 public class ApplicationClass extends Application{
 
@@ -39,5 +43,39 @@ public class ApplicationClass extends Application{
 
 	public boolean getReloadList(){
 		return reloadList;
+	}
+
+	public Encode getEncodeSetting(Spinner type, Spinner containerFormat, Spinner videoCodec, Spinner audioCodec,
+										EditText videoBitrate, Spinner videoBitrateFormat,
+										EditText audioBitrate, Spinner audioBitrateFormat,
+										EditText videoSize, EditText frame){
+		String vb = null;
+		String ab = null;
+		if(!videoBitrate.getText().toString().isEmpty()){
+			int videoBit = Integer.parseInt(videoBitrate.getText().toString());
+			if(videoBitrateFormat.getSelectedItemPosition() == 0)
+				videoBit *= 1000;
+			else
+				videoBit *= 1000000;
+			vb = String.valueOf(videoBit);
+		}
+
+		if(!audioBitrate.getText().toString().isEmpty()){
+			int audioBit = Integer.parseInt(audioBitrate.getText().toString());
+			if(audioBitrateFormat.getSelectedItemPosition() == 0)
+				audioBit *= 1000;
+			else
+				audioBit *= 1000000;
+			ab = String.valueOf(audioBit);
+		}
+
+		return new Encode((String)type.getSelectedItem(),
+				(String)containerFormat.getSelectedItem(),
+				(String)videoCodec.getSelectedItem(),
+				(String)audioCodec.getSelectedItem(),
+				vb,
+				ab,
+				videoSize.getText().toString().isEmpty() ? null : videoSize.getText().toString(),
+				frame.getText().toString().isEmpty() ? null : frame.getText().toString());
 	}
 }
