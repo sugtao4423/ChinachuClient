@@ -25,8 +25,8 @@ public class SettingActivity extends Activity{
 	private EditText chinachuAddress, username, password;
 	private SharedPreferences pref;
 
-	private Spinner type, containerFormat, videoCodec, audioCodec, videoBitrateFormat, audioBitrateFormat;
-	private EditText videoBitrate, audioBitrate, videoSize, frame;
+	private Spinner type, videoBitrateFormat, audioBitrateFormat;
+	private EditText containerFormat, videoCodec, audioCodec, videoBitrate, audioBitrate, videoSize, frame;
 	private SharedPreferences enc;
 
 	@Override
@@ -63,9 +63,9 @@ public class SettingActivity extends Activity{
 		password.setText(new String(Base64.decode(pref.getString("password", ""), Base64.DEFAULT)));
 
 		type = (Spinner)findViewById(R.id.enc_setting_type_spinner);
-		containerFormat = (Spinner)findViewById(R.id.enc_setting_container_spinner);
-		videoCodec = (Spinner)findViewById(R.id.enc_setting_videoCodec_spinner);
-		audioCodec = (Spinner)findViewById(R.id.enc_setting_audioCodec_spinner);
+		containerFormat = (EditText)findViewById(R.id.enc_setting_container_edit);
+		videoCodec = (EditText)findViewById(R.id.enc_setting_videoCodec_edit);
+		audioCodec = (EditText)findViewById(R.id.enc_setting_audioCodec_edit);
 
 		videoBitrate = (EditText)findViewById(R.id.enc_setting_videoBitrate);
 		videoBitrateFormat = (Spinner)findViewById(R.id.enc_setting_video_bitrate_spinner);
@@ -75,67 +75,19 @@ public class SettingActivity extends Activity{
 		frame = (EditText)findViewById(R.id.enc_setting_frame);
 
 		switch(enc.getString("type", "")){
-		case "m2ts":
+		case "mp4":
 			type.setSelection(0);
 			break;
-		case "f4v":
+		case "m2ts":
 			type.setSelection(1);
 			break;
-		case "flv":
+		case "webm":
 			type.setSelection(2);
 			break;
-		case "webm":
-			type.setSelection(3);
-			break;
-		case "asf":
-			type.setSelection(4);
-			break;
 		}
-		switch(enc.getString("containerFormat", "")){
-		case "mpegts":
-			containerFormat.setSelection(0);
-			break;
-		case "flv":
-			containerFormat.setSelection(1);
-			break;
-		case "asf":
-			containerFormat.setSelection(2);
-			break;
-		case "webm":
-			containerFormat.setSelection(3);
-			break;
-		}
-		switch(enc.getString("videoCodec", "")){
-		case "copy":
-			videoCodec.setSelection(0);
-			break;
-		case "libvpx":
-			videoCodec.setSelection(1);
-			break;
-		case "flv":
-			videoCodec.setSelection(2);
-			break;
-		case "libx264":
-			videoCodec.setSelection(3);
-			break;
-		case "wmv2":
-			videoCodec.setSelection(4);
-			break;
-		}
-		switch(enc.getString("audioCodec", "")){
-		case "copy":
-			audioCodec.setSelection(0);
-			break;
-		case "libvorbis":
-			audioCodec.setSelection(1);
-			break;
-		case "libfdk_aac":
-			audioCodec.setSelection(2);
-			break;
-		case "wmav2":
-			audioCodec.setSelection(3);
-			break;
-		}
+		containerFormat.setText(enc.getString("containerFormat", ""));
+		videoCodec.setText(enc.getString("videoCodec", ""));
+		audioCodec.setText(enc.getString("audioCodec", ""));
 
 		int videoBit = Integer.parseInt(enc.getString("videoBitrate", "0"));
 		if((videoBit / 1000 / 1000) != 0) {

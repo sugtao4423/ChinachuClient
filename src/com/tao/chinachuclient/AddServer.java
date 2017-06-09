@@ -31,8 +31,8 @@ public class AddServer extends Activity{
 	private EditText chinachuAddress, username, password;
 	private boolean startMain;
 
-	private Spinner type, containerFormat, videoCodec, audioCodec, videoBitrateFormat, audioBitrateFormat;
-	private EditText videoBitrate, audioBitrate, videoSize, frame;
+	private Spinner type, videoBitrateFormat, audioBitrateFormat;
+	private EditText containerFormat, videoCodec, audioCodec, videoBitrate, audioBitrate, videoSize, frame;
 
 	private String raw_chinachuAddress;
 
@@ -50,9 +50,9 @@ public class AddServer extends Activity{
 		password = (EditText)findViewById(R.id.password);
 
 		type = (Spinner)findViewById(R.id.enc_setting_type_spinner);
-		containerFormat = (Spinner)findViewById(R.id.enc_setting_container_spinner);
-		videoCodec = (Spinner)findViewById(R.id.enc_setting_videoCodec_spinner);
-		audioCodec = (Spinner)findViewById(R.id.enc_setting_audioCodec_spinner);
+		containerFormat = (EditText)findViewById(R.id.enc_setting_container_edit);
+		videoCodec = (EditText)findViewById(R.id.enc_setting_videoCodec_edit);
+		audioCodec = (EditText)findViewById(R.id.enc_setting_audioCodec_edit);
 
 		videoBitrate = (EditText)findViewById(R.id.enc_setting_videoBitrate);
 		videoBitrateFormat = (Spinner)findViewById(R.id.enc_setting_video_bitrate_spinner);

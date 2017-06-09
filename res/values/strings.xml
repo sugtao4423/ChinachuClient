@@ -6,37 +6,14 @@
     <string name="action_settings">Settings</string>
 
     <string-array name="enc_setting_typeSpinner_item">
-		<item>m2ts</item>
-		<item>f4v</item>
-		<item>flv</item>
-		<item>webm</item>
-		<item>asf</item>
-    </string-array>
-    
-    <string-array name="enc_setting_containerSpinner_item">
-        <item>mpegts</item>
-        <item>flv</item>
-        <item>asf</item>
+        <item>mp4</item>
+        <item>m2ts</item>
         <item>webm</item>
     </string-array>
-    
-    <string-array name="enc_setting_videoCodecSpinner_item">
-        <item>copy</item>
-        <item>libvpx</item>
-        <item>flv</item>
-        <item>libx264</item>
-        <item>wmv2</item>
-    </string-array>
-    
-    <string-array name="enc_setting_audioCodecSpinner_item">
-        <item>copy</item>
-        <item>libvorbis</item>
-        <item>libfdk_aac</item>
-        <item>wmav2</item>
-    </string-array>
-    
+
     <string-array name="bitrate">
         <item>Kbps</item>
         <item>Mbps</item>
     </string-array>
+
 </resources>

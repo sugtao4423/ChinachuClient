@@ -45,7 +45,7 @@ public class ApplicationClass extends Application{
 		return reloadList;
 	}
 
-	public Encode getEncodeSetting(Spinner type, Spinner containerFormat, Spinner videoCodec, Spinner audioCodec,
+	public Encode getEncodeSetting(Spinner type, EditText containerFormat, EditText videoCodec, EditText audioCodec,
 										EditText videoBitrate, Spinner videoBitrateFormat,
 										EditText audioBitrate, Spinner audioBitrateFormat,
 										EditText videoSize, EditText frame){
@@ -69,10 +69,11 @@ public class ApplicationClass extends Application{
 			ab = String.valueOf(audioBit);
 		}
 
-		return new Encode((String)type.getSelectedItem(),
-				(String)containerFormat.getSelectedItem(),
-				(String)videoCodec.getSelectedItem(),
-				(String)audioCodec.getSelectedItem(),
+		return new Encode(
+				(String)type.getSelectedItem(),
+				containerFormat.getText().toString().isEmpty() ? null : containerFormat.getText().toString(),
+				videoCodec.getText().toString().isEmpty() ? null : videoCodec.getText().toString(),
+				audioCodec.getText().toString().isEmpty() ? null : audioCodec.getText().toString(),
 				vb,
 				ab,
 				videoSize.getText().toString().isEmpty() ? null : videoSize.getText().toString(),
