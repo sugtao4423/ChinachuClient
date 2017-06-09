@@ -40,8 +40,9 @@ public class AddServer extends Activity{
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setTitle("サーバー追加");
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayShowHomeEnabled(false);
 
 		startMain = getIntent().getBooleanExtra("startMain", false);
 
