@@ -23,12 +23,14 @@ import android.widget.TextView;
 public class ProgramListAdapter extends ArrayAdapter<Object>{
 	private LayoutInflater mInflater;
 	private boolean oldCategoryColor;
+	private Context context;
 	private int type;
 
 	public ProgramListAdapter(Context context, int type){
 		super(context, android.R.layout.simple_list_item_1);
 		mInflater = (LayoutInflater)context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		oldCategoryColor = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("oldCategoryColor", false);
+		this.context = context;
 		this.type = type;
 	}
 
@@ -150,6 +152,11 @@ public class ProgramListAdapter extends ArrayAdapter<Object>{
 				holder.date.setTextColor(Color.GRAY);
 				titlePaint.setFlags(holder.title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 				datePaint.setFlags(holder.date.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+			}else{
+				holder.title.setTextColor(Color.parseColor(context.getString(R.color.titleText)));
+				holder.date.setTextColor(Color.parseColor(context.getString(R.color.dateText)));
+				titlePaint.setFlags(holder.title.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+				datePaint.setFlags(holder.date.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
 			}
 		}
 		return convertView;
