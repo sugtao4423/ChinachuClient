@@ -4,6 +4,9 @@
     <color name="chinachu">#b52574</color>
     <color name="white">#ffffff</color>
 
+    <color name="titleText">#6687a6</color>
+    <color name="dateText">#9b9e98</color>
+
     <color name="old_anime">#fcbde1</color>
     <color name="old_information">#bdfce8</color>
     <color name="old_news">#d7fcbd</color>

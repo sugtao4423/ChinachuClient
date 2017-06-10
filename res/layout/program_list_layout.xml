@@ -12,7 +12,7 @@
         android:layout_marginLeft="3dp"
         android:layout_marginTop="5dp"
         android:text="タイトル"
-        android:textColor="#6687a6"
+        android:textColor="@color/titleText"
         android:textSize="13sp"
         android:textStyle="bold" />
 
@@ -26,7 +26,7 @@
         android:layout_marginLeft="3dp"
         android:layout_marginTop="2sp"
         android:text="date"
-        android:textColor="#9b9e98"
+        android:textColor="@color/dateText"
         android:textSize="12sp" />
 
 </RelativeLayout>
