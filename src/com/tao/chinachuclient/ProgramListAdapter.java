@@ -138,17 +138,18 @@ public class ProgramListAdapter extends ArrayAdapter<Object>{
 
 		holder.date.setText(start + " 〜 " + end);
 
+		TextPaint titlePaint = holder.title.getPaint();
+		TextPaint datePaint = holder.date.getPaint();
+		titlePaint.setAntiAlias(true);
+		datePaint.setAntiAlias(true);
+
 		if(type == Type.RESERVES){
 			Reserve reserve = (Reserve)getItem(position);
 			if(!reserve.getIsManualReserved() && reserve.getIsSkip()){
 				holder.title.setTextColor(Color.GRAY);
 				holder.date.setTextColor(Color.GRAY);
-				TextPaint titlePaint = holder.title.getPaint();
-				TextPaint datePaint = holder.date.getPaint();
 				titlePaint.setFlags(holder.title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-				titlePaint.setAntiAlias(true);
 				datePaint.setFlags(holder.date.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-				datePaint.setAntiAlias(true);
 			}
 		}
 		return convertView;
