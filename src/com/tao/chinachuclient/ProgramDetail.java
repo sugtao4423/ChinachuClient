@@ -31,7 +31,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -93,14 +92,15 @@ public class ProgramDetail extends Activity{
 		else
 			image.setVisibility(View.GONE);
 
-		TextView detailView = (TextView)findViewById(R.id.program_detail_detail);
 		detail = detail.replace("\n", "<br />");
-		detailView.setMovementMethod(LinkMovementMethod.getInstance());
 		Matcher m = Pattern.compile("http(s)?://[\\w\\.\\-/:\\#\\?\\=\\&\\;\\%\\~\\+]+").matcher(detail);
 		while(m.find())
 			detail = detail.replace(m.group(), String.format("<a href=\"%s\">%s</a>", m.group(), m.group()));
 		String detailText = "<p><strong>フルタイトル</strong><br />" + program.getFullTitle() + "<br /></p><p><strong>詳細</strong><br />" + detail + "</p>";
+
+		TextView detailView = (TextView)findViewById(R.id.program_detail_detail);
 		detailView.setText(Html.fromHtml(detailText));
+		detailView.setMovementMethod(SelectionLinkMovementMethod.getInstance(this));
 
 		TextView otherView = (TextView)findViewById(R.id.program_detail_other);
 

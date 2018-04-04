@@ -16,6 +16,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:text="detail"
+            android:textIsSelectable="true"
             android:textSize="18sp" />
 
         <TextView
@@ -26,6 +27,7 @@
             android:layout_below="@+id/program_detail_detail"
             android:layout_marginTop="15dp"
             android:text="other"
+            android:textIsSelectable="true"
             android:textSize="16sp" />
 
         <ImageView
