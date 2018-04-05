@@ -128,17 +128,7 @@ public class ProgramListAdapter extends ArrayAdapter<Object>{
 		}
 
 		holder.title.setText(item.getTitle());
-
-		String start = new SimpleDateFormat("MM/dd (E) HH:mm", Locale.JAPANESE).format(new Date(item.getStart()));
-		String end = new SimpleDateFormat("MM/dd (E) HH:mm", Locale.JAPANESE).format(new Date(item.getEnd()));
-
-		String startDay = start.substring(0, 9);
-		String endDay = end.substring(0, 9);
-
-		if(startDay.equals(endDay))
-			end = end.substring(10);
-
-		holder.date.setText(start + " 〜 " + end);
+		holder.date.setText(getDateText(item));
 
 		TextPaint titlePaint = holder.title.getPaint();
 		TextPaint datePaint = holder.date.getPaint();
@@ -160,5 +150,49 @@ public class ProgramListAdapter extends ArrayAdapter<Object>{
 			}
 		}
 		return convertView;
+	}
+
+	private String getDateText(Program item){
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd (E) HH:mm", Locale.JAPANESE);
+		String start = dateFormat.format(new Date(item.getStart()));
+		String end = dateFormat.format(new Date(item.getEnd()));
+
+		String startDay = start.substring(0, 9);
+		String endDay = end.substring(0, 9);
+
+		if(startDay.equals(endDay))
+			end = end.substring(10);
+
+		String dateText = start + " 〜 " + end;
+
+		if(type == Type.RESERVES || type == Type.RECORDING){
+			int deltaSec = (int)(item.getStart() - System.currentTimeMillis()) / 1000;
+			String suffix;
+			if(deltaSec < 0){
+				deltaSec = -deltaSec;
+				suffix = "前";
+			}else{
+				suffix = "後";
+			}
+
+			if(deltaSec < 60){
+				return dateText + String.format(" [%d秒%s]", deltaSec, suffix);
+			}else{
+				float delta = (float)deltaSec / 60;
+				if(delta < 60.0f){
+					return dateText + String.format(" [%.1f分%s]", delta, suffix);
+				}else{
+					delta /= 60;
+					if(delta < 24.0f){
+						return dateText + String.format(" [%.1f時間%s]", delta, suffix);
+					}else{
+						delta /= 24;
+						return dateText + String.format(" [%.1f日%s]", delta, suffix);
+					}
+				}
+			}
+		}
+
+		return dateText;
 	}
 }
