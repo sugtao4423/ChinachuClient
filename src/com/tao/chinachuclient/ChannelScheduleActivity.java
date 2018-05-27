@@ -44,6 +44,8 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 	private Chinachu4j chinachu;
 	private ApplicationClass appClass;
 
+	private SearchView searchView;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -140,7 +142,7 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 			menu.add(0, Menu.FIRST + 1, Menu.NONE, "ライブ再生(エンコ有)");
 
 		getMenuInflater().inflate(R.menu.search, menu);
-		SearchView searchView = (SearchView)menu.findItem(R.id.search_view).getActionView();
+		searchView = (SearchView)menu.findItem(R.id.search_view).getActionView();
 		searchView.setQueryHint("全チャンネルから番組検索");
 		searchView.setOnQueryTextListener(new OnQueryTextListener(){
 
@@ -210,5 +212,14 @@ public class ChannelScheduleActivity extends Activity implements OnNavigationLis
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onBackPressed(){
+		if(!searchView.isIconified()){
+			searchView.setIconified(true);
+		}else{
+			super.onBackPressed();
+		}
 	}
 }
