@@ -3,10 +3,16 @@ package com.tao.chinachuclient;
 import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.Locale;
+
 import org.json.JSONException;
 
 import Chinachu4j.ChinachuResponse;
+import Chinachu4j.Program;
 import Chinachu4j.Recorded;
+import Chinachu4j.Reserve;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,6 +28,8 @@ import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
 
 public class ProgramActivity extends Activity implements OnRefreshListener{
@@ -34,6 +42,8 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 
 	private int type;
 	private String query;
+	private SearchView searchView;
+	private Object[] programList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -113,6 +123,7 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 					Toast.makeText(ProgramActivity.this, "番組取得エラー", Toast.LENGTH_SHORT).show();
 					return;
 				}
+				programList = result;
 				programListAdapter.addAll(result);
 				setActionBarCount(result.length);
 			}
@@ -166,7 +177,46 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu){
 		if(type == Type.RECORDED)
-			menu.add(0, Menu.FIRST, Menu.NONE, "クリーンアップ").setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+			menu.add(0, Menu.FIRST, Menu.NONE, "クリーンアップ").setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+		if(type == Type.SEARCH_PROGRAM)
+			return true;
+
+		getMenuInflater().inflate(R.menu.search, menu);
+		searchView = (SearchView)menu.findItem(R.id.search_view).getActionView();
+		searchView.setQueryHint("リストから検索");
+		searchView.setOnQueryTextListener(new OnQueryTextListener(){
+
+			@Override
+			public boolean onQueryTextSubmit(String query){
+				return onQueryTextChange(query);
+			}
+
+			@Override
+			public boolean onQueryTextChange(String newText){
+				programListAdapter.clear();
+				if(newText.isEmpty()){
+					programListAdapter.addAll(programList);
+					return false;
+				}
+
+				ArrayList<Object> resultPrograms = new ArrayList<Object>();
+				for(int i = 0; i < programList.length; i++){
+					Program item;
+					if(type == Type.RESERVES)
+						item = ((Reserve)programList[i]).getProgram();
+					else if(type == Type.RECORDED)
+						item = ((Recorded)programList[i]).getProgram();
+					else
+						item = (Program)programList[i];
+					String itemTitle = Normalizer.normalize(item.getFullTitle(), Normalizer.Form.NFKC).toLowerCase(Locale.getDefault());
+					String searchText = newText.toLowerCase(Locale.getDefault());
+					if(itemTitle.contains(searchText))
+						resultPrograms.add(programList[i]);
+				}
+				programListAdapter.addAll(resultPrograms);
+				return false;
+			}
+		});
 		return true;
 	}
 
@@ -249,6 +299,19 @@ public class ProgramActivity extends Activity implements OnRefreshListener{
 		if(appClass.getReloadList()){
 			asyncLoad(true);
 			appClass.setReloadList(false);
+		}
+	}
+
+	@Override
+	public void onBackPressed(){
+		if(searchView == null){
+			super.onBackPressed();
+			return;
+		}
+		if(!searchView.isIconified()){
+			searchView.setIconified(true);
+		}else{
+			super.onBackPressed();
 		}
 	}
 }
