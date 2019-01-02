@@ -37,7 +37,6 @@ public class SettingActivity extends AppCompatActivity{
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("サーバー設定変更");
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(false);
 
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         enc = getSharedPreferences("encodeConfig", MODE_PRIVATE);

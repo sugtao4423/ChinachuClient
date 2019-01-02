@@ -76,7 +76,6 @@ public class ProgramDetail extends AppCompatActivity{
 
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setDisplayShowHomeEnabled(false);
         actionbar.setTitle(program.getTitle());
 
         String detail = program.getDetail();

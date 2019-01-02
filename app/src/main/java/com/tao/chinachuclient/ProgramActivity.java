@@ -56,7 +56,6 @@ public class ProgramActivity extends AppCompatActivity implements OnRefreshListe
 
         actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setDisplayShowHomeEnabled(false);
 
         appClass = (ApplicationClass)getApplicationContext();
         // type 1: ルール 2: 予約済み 3: 録画中 4: 録画済み 5: 番組検索

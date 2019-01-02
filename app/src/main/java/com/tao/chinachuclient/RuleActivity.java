@@ -51,7 +51,6 @@ public class RuleActivity extends AppCompatActivity implements OnRefreshListener
         actionBar = getSupportActionBar();
         actionBar.setTitle("ルール");
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(false);
 
         asyncLoad(false);
     }

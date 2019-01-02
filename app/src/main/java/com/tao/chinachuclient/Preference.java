@@ -30,7 +30,6 @@ public class Preference extends AppCompatActivity{
         ActionBar actionbar = getSupportActionBar();
         actionbar.setTitle("設定");
         actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setDisplayShowHomeEnabled(false);
     }
 
     public static class MyPreferencesFragment extends PreferenceFragment{

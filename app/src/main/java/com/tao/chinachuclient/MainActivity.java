@@ -39,8 +39,6 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         mainList = new ListView(this);
         setContentView(mainList);
 
-        getSupportActionBar().setDisplayShowHomeEnabled(false);
-
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         appClass = (ApplicationClass)getApplicationContext();
 

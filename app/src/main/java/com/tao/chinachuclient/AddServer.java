@@ -46,7 +46,6 @@ public class AddServer extends AppCompatActivity{
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("サーバー追加");
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(false);
 
         startMain = getIntent().getBooleanExtra("startMain", false);
 

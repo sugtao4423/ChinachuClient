@@ -39,7 +39,6 @@ public class RuleDetail extends AppCompatActivity{
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(tmp.getReserve_titles().length > 0 ? tmp.getReserve_titles()[0] : "any");
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(false);
 
         TextView textView = (TextView)findViewById(R.id.rule_list_text);
 

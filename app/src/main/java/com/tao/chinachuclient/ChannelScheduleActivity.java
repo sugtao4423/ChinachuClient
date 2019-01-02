@@ -56,7 +56,6 @@ public class ChannelScheduleActivity extends AppCompatActivity implements Action
         actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionbar.setTitle("番組表");
         actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setDisplayShowHomeEnabled(false);
 
         spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item);
         // チャンネルリストの取得
