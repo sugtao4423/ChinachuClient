@@ -31,6 +31,7 @@
         android:id="@+id/cap_seek"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/cap_pos"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/cap_pos" />
