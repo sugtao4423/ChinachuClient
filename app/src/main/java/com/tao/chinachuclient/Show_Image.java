@@ -1,12 +1,17 @@
 package com.tao.chinachuclient;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.View;
@@ -20,6 +25,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class Show_Image extends AppCompatActivity{
+
+    public static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 810;
 
     private String programId;
     private int pos;
@@ -54,6 +61,11 @@ public class Show_Image extends AppCompatActivity{
     }
 
     public void saveImage(){
+        if(!hasWriteExternalStoragePermission()){
+            requestWriteExternalStoragePermission();
+            return;
+        }
+
         final String fileName;
         if(pos == -1)
             fileName = programId;
@@ -108,4 +120,27 @@ public class Show_Image extends AppCompatActivity{
         }
         Toast.makeText(this, "保存しました\n" + imgPath, Toast.LENGTH_LONG).show();
     }
+
+    public boolean hasWriteExternalStoragePermission(){
+        int writeExternalStorage = PermissionChecker.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        return (writeExternalStorage == PackageManager.PERMISSION_GRANTED);
+    }
+
+    public void requestWriteExternalStoragePermission(){
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_WRITE_EXTERNAL_STORAGE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode != REQUEST_CODE_WRITE_EXTERNAL_STORAGE){
+            return;
+        }
+        if(permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE) && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            saveImage();
+        }else{
+            Toast.makeText(getApplicationContext(), "(๑•﹏•๑*)", Toast.LENGTH_LONG).show();
+        }
+    }
+
 }
