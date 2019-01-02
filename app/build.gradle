@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.tao.chinachuclient"
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 17
         versionName "1.7.0"
