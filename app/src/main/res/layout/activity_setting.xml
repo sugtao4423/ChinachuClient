@@ -5,12 +5,12 @@
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    tools:context=".SettingActivity" >
+    tools:context=".SettingActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:onClick="background" >
+        android:onClick="background">
 
         <TextView
             android:id="@+id/textView1"
@@ -25,11 +25,11 @@
             android:id="@+id/chinachuAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textView1"
             android:layout_alignLeft="@+id/textView1"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/textView1"
             android:ems="10"
-            android:inputType="text" >
+            android:inputType="text">
 
             <requestFocus />
         </EditText>
@@ -38,8 +38,8 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_below="@+id/chinachuAddress"
+            android:layout_alignParentLeft="true"
             android:layout_marginTop="30dp"
             android:text="ユーザー名" />
 
@@ -47,9 +47,9 @@
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textView2"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/textView2"
             android:ems="10"
             android:inputType="text" />
 
@@ -57,8 +57,8 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_below="@+id/username"
+            android:layout_alignParentLeft="true"
             android:layout_marginTop="20dp"
             android:text="パスワード" />
 
@@ -66,9 +66,9 @@
             android:id="@+id/password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textView3"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/textView3"
             android:ems="10"
             android:inputType="textPassword" />
 
@@ -76,16 +76,16 @@
             android:id="@+id/enc_setting_type_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/enc_setting_type"
             android:layout_below="@+id/enc_setting_type"
+            android:layout_alignLeft="@+id/enc_setting_type"
             android:entries="@array/enc_setting_typeSpinner_item" />
 
         <TextView
             android:id="@+id/enc_setting_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/enc_setting_type_spinner"
             android:layout_below="@+id/enc_setting_type_spinner"
+            android:layout_alignLeft="@+id/enc_setting_type_spinner"
             android:layout_marginTop="10dp"
             android:text="コンテナフォーマット" />
 
@@ -93,8 +93,8 @@
             android:id="@+id/enc_setting_container_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/enc_setting_container"
             android:layout_below="@+id/enc_setting_container"
+            android:layout_alignLeft="@+id/enc_setting_container"
             android:layout_toLeftOf="@+id/enc_setting_video_bitrate_spinner"
             android:hint="h264, mpegts, webm, etc..."
             android:inputType="text" />
@@ -103,8 +103,8 @@
             android:id="@+id/enc_setting_video_codec"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/enc_setting_container_edit"
             android:layout_below="@+id/enc_setting_container_edit"
+            android:layout_alignLeft="@+id/enc_setting_container_edit"
             android:layout_marginTop="10dp"
             android:text="動画コーデック" />
 
@@ -112,9 +112,9 @@
             android:id="@+id/enc_setting_videoCodec_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/enc_setting_video_codec"
             android:layout_alignLeft="@+id/enc_setting_video_codec"
             android:layout_alignRight="@+id/enc_setting_container_edit"
-            android:layout_below="@+id/enc_setting_video_codec"
             android:hint="copy, libvpx, etc..."
             android:inputType="text" />
 
@@ -122,8 +122,8 @@
             android:id="@+id/enc_setting_audio_codec"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/enc_setting_videoCodec_edit"
             android:layout_below="@+id/enc_setting_videoCodec_edit"
+            android:layout_alignLeft="@+id/enc_setting_videoCodec_edit"
             android:layout_marginTop="10dp"
             android:text="音声コーデック" />
 
@@ -131,9 +131,9 @@
             android:id="@+id/enc_setting_audioCodec_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/enc_setting_audio_codec"
             android:layout_alignLeft="@+id/enc_setting_audio_codec"
             android:layout_alignRight="@+id/enc_setting_videoCodec_edit"
-            android:layout_below="@+id/enc_setting_audio_codec"
             android:hint="copy, libfdk_aac, etc..."
             android:inputType="text" />
 
@@ -141,22 +141,21 @@
             android:id="@+id/enc_setting_videoBitrate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/enc_setting_audioCodec_edit"
             android:layout_below="@+id/enc_setting_audioCodec_edit"
+            android:layout_alignLeft="@+id/enc_setting_audioCodec_edit"
             android:layout_marginTop="20dp"
             android:layout_toLeftOf="@+id/enc_setting_video_bitrate_spinner"
             android:ems="10"
             android:hint="動画ビットレート"
-            android:inputType="number" >
-        </EditText>
+            android:inputType="number"></EditText>
 
         <EditText
             android:id="@+id/enc_setting_audioBitrate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/enc_setting_videoBitrate"
             android:layout_alignLeft="@+id/enc_setting_videoBitrate"
             android:layout_alignRight="@+id/enc_setting_videoBitrate"
-            android:layout_below="@+id/enc_setting_videoBitrate"
             android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="音声ビットレート"
@@ -166,9 +165,9 @@
             android:id="@+id/enc_setting_videoSize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/enc_setting_audioBitrate"
             android:layout_alignLeft="@+id/enc_setting_audioBitrate"
             android:layout_alignRight="@+id/enc_setting_audioBitrate"
-            android:layout_below="@+id/enc_setting_audioBitrate"
             android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="映像サイズ(例:1280x720)"
@@ -178,9 +177,9 @@
             android:id="@+id/enc_setting_frame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/enc_setting_videoSize"
             android:layout_alignLeft="@+id/enc_setting_videoSize"
             android:layout_alignRight="@+id/enc_setting_videoSize"
-            android:layout_below="@+id/enc_setting_videoSize"
             android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="映像フレームレート(例:24)"
@@ -190,8 +189,8 @@
             android:id="@+id/enc_setting_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_below="@+id/enc_setting_frame"
+            android:layout_alignParentRight="true"
             android:layout_marginTop="50dp"
             android:onClick="ok"
             android:text="保存" />
@@ -209,18 +208,18 @@
             android:id="@+id/enc_setting_audio_bitrate_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/enc_setting_audioBitrate"
             android:layout_alignLeft="@+id/enc_setting_video_bitrate_spinner"
-            android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/enc_setting_audioBitrate"
+            android:layout_alignBottom="@+id/enc_setting_audioBitrate"
+            android:layout_alignParentRight="true"
             android:entries="@array/bitrate" />
 
         <TextView
             android:id="@+id/enc_setting_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_below="@+id/textView4"
+            android:layout_alignParentLeft="true"
             android:layout_marginTop="20dp"
             android:text="type" />
 
@@ -228,9 +227,9 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/password"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/password"
             android:layout_marginTop="50dp"
             android:gravity="center"
             android:text="以下、エンコード設定（オプション）"

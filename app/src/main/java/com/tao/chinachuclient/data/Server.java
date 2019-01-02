@@ -2,62 +2,62 @@ package com.tao.chinachuclient.data;
 
 public class Server{
 
-	private String chinachuAddress;
-	private String username;
-	private String password;
-	private boolean streaming;
-	private boolean encStreaming;
-	private Encode encode;
-	private String channelIds;
-	private String channelNames;
-	private boolean oldCategoryColor;
+    private String chinachuAddress;
+    private String username;
+    private String password;
+    private boolean streaming;
+    private boolean encStreaming;
+    private Encode encode;
+    private String channelIds;
+    private String channelNames;
+    private boolean oldCategoryColor;
 
-	public Server(String chinachuAddress, String username, String password, boolean streaming, boolean encStreaming,
-			Encode encode, String channelIds, String channelNames, boolean oldCategoryColor){
-		this.chinachuAddress = chinachuAddress;
-		this.username = username;
-		this.password = password;
-		this.streaming = streaming;
-		this.encStreaming = encStreaming;
-		this.encode = encode;
-		this.channelIds = channelIds;
-		this.channelNames = channelNames;
-		this.oldCategoryColor = oldCategoryColor;
-	}
+    public Server(String chinachuAddress, String username, String password, boolean streaming, boolean encStreaming,
+                  Encode encode, String channelIds, String channelNames, boolean oldCategoryColor){
+        this.chinachuAddress = chinachuAddress;
+        this.username = username;
+        this.password = password;
+        this.streaming = streaming;
+        this.encStreaming = encStreaming;
+        this.encode = encode;
+        this.channelIds = channelIds;
+        this.channelNames = channelNames;
+        this.oldCategoryColor = oldCategoryColor;
+    }
 
-	public String getChinachuAddress(){
-		return chinachuAddress;
-	}
+    public String getChinachuAddress(){
+        return chinachuAddress;
+    }
 
-	public String getUsername(){
-		return username;
-	}
+    public String getUsername(){
+        return username;
+    }
 
-	public String getPassword(){
-		return password;
-	}
+    public String getPassword(){
+        return password;
+    }
 
-	public boolean getStreaming(){
-		return streaming;
-	}
+    public boolean getStreaming(){
+        return streaming;
+    }
 
-	public boolean getEncStreaming(){
-		return encStreaming;
-	}
+    public boolean getEncStreaming(){
+        return encStreaming;
+    }
 
-	public Encode getEncode(){
-		return encode;
-	}
+    public Encode getEncode(){
+        return encode;
+    }
 
-	public String getChannelIds(){
-		return channelIds;
-	}
+    public String getChannelIds(){
+        return channelIds;
+    }
 
-	public String getChannelNames(){
-		return channelNames;
-	}
+    public String getChannelNames(){
+        return channelNames;
+    }
 
-	public boolean getOldCategoryColor(){
-		return oldCategoryColor;
-	}
+    public boolean getOldCategoryColor(){
+        return oldCategoryColor;
+    }
 }

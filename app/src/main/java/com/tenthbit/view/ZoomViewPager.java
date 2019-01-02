@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright 2013 Tomasz Zawada
- * 
+ *
  * Based on the excellent PhotoView by Chris Banes:
  * https://github.com/chrisbanes/PhotoView
  *
@@ -27,40 +27,40 @@ import android.view.MotionEvent;
 /**
  * Hacky fix for Issue #4 and
  * http://code.google.com/p/android/issues/detail?id=18990
- * 
+ * <p>
  * ScaleGestureDetector seems to mess up the touch events, which means that
  * ViewGroups which make use of onInterceptTouchEvent throw a lot of
  * IllegalArgumentException: pointerIndex out of range.
- * 
+ * <p>
  * Also the android.support.v4.view.MotionEventCompatEclair.getX() throws some
  * java.lang.ArrayIndexOutOfBoundsException exceptions which seems like a bug.
  */
 public class ZoomViewPager extends ViewPager{
 
-	public ZoomViewPager(Context context){
-		super(context);
-	}
+    public ZoomViewPager(Context context){
+        super(context);
+    }
 
-	public ZoomViewPager(final Context context, final AttributeSet attrs){
-		super(context, attrs);
-	}
+    public ZoomViewPager(final Context context, final AttributeSet attrs){
+        super(context, attrs);
+    }
 
-	@Override
-	public boolean onInterceptTouchEvent(MotionEvent event){
-		try{
-			return super.onInterceptTouchEvent(event);
-		}catch(Exception e){
-			return false;
-		}
-	}
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent event){
+        try{
+            return super.onInterceptTouchEvent(event);
+        }catch(Exception e){
+            return false;
+        }
+    }
 
-	@SuppressLint("ClickableViewAccessibility")
-	@Override
-	public boolean onTouchEvent(MotionEvent event){
-		try{
-			return super.onTouchEvent(event);
-		}catch(Exception e){
-			return false;
-		}
-	}
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        try{
+            return super.onTouchEvent(event);
+        }catch(Exception e){
+            return false;
+        }
+    }
 }
