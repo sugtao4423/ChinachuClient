@@ -1,0 +1,38 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textColor">@android:color/primary_text_light</item>
+        <item name="actionBarStyle">@style/actionbarStyle</item>
+        <item name="spinnerDropDownItemStyle">@style/spinnerItemStyle</item>
+        <item name="android:spinnerDropDownItemStyle">@style/spinnerItemStyle</item>
+        <item name="android:dropDownListViewStyle">@style/spinnerDivider</item>
+    </style>
+
+    <style name="actionbarStyle" parent="Widget.AppCompat.Light.ActionBar">
+        <item name="background">@color/chinachu</item>
+        <item name="titleTextStyle">@style/actionbarTextColor</item>
+    </style>
+
+    <style name="actionbarTextColor">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="spinnerItemStyle" parent="Base.Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:background">@color/chinachu</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="spinnerDivider" parent="Widget.AppCompat.ListView.DropDown">
+        <item name="android:divider">@android:color/darker_gray</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+
+    <drawable name="transparameter">#bb000000</drawable>
+
+    <style name="Theme.TranslucentBackground" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowBackground">@drawable/transparameter</item>
+    </style>
+
+</resources>
