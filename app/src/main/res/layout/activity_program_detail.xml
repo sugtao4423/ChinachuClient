@@ -16,6 +16,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:text="detail"
+            android:textColor="@android:color/secondary_text_light"
             android:textIsSelectable="true"
             android:textSize="18sp" />
 
@@ -27,6 +28,7 @@
             android:layout_alignLeft="@+id/program_detail_detail"
             android:layout_marginTop="15dp"
             android:text="other"
+            android:textColor="@android:color/secondary_text_light"
             android:textIsSelectable="true"
             android:textSize="16sp" />
 

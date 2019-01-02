@@ -3,7 +3,6 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/chinachu</item>
         <item name="colorPrimaryDark">@color/chinachu_dark</item>
-        <item name="android:textColor">@android:color/primary_text_light</item>
         <item name="spinnerDropDownItemStyle">@style/spinnerItemStyle</item>
         <item name="android:spinnerDropDownItemStyle">@style/spinnerItemStyle</item>
         <item name="android:dropDownListViewStyle">@style/spinnerDivider</item>
