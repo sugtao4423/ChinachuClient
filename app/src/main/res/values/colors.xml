@@ -2,6 +2,7 @@
 <resources>
 
     <color name="chinachu">#b52574</color>
+    <color name="chinachu_dark">#821a53</color>
     <color name="white">#ffffff</color>
 
     <color name="titleText">#6687a6</color>
