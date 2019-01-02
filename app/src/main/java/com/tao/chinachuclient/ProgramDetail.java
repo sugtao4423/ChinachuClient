@@ -230,7 +230,7 @@ public class ProgramDetail extends AppCompatActivity{
                                 }
                                 if(result.startsWith("data:image/jpeg;base64,"))
                                     result = result.substring(23);
-                                Intent i = new Intent(ProgramDetail.this, Show_Image.class);
+                                Intent i = new Intent(ProgramDetail.this, ShowImage.class);
                                 i.putExtra("base64", result);
                                 i.putExtra("programId", program.getId());
                                 if(type == Type.RECORDED)
@@ -243,7 +243,7 @@ public class ProgramDetail extends AppCompatActivity{
 
             @Override
             public void onClick(DialogInterface dialog, int which){
-                Intent i = new Intent(ProgramDetail.this, Show_Image.class);
+                Intent i = new Intent(ProgramDetail.this, ShowImage.class);
                 i.putExtra("base64", capture);
                 i.putExtra("programId", program.getId());
                 if(type == Type.RECORDED)

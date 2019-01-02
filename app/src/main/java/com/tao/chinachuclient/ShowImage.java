@@ -24,7 +24,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class Show_Image extends AppCompatActivity{
+public class ShowImage extends AppCompatActivity{
 
     public static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 810;
 
@@ -84,9 +84,9 @@ public class Show_Image extends AppCompatActivity{
                             if(which == 0){
                                 save(imgPath);
                             }else if(which == 1){
-                                final EditText edit = new EditText(Show_Image.this);
+                                final EditText edit = new EditText(ShowImage.this);
                                 edit.setText(fileName);
-                                new AlertDialog.Builder(Show_Image.this)
+                                new AlertDialog.Builder(ShowImage.this)
                                         .setTitle("ファイル名を指定してください")
                                         .setView(edit)
                                         .setNegativeButton("キャンセル", null)

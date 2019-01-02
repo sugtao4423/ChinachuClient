@@ -31,7 +31,7 @@
         <activity android:name="RuleActivity" />
         <activity android:name="RuleDetail" />
         <activity
-            android:name="Show_Image"
+            android:name="ShowImage"
             android:theme="@style/Theme.TranslucentBackground" />
     </application>
 
