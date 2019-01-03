@@ -88,7 +88,8 @@ public class SettingActivity extends AppCompatActivity{
         videoCodec.setText(enc.getString("videoCodec", ""));
         audioCodec.setText(enc.getString("audioCodec", ""));
 
-        int videoBit = Integer.parseInt(enc.getString("videoBitrate", "0"));
+        String prefVideoBitrate = enc.getString("videoBitrate", "0");
+        int videoBit = prefVideoBitrate.isEmpty() ? 0 : Integer.parseInt(prefVideoBitrate);
         if((videoBit / 1000 / 1000) != 0){
             videoBitrateFormat.setSelection(1);
             videoBitrate.setText(String.valueOf(videoBit / 1000 / 1000));
@@ -99,7 +100,8 @@ public class SettingActivity extends AppCompatActivity{
             videoBitrate.setText("");
         }
 
-        int audioBit = Integer.parseInt(enc.getString("audioBitrate", "0"));
+        String prefAudioBitrate = enc.getString("audioBitrate", "0");
+        int audioBit = prefAudioBitrate.isEmpty() ? 0 : Integer.parseInt(prefAudioBitrate);
         if((audioBit / 1000 / 1000) != 0){
             audioBitrateFormat.setSelection(1);
             audioBitrate.setText(String.valueOf(audioBit / 1000 / 1000));

@@ -17,17 +17,18 @@ public class ServerSQLHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db){
-        db.execSQL("create table servers(chinachuAddress, username, password, streaming, encStreaming, "
+        db.execSQL("CREATE TABLE servers(chinachuAddress, username, password, streaming, encStreaming, "
                 + "type, containerFormat, videoCodec, audioCodec, videoBitrate, audioBitrate, videoSize, frame, channelIds, channelNames, oldCategoryColor)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
         if(oldVersion < 3 && newVersion == 3){
-            db.execSQL("drop table servers");
+            db.execSQL("DROP TABLE servers");
             onCreate(db);
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
             pref.edit().clear().commit();
         }
     }
+
 }

@@ -50,8 +50,8 @@ public class ApplicationClass extends Application{
                                    EditText videoBitrate, Spinner videoBitrateFormat,
                                    EditText audioBitrate, Spinner audioBitrateFormat,
                                    EditText videoSize, EditText frame){
-        String vb = null;
-        String ab = null;
+        String vb = "";
+        String ab = "";
         if(!videoBitrate.getText().toString().isEmpty()){
             int videoBit = Integer.parseInt(videoBitrate.getText().toString());
             if(videoBitrateFormat.getSelectedItemPosition() == 0)
@@ -72,12 +72,13 @@ public class ApplicationClass extends Application{
 
         return new Encode(
                 (String)type.getSelectedItem(),
-                containerFormat.getText().toString().isEmpty() ? null : containerFormat.getText().toString(),
-                videoCodec.getText().toString().isEmpty() ? null : videoCodec.getText().toString(),
-                audioCodec.getText().toString().isEmpty() ? null : audioCodec.getText().toString(),
+                containerFormat.getText().toString(),
+                videoCodec.getText().toString(),
+                audioCodec.getText().toString(),
                 vb,
                 ab,
-                videoSize.getText().toString().isEmpty() ? null : videoSize.getText().toString(),
-                frame.getText().toString().isEmpty() ? null : frame.getText().toString());
+                videoSize.getText().toString(),
+                frame.getText().toString());
     }
+
 }
