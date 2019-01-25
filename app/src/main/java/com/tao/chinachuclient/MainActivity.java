@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         username = new String(Base64.decode(username, Base64.DEFAULT));
         password = new String(Base64.decode(password, Base64.DEFAULT));
 
-        String[] listItem = new String[]{"番組表", "ルール", "予約済み", "録画中", "録画済み"};
+        String[] listItem = getResources().getStringArray(R.array.main_list_names);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItem);
         mainList.setAdapter(adapter);
         mainList.setOnItemClickListener(this);
@@ -93,9 +93,9 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        MenuItem changeServer = menu.add(0, Menu.FIRST, Menu.NONE, "鯖変更");
+        MenuItem changeServer = menu.add(0, Menu.FIRST, Menu.NONE, R.string.change_server);
         changeServer.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        MenuItem item = menu.add(0, Menu.FIRST + 1, Menu.NONE, "設定");
+        MenuItem item = menu.add(0, Menu.FIRST + 1, Menu.NONE, R.string.settings);
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return true;
     }
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
                 address.add(s.getChinachuAddress());
 
             int settingNow = address.indexOf(pref.getString("chinachuAddress", ""));
-            new AlertDialog.Builder(this).setTitle("サーバーを選択してください")
+            new AlertDialog.Builder(this).setTitle(R.string.select_server)
                     .setSingleChoiceItems((String[])address.toArray(new String[0]), settingNow, new OnClickListener(){
                         @Override
                         public void onClick(DialogInterface dialog, int which){
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
                             dbUtils.close();
                             dialog.dismiss();
                         }
-                    }).setPositiveButton("キャンセル", null).show();
+                    }).setPositiveButton(R.string.cancel, null).show();
         }else if(item.getItemId() == Menu.FIRST + 1){
             startActivity(new Intent(this, Preference.class));
         }

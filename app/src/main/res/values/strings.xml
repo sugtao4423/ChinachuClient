@@ -2,9 +2,113 @@
 <resources>
 
     <string name="app_name">Chinachu Client</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="ok">OK</string>
+    <string name="cancel">キャンセル</string>
+    <string name="settings">設定</string>
+    <string name="loading">Loading...</string>
+    <string name="sending">Sending...</string>
+    <string name="error_access">通信エラー</string>
 
+    <!-- AddServer -->
+    <string name="add_server">サーバー追加</string>
+    <string name="wrong_server_address">サーバーアドレスが間違っています</string>
+    <string name="already_register">すでに登録されています</string>
+    <string name="getting_channel_list">チャンネルリストの取得中...</string>
+    <string name="error_get_channel_list">チャンネル取得に失敗しました\nやり直してください</string>
+
+    <!-- ChannelScheduleActivity -->
+    <string name="channel_schedule">番組表</string>
+    <string name="error_get_schedule">番組取得エラー</string>
+    <string name="live_play">ライブ再生</string>
+    <string name="live_play_encode">ライブ再生(エンコ有)</string>
+    <string name="search_of_all_channel">全チャンネルから番組検索</string>
+    <string name="is_live_play">ライブ視聴しますか？</string>
+    <string name="is_live_play_encode">エンコ有ライブ視聴しますか？</string>
+    <string name="broadcasting_to">"放送中: "</string>
+
+    <!-- MainActivity -->
+    <string-array name="main_list_names">
+        <item>番組表</item>
+        <item>ルール</item>
+        <item>予約済み</item>
+        <item>録画中</item>
+        <item>録画済み</item>
+    </string-array>
+    <string name="change_server">鯖変更</string>
+    <string name="select_server">サーバーを選択してください</string>
+
+    <!-- Preference -->
+    <string name="confirm_settings">設定の確認</string>
+    <string name="plz_use_after_confirm_settings">エンコードの設定を確認してからご使用ください</string>
+    <string name="choose_delete_server">削除するサーバーを選択</string>
+    <string name="confirm_delete">削除の確認</string>
+    <string name="is_delete_server_below">以下のサーバーを削除しますか？</string>
+    <string name="deleted">削除しました</string>
+
+    <!-- ProgramActivity -->
+    <string name="reserved">予約済み</string>
+    <string name="recording">録画中</string>
+    <string name="recorded">録画済み</string>
+    <string name="search_result">検索結果</string>
+    <string name="cleanup">クリーンアップ</string>
+    <string name="search_of_list">リストから検索</string>
+    <string name="is_cleanup_of_recorded_list">録画済みリストをクリーンアップしますか？</string>
+    <string name="done">完了</string>
+    <string name="cleanup_done_is_refresh">クリーンアップに成功しました\n更新しますか？</string>
+
+    <!-- ProgramDetail -->
+    <string name="error_get_image">画像取得エラー</string>
+    <string name="zoom_this_state">このまま拡大</string>
+    <string name="reserve">予約</string>
+    <string name="delete_reserve">予約削除</string>
+    <string name="skip_reserve">予約スキップ</string>
+    <string name="skip_reserve_release">予約スキップ解除</string>
+    <string name="streaming_play">ストリーミング再生</string>
+    <string name="streaming_play_encode">ストリーミング再生(エンコ有)</string>
+    <string name="delete_recorded_file">録画ファイル削除</string>
+    <string name="is_reserve">予約しますか？</string>
+    <string name="is_delete_reserve">予約を削除しますか？</string>
+    <string name="is_skip_reserve">予約をスキップしますか？</string>
+    <string name="is_skip_reserve_release">予約のスキップを解除しますか？</string>
+    <string name="is_delete_recorded_file">録画ファイルを削除しますか？</string>
+    <string name="done_reserve">予約完了</string>
+    <string name="done_delete_reverse">予約の削除完了</string>
+    <string name="done_skip_reserve">予約のスキップ完了</string>
+    <string name="done_skip_reserve_release">予約のスキップ解除完了</string>
+    <string name="done_delete_recorded_file">録画ファイルの削除完了</string>
+    <string name="reflect_recorded_list_need_cleanup">録画済みリストへの反映にはクリーンアップが必要です</string>
+
+    <!-- RuleActivity -->
+    <string name="rule">ルール</string>
+    <string name="error_get_rule">ルール取得エラー</string>
+
+    <!-- RuleDetail -->
+    <string name="delete_rule">ルール削除</string>
+    <string name="is_delete">削除しますか？</string>
+    <string name="rule_number">ルールNo.</string>
+    <string name="target_title_to">"対象タイトル: "</string>
+    <string name="done_delete">削除完了</string>
+    <string name="back_activity_must_list_refresh">前の画面に戻り、必ずリストを上に引っ張るなどでルール一覧を更新してください。</string>
+
+    <!-- SettingActivity -->
+    <string name="change_server_settings">サーバー設定変更</string>
+    <string name="change_settings">設定変更</string>
+    <string name="change_current_server_settings">現在選択されているサーバーの設定を変更します</string>
+    <string name="current_server">現在選択中のサーバー</string>
+
+    <!-- ShowImage -->
+    <string name="is_save">保存しますか？</string>
+    <string name="error_file_already_exists">エラー: ファイルが既に存在しています</string>
+    <string-array name="file_already_exists_fix_suggestion">
+        <item>上書き</item>
+        <item>ファイル名を指定して保存</item>
+        <item>キャンセル</item>
+    </string-array>
+    <string name="assign_file_name">ファイル名を指定してください</string>
+    <string name="saved">保存しました</string>
+    <string name="fail_permission">(๑•﹏•๑*)</string>
+
+    <!-- Layout xml -->
     <string-array name="enc_setting_typeSpinner_item">
         <item>mp4</item>
         <item>m2ts</item>

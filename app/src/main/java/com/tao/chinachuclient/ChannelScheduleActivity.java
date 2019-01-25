@@ -54,7 +54,6 @@ public class ChannelScheduleActivity extends AppCompatActivity implements Action
 
         ActionBar actionbar = getSupportActionBar();
         actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        actionbar.setTitle("番組表");
         actionbar.setDisplayHomeAsUpEnabled(true);
 
         spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item);
@@ -83,7 +82,7 @@ public class ChannelScheduleActivity extends AppCompatActivity implements Action
             @Override
             protected void onPreExecute(){
                 progDialog = new ProgressDialog(ChannelScheduleActivity.this);
-                progDialog.setMessage("Loading...");
+                progDialog.setMessage(getString(R.string.loading));
                 progDialog.setIndeterminate(false);
                 progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 progDialog.setCancelable(true);
@@ -104,7 +103,7 @@ public class ChannelScheduleActivity extends AppCompatActivity implements Action
                 progDialog.dismiss();
                 programListAdapter.clear();
                 if(result == null){
-                    Toast.makeText(ChannelScheduleActivity.this, "番組取得エラー", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChannelScheduleActivity.this, R.string.error_get_schedule, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Arrays.sort(result, new Comparator<Program>(){
@@ -136,13 +135,13 @@ public class ChannelScheduleActivity extends AppCompatActivity implements Action
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         if(appClass.getStreaming())
-            menu.add(0, Menu.FIRST, Menu.NONE, "ライブ再生");
+            menu.add(0, Menu.FIRST, Menu.NONE, R.string.live_play);
         if(appClass.getEncStreaming())
-            menu.add(0, Menu.FIRST + 1, Menu.NONE, "ライブ再生(エンコ有)");
+            menu.add(0, Menu.FIRST + 1, Menu.NONE, R.string.live_play_encode);
 
         getMenuInflater().inflate(R.menu.search, menu);
         searchView = (SearchView)menu.findItem(R.id.search_view).getActionView();
-        searchView.setQueryHint("全チャンネルから番組検索");
+        searchView.setQueryHint(getString(R.string.search_of_all_channel));
         searchView.setOnQueryTextListener(new OnQueryTextListener(){
 
             @Override
@@ -176,12 +175,12 @@ public class ChannelScheduleActivity extends AppCompatActivity implements Action
                     break;
                 }
             }
-            String title = item.getItemId() == Menu.FIRST ? "ライブ視聴しますか？" : "エンコ有ライブ視聴しますか？";
+            int titleRes = (item.getItemId() == Menu.FIRST) ? R.string.is_live_play : R.string.is_live_play_encode;
             new AlertDialog.Builder(this)
-                    .setTitle(title)
-                    .setMessage("放送中：" + nowProgramTitle)
-                    .setNegativeButton("キャンセル", null)
-                    .setPositiveButton("OK", new OnClickListener(){
+                    .setTitle(titleRes)
+                    .setMessage(getString(R.string.broadcasting_to) + nowProgramTitle)
+                    .setNegativeButton(R.string.cancel, null)
+                    .setPositiveButton(R.string.ok, new OnClickListener(){
 
                         @Override
                         public void onClick(DialogInterface dialog, int which){

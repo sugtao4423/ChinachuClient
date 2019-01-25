@@ -7,7 +7,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.MenuItem;
@@ -34,19 +33,17 @@ public class SettingActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("サーバー設定変更");
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         enc = getSharedPreferences("encodeConfig", MODE_PRIVATE);
 
         new AlertDialog.Builder(this)
-                .setTitle("設定変更")
-                .setMessage("現在選択されているサーバーの設定を変更します\n\n現在選択中のサーバー\n" + pref.getString("chinachuAddress", ""))
+                .setTitle(R.string.change_settings)
+                .setMessage(getString(R.string.change_current_server_settings) + "\n\n" + getString(R.string.current_server) + "\n" + pref.getString("chinachuAddress", ""))
                 .setCancelable(false)
-                .setPositiveButton("OK", null)
-                .setNegativeButton("キャンセル", new OnClickListener(){
+                .setPositiveButton(R.string.ok, null)
+                .setNegativeButton(R.string.cancel, new OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which){
                         finish();
@@ -119,7 +116,7 @@ public class SettingActivity extends AppCompatActivity{
     public void ok(View v){
         String raw_chinachuAddress = chinachuAddress.getText().toString();
         if(!(raw_chinachuAddress.startsWith("http://") || raw_chinachuAddress.startsWith("https://"))){
-            Toast.makeText(this, "サーバーアドレスが間違っています", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.wrong_server_address, Toast.LENGTH_SHORT).show();
             return;
         }
 

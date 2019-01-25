@@ -31,13 +31,12 @@ public class ShowImage extends AppCompatActivity{
     private String programId;
     private int pos;
     private byte[] byteImage;
-    private ZoomImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_image);
-        image = (ZoomImageView)findViewById(R.id.show_image_image);
+        ZoomImageView image = (ZoomImageView)findViewById(R.id.show_image_image);
 
         Intent i = getIntent();
         final String base64 = i.getStringExtra("base64");
@@ -50,9 +49,9 @@ public class ShowImage extends AppCompatActivity{
 
     public void image_option_click(View v){
         new AlertDialog.Builder(this)
-                .setMessage("保存しますか？")
-                .setNegativeButton("キャンセル", null)
-                .setPositiveButton("OK", new OnClickListener(){
+                .setMessage(R.string.is_save)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.ok, new OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which){
                         saveImage();
@@ -77,8 +76,8 @@ public class ShowImage extends AppCompatActivity{
 
         if(new File(imgPath).exists()){
             new AlertDialog.Builder(this)
-                    .setTitle("エラー:ファイルが既に存在しています")
-                    .setItems(new String[]{"上書き", "ファイル名を指定して保存", "キャンセル"}, new OnClickListener(){
+                    .setTitle(R.string.error_file_already_exists)
+                    .setItems(getResources().getStringArray(R.array.file_already_exists_fix_suggestion), new OnClickListener(){
                         @Override
                         public void onClick(DialogInterface dialog, int which){
                             if(which == 0){
@@ -87,10 +86,10 @@ public class ShowImage extends AppCompatActivity{
                                 final EditText edit = new EditText(ShowImage.this);
                                 edit.setText(fileName);
                                 new AlertDialog.Builder(ShowImage.this)
-                                        .setTitle("ファイル名を指定してください")
+                                        .setTitle(R.string.assign_file_name)
                                         .setView(edit)
-                                        .setNegativeButton("キャンセル", null)
-                                        .setPositiveButton("OK", new OnClickListener(){
+                                        .setNegativeButton(R.string.cancel, null)
+                                        .setPositiveButton(R.string.ok, new OnClickListener(){
                                             @Override
                                             public void onClick(DialogInterface dialog, int which){
                                                 String newPath = saveDir + "/" + edit.getText().toString() + type;
@@ -118,7 +117,7 @@ public class ShowImage extends AppCompatActivity{
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
             return;
         }
-        Toast.makeText(this, "保存しました\n" + imgPath, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.saved) + "\n" + imgPath, Toast.LENGTH_LONG).show();
     }
 
     public boolean hasWriteExternalStoragePermission(){
@@ -139,7 +138,7 @@ public class ShowImage extends AppCompatActivity{
         if(permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE) && grantResults[0] == PackageManager.PERMISSION_GRANTED){
             saveImage();
         }else{
-            Toast.makeText(getApplicationContext(), "(๑•﹏•๑*)", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.fail_permission, Toast.LENGTH_LONG).show();
         }
     }
 

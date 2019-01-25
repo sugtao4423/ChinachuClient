@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.MenuItem;
@@ -43,9 +42,7 @@ public class AddServer extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("サーバー追加");
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         startMain = getIntent().getBooleanExtra("startMain", false);
 
@@ -69,13 +66,13 @@ public class AddServer extends AppCompatActivity{
     public void ok(View v){
         raw_chinachuAddress = chinachuAddress.getText().toString();
         if(!(raw_chinachuAddress.startsWith("http://") || raw_chinachuAddress.startsWith("https://"))){
-            Toast.makeText(this, "サーバーアドレスが間違っています", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.wrong_server_address, Toast.LENGTH_SHORT).show();
             return;
         }
 
         final DBUtils dbUtils = new DBUtils(this);
         if(dbUtils.serverExists(raw_chinachuAddress)){
-            Toast.makeText(this, "すでに登録されています", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.already_register, Toast.LENGTH_SHORT).show();
             dbUtils.close();
             return;
         }
@@ -86,7 +83,7 @@ public class AddServer extends AppCompatActivity{
             @Override
             protected void onPreExecute(){
                 progDialog = new ProgressDialog(AddServer.this);
-                progDialog.setMessage("チャンネルリストの取得中...");
+                progDialog.setMessage(getString(R.string.getting_channel_list));
                 progDialog.setIndeterminate(false);
                 progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 progDialog.setCancelable(true);
@@ -107,7 +104,7 @@ public class AddServer extends AppCompatActivity{
             protected void onPostExecute(Program[] result){
                 progDialog.dismiss();
                 if(result == null){
-                    Toast.makeText(AddServer.this, "チャンネル取得に失敗しました\nやり直してください", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddServer.this, R.string.error_get_channel_list, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ArrayList<String> id_name = new ArrayList<String>();

@@ -138,7 +138,7 @@ public class ProgramDetail extends AppCompatActivity{
                 @Override
                 protected void onPostExecute(String result){
                     if(result == null){
-                        Toast.makeText(ProgramDetail.this, "画像取得エラー", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProgramDetail.this, R.string.error_get_image, Toast.LENGTH_SHORT).show();
                         return;
                     }
                     if(result.startsWith("data:image/jpeg;base64,"))
@@ -187,8 +187,8 @@ public class ProgramDetail extends AppCompatActivity{
 
         new AlertDialog.Builder(this)
                 .setView(view)
-                .setNegativeButton("キャンセル", null)
-                .setPositiveButton("OK", new OnClickListener(){
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.ok, new OnClickListener(){
 
                     @Override
                     public void onClick(DialogInterface dialog, int which){
@@ -198,7 +198,7 @@ public class ProgramDetail extends AppCompatActivity{
                             @Override
                             protected void onPreExecute(){
                                 progDialog = new ProgressDialog(ProgramDetail.this);
-                                progDialog.setMessage("Loading...");
+                                progDialog.setMessage(getString(R.string.loading));
                                 progDialog.setIndeterminate(false);
                                 progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                                 progDialog.setCancelable(true);
@@ -225,7 +225,7 @@ public class ProgramDetail extends AppCompatActivity{
                             protected void onPostExecute(String result){
                                 progDialog.dismiss();
                                 if(result == null){
-                                    Toast.makeText(ProgramDetail.this, "画像の取得に失敗しました", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ProgramDetail.this, R.string.error_get_image, Toast.LENGTH_SHORT).show();
                                     return;
                                 }
                                 if(result.startsWith("data:image/jpeg;base64,"))
@@ -239,7 +239,7 @@ public class ProgramDetail extends AppCompatActivity{
                             }
                         }.execute();
                     }
-                }).setNeutralButton("このまま拡大", new OnClickListener(){
+                }).setNeutralButton(R.string.zoom_this_state, new OnClickListener(){
 
             @Override
             public void onClick(DialogInterface dialog, int which){
@@ -256,24 +256,27 @@ public class ProgramDetail extends AppCompatActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         if(type == Type.CHANNEL_SCHEDULE_ACTIVITY || type == Type.SEARCH_PROGRAM){
-            menu.add(0, Menu.FIRST, Menu.NONE, "予約");
+            menu.add(0, Menu.FIRST, Menu.NONE, R.string.reserve);
         }else if(type == Type.RESERVES){
             if(reserveIsManualReserved){
-                menu.add(0, Menu.FIRST + 1, Menu.NONE, "予約削除");
+                menu.add(0, Menu.FIRST + 1, Menu.NONE, R.string.delete_reserve);
             }else{
-                if(reserveIsSkip)
-                    menu.add(0, Menu.FIRST + 1, Menu.NONE, "予約スキップ解除");
-                else
-                    menu.add(0, Menu.FIRST + 1, Menu.NONE, "予約スキップ");
+                if(reserveIsSkip){
+                    menu.add(0, Menu.FIRST + 1, Menu.NONE, R.string.skip_reserve_release);
+                }else{
+                    menu.add(0, Menu.FIRST + 1, Menu.NONE, R.string.skip_reserve);
+                }
             }
         }else if(type == Type.RECORDING || type == Type.RECORDED){
-            if(appClass.getStreaming())
-                menu.add(0, Menu.FIRST + 2, Menu.NONE, "ストリーミング再生");
-            if(appClass.getEncStreaming())
-                menu.add(0, Menu.FIRST + 3, Menu.NONE, "ストリーミング再生(エンコ有)");
+            if(appClass.getStreaming()){
+                menu.add(0, Menu.FIRST + 2, Menu.NONE, R.string.streaming_play);
+            }
+            if(appClass.getEncStreaming()){
+                menu.add(0, Menu.FIRST + 3, Menu.NONE, R.string.streaming_play_encode);
+            }
         }
         if(type == Type.RECORDED){
-            menu.add(0, Menu.FIRST + 4, Menu.NONE, "録画ファイル削除");
+            menu.add(0, Menu.FIRST + 4, Menu.NONE, R.string.delete_recorded_file);
         }
         return true;
     }
@@ -327,23 +330,24 @@ public class ProgramDetail extends AppCompatActivity{
         switch(type){
             case Type.CHANNEL_SCHEDULE_ACTIVITY:
             case Type.SEARCH_PROGRAM:
-                before.setTitle("予約しますか？");
+                before.setTitle(R.string.is_reserve);
                 break;
             case Type.RESERVES:
                 if(reserveIsManualReserved){
-                    before.setTitle("予約を削除しますか？");
+                    before.setTitle(R.string.is_delete_reserve);
                 }else{
-                    if(reserveIsSkip)
-                        before.setTitle("予約のスキップを解除しますか？");
-                    else
-                        before.setTitle("予約をスキップしますか？");
+                    if(reserveIsSkip){
+                        before.setTitle(R.string.is_skip_reserve_release);
+                    }else{
+                        before.setTitle(R.string.is_skip_reserve);
+                    }
                 }
                 break;
             case Type.RECORDED:
-                before.setTitle("録画ファイルを削除しますか？");
+                before.setTitle(R.string.is_delete_recorded_file);
                 break;
         }
-        before.setMessage(program.getFullTitle()).setNegativeButton("キャンセル", null).setPositiveButton("OK", new OnClickListener(){
+        before.setMessage(program.getFullTitle()).setNegativeButton(R.string.cancel, null).setPositiveButton(R.string.ok, new OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which){
                 new AsyncTask<Void, Void, ChinachuResponse>(){
@@ -352,7 +356,7 @@ public class ProgramDetail extends AppCompatActivity{
                     @Override
                     protected void onPreExecute(){
                         progDialog = new ProgressDialog(ProgramDetail.this);
-                        progDialog.setMessage("Sending...");
+                        progDialog.setMessage(getString(R.string.sending));
                         progDialog.setIndeterminate(false);
                         progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                         progDialog.setCancelable(true);
@@ -388,7 +392,7 @@ public class ProgramDetail extends AppCompatActivity{
                     protected void onPostExecute(ChinachuResponse result){
                         progDialog.dismiss();
                         if(result == null){
-                            Toast.makeText(ProgramDetail.this, "通信エラー", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProgramDetail.this, R.string.error_access, Toast.LENGTH_SHORT).show();
                             return;
                         }
                         if(!result.getResult()){
@@ -400,24 +404,25 @@ public class ProgramDetail extends AppCompatActivity{
                         switch(type){
                             case Type.CHANNEL_SCHEDULE_ACTIVITY:
                             case Type.SEARCH_PROGRAM:
-                                after.setTitle("予約完了");
+                                after.setTitle(R.string.done_reserve);
                                 after.setMessage(program.getFullTitle());
                                 break;
                             case Type.RESERVES:
                                 if(reserveIsManualReserved){
-                                    after.setTitle("予約の削除完了");
+                                    after.setTitle(R.string.done_delete_reverse);
                                 }else{
-                                    if(reserveIsSkip)
-                                        after.setTitle("予約のスキップ解除完了");
-                                    else
-                                        after.setTitle("予約のスキップ完了");
+                                    if(reserveIsSkip){
+                                        after.setTitle(R.string.done_skip_reserve_release);
+                                    }else{
+                                        after.setTitle(R.string.done_skip_reserve);
+                                    }
                                 }
                                 after.setMessage(program.getFullTitle());
                                 appClass.setReloadList(true);
                                 break;
                             case Type.RECORDED:
-                                after.setTitle("録画ファイルの削除完了");
-                                after.setMessage(program.getFullTitle() + "\n\n録画済みリストへの反映にはクリーンアップが必要です");
+                                after.setTitle(R.string.done_delete_recorded_file);
+                                after.setMessage(program.getFullTitle() + "\n\n" + getString(R.string.reflect_recorded_list_need_cleanup));
                                 break;
                         }
                         after.show();

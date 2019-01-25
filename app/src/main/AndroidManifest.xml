@@ -22,12 +22,19 @@
         </activity>
         <activity
             android:name="SettingActivity"
+            android:label="@string/change_server_settings"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name="ChannelScheduleActivity" />
+        <activity
+            android:name="ChannelScheduleActivity"
+            android:label="@string/channel_schedule" />
         <activity android:name="ProgramDetail" />
         <activity android:name="ProgramActivity" />
-        <activity android:name="Preference" />
-        <activity android:name="AddServer" />
+        <activity
+            android:name="Preference"
+            android:label="@string/settings" />
+        <activity
+            android:name="AddServer"
+            android:label="@string/add_server" />
         <activity android:name="RuleActivity" />
         <activity android:name="RuleDetail" />
         <activity

@@ -35,7 +35,6 @@ import Chinachu4j.Reserve;
 
 public class ProgramActivity extends AppCompatActivity implements OnRefreshListener{
 
-    private ListView list;
     private SwipeRefreshLayout swipeRefresh;
     private ProgramListAdapter programListAdapter;
     private ApplicationClass appClass;
@@ -51,7 +50,7 @@ public class ProgramActivity extends AppCompatActivity implements OnRefreshListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_program);
 
-        list = (ListView)findViewById(R.id.programList);
+        ListView list = (ListView)findViewById(R.id.programList);
         swipeRefresh = (SwipeRefreshLayout)findViewById(R.id.swipe_refresh);
 
         actionbar = getSupportActionBar();
@@ -73,22 +72,35 @@ public class ProgramActivity extends AppCompatActivity implements OnRefreshListe
         swipeRefresh.setColorSchemeColors(Color.parseColor("#2196F3"));
         swipeRefresh.setOnRefreshListener(this);
 
-        switch(type){
-            case Type.RESERVES:
-                actionbar.setTitle("予約済み");
-                break;
-            case Type.RECORDING:
-                actionbar.setTitle("録画中");
-                break;
-            case Type.RECORDED:
-                actionbar.setTitle("録画済み");
-                break;
-            case Type.SEARCH_PROGRAM:
-                actionbar.setTitle("検索結果");
-                break;
-        }
+        setActionBarTitle(-1);
 
         asyncLoad(false);
+    }
+
+    public void setActionBarTitle(int programCount){
+        int titleRes = -1;
+        switch(type){
+            case Type.RESERVES:
+                titleRes = R.string.reserved;
+                break;
+            case Type.RECORDING:
+                titleRes = R.string.recording;
+                break;
+            case Type.RECORDED:
+                titleRes = R.string.recorded;
+                break;
+            case Type.SEARCH_PROGRAM:
+                titleRes = R.string.search_result;
+                break;
+            default:
+                finish();
+                return;
+        }
+        String title = getString(titleRes);
+        if(programCount >= 0){
+            title += " (" + programCount + ")";
+        }
+        actionbar.setTitle(title);
     }
 
     public void asyncLoad(final boolean isRefresh){
@@ -100,7 +112,7 @@ public class ProgramActivity extends AppCompatActivity implements OnRefreshListe
             protected void onPreExecute(){
                 if(!isRefresh){
                     progDialog = new ProgressDialog(ProgramActivity.this);
-                    progDialog.setMessage("Loading...");
+                    progDialog.setMessage(getString(R.string.loading));
                     progDialog.setIndeterminate(false);
                     progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                     progDialog.setCancelable(true);
@@ -120,12 +132,12 @@ public class ProgramActivity extends AppCompatActivity implements OnRefreshListe
                 else
                     swipeRefresh.setRefreshing(false);
                 if(result == null){
-                    Toast.makeText(ProgramActivity.this, "番組取得エラー", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProgramActivity.this, R.string.error_get_schedule, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 programList = result;
                 programListAdapter.addAll(result);
-                setActionBarCount(result.length);
+                setActionBarTitle(result.length);
             }
         }.execute();
     }
@@ -151,39 +163,16 @@ public class ProgramActivity extends AppCompatActivity implements OnRefreshListe
         }
     }
 
-    public void setActionBarCount(int length){
-        String title;
-        String len = String.valueOf(length);
-        switch(type){
-            case Type.RESERVES:
-                title = "予約済み (" + len + ")";
-                break;
-            case Type.RECORDING:
-                title = "録画中 (" + len + ")";
-                break;
-            case Type.RECORDED:
-                title = "録画済み (" + len + ")";
-                break;
-            case Type.SEARCH_PROGRAM:
-                title = "番組検索 (" + len + ")";
-                break;
-            default:
-                title = "";
-                break;
-        }
-        actionbar.setTitle(title);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         if(type == Type.RECORDED)
-            menu.add(0, Menu.FIRST, Menu.NONE, "クリーンアップ").setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+            menu.add(0, Menu.FIRST, Menu.NONE, R.string.cleanup).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
         if(type == Type.SEARCH_PROGRAM)
             return true;
 
         getMenuInflater().inflate(R.menu.search, menu);
         searchView = (SearchView)menu.findItem(R.id.search_view).getActionView();
-        searchView.setQueryHint("リストから検索");
+        searchView.setQueryHint(getString(R.string.search_of_list));
         searchView.setOnQueryTextListener(new OnQueryTextListener(){
 
             @Override
@@ -228,10 +217,10 @@ public class ProgramActivity extends AppCompatActivity implements OnRefreshListe
         }
         if(item.getItemId() == Menu.FIRST){
             new AlertDialog.Builder(this)
-                    .setTitle("クリーンアップ")
-                    .setMessage("録画済みリストをクリーンアップしますか？")
-                    .setNegativeButton("キャンセル", null)
-                    .setPositiveButton("OK", new OnClickListener(){
+                    .setTitle(R.string.cleanup)
+                    .setMessage(R.string.is_cleanup_of_recorded_list)
+                    .setNegativeButton(R.string.cancel, null)
+                    .setPositiveButton(R.string.ok, new OnClickListener(){
                         @Override
                         public void onClick(DialogInterface dialog, int which){
                             new AsyncTask<Void, Void, ChinachuResponse>(){
@@ -240,7 +229,7 @@ public class ProgramActivity extends AppCompatActivity implements OnRefreshListe
                                 @Override
                                 protected void onPreExecute(){
                                     progDialog = new ProgressDialog(ProgramActivity.this);
-                                    progDialog.setMessage("Loading...");
+                                    progDialog.setMessage(getString(R.string.loading));
                                     progDialog.setIndeterminate(false);
                                     progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                                     progDialog.setCancelable(true);
@@ -260,7 +249,7 @@ public class ProgramActivity extends AppCompatActivity implements OnRefreshListe
                                 protected void onPostExecute(ChinachuResponse result){
                                     progDialog.dismiss();
                                     if(result == null){
-                                        Toast.makeText(ProgramActivity.this, "通信エラー", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ProgramActivity.this, R.string.error_access, Toast.LENGTH_SHORT).show();
                                         return;
                                     }
                                     if(!result.getResult()){
@@ -269,10 +258,10 @@ public class ProgramActivity extends AppCompatActivity implements OnRefreshListe
                                     }
 
                                     new AlertDialog.Builder(ProgramActivity.this)
-                                            .setTitle("完了")
-                                            .setMessage("クリーンアップに成功しました\n更新しますか？")
-                                            .setNegativeButton("キャンセル", null)
-                                            .setPositiveButton("OK", new OnClickListener(){
+                                            .setTitle(R.string.done)
+                                            .setMessage(R.string.cleanup_done_is_refresh)
+                                            .setNegativeButton(R.string.cancel, null)
+                                            .setPositiveButton(R.string.ok, new OnClickListener(){
 
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which){

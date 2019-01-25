@@ -13,7 +13,6 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -27,9 +26,7 @@ public class Preference extends AppCompatActivity{
         super.onCreate(savedInstanceState);
 
         getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferencesFragment()).commit();
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setTitle("設定");
-        actionbar.setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public static class MyPreferencesFragment extends PreferenceFragment{
@@ -68,10 +65,10 @@ public class Preference extends AppCompatActivity{
                             + "where chinachuAddress='" + chinachuAddress + "'");
                     if((boolean)newValue){
                         new AlertDialog.Builder(getActivity())
-                                .setTitle("設定の確認")
-                                .setMessage("エンコードの設定を確認してからご使用ください")
-                                .setNegativeButton("キャンセル", null)
-                                .setPositiveButton("OK", new OnClickListener(){
+                                .setTitle(R.string.confirm_settings)
+                                .setMessage(R.string.plz_use_after_confirm_settings)
+                                .setNegativeButton(R.string.cancel, null)
+                                .setPositiveButton(R.string.ok, new OnClickListener(){
                                     @Override
                                     public void onClick(DialogInterface dialog, int which){
                                         startActivity(new Intent(getActivity(), SettingActivity.class));
@@ -122,20 +119,20 @@ public class Preference extends AppCompatActivity{
                         mov = result.moveToNext();
                     }
                     new AlertDialog.Builder(getActivity())
-                            .setTitle("削除するサーバーを選択")
+                            .setTitle(R.string.choose_delete_server)
                             .setItems((String[])address.toArray(new String[0]), new OnClickListener(){
                                 @Override
                                 public void onClick(DialogInterface dialog, final int which){
                                     new AlertDialog.Builder(getActivity())
-                                            .setTitle("削除の確認")
-                                            .setMessage("以下のサーバーを削除しますか？\n" + address.get(which))
-                                            .setNegativeButton("キャンセル", null)
-                                            .setPositiveButton("OK", new OnClickListener(){
+                                            .setTitle(R.string.confirm_delete)
+                                            .setMessage(getString(R.string.is_delete_server_below) + "\n" + address.get(which))
+                                            .setNegativeButton(R.string.cancel, null)
+                                            .setPositiveButton(R.string.ok, new OnClickListener(){
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int w){
                                                     String delRowid = rowid.get(which);
                                                     db.execSQL("delete from servers where ROWID=" + delRowid);
-                                                    Toast.makeText(getActivity(), "削除しました", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getActivity(), R.string.deleted, Toast.LENGTH_SHORT).show();
                                                 }
                                             }).show();
                                 }

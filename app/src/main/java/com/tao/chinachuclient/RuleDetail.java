@@ -80,7 +80,7 @@ public class RuleDetail extends AppCompatActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        menu.add(0, Menu.FIRST, Menu.NONE, "ルール削除");
+        menu.add(0, Menu.FIRST, Menu.NONE, R.string.delete_rule);
         return true;
     }
 
@@ -91,10 +91,10 @@ public class RuleDetail extends AppCompatActivity{
             return true;
         }else if(item.getItemId() == Menu.FIRST){
             new AlertDialog.Builder(this)
-                    .setTitle("削除しますか？")
-                    .setMessage("ルールNo." + position + "\n対象タイトル：" + reserve_title)
-                    .setNegativeButton("キャンセル", null)
-                    .setPositiveButton("OK", new OnClickListener(){
+                    .setTitle(R.string.is_delete)
+                    .setMessage(getString(R.string.rule_number) + position + "\n" + getString(R.string.target_title_to) + reserve_title)
+                    .setNegativeButton(R.string.cancel, null)
+                    .setPositiveButton(R.string.ok, new OnClickListener(){
                         @Override
                         public void onClick(DialogInterface dialog, int which){
                             new AsyncTask<Void, Void, ChinachuResponse>(){
@@ -103,7 +103,7 @@ public class RuleDetail extends AppCompatActivity{
                                 @Override
                                 protected void onPreExecute(){
                                     progDialog = new ProgressDialog(RuleDetail.this);
-                                    progDialog.setMessage("Sending...");
+                                    progDialog.setMessage(getString(R.string.sending));
                                     progDialog.setIndeterminate(false);
                                     progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                                     progDialog.setCancelable(true);
@@ -123,7 +123,7 @@ public class RuleDetail extends AppCompatActivity{
                                 protected void onPostExecute(ChinachuResponse result){
                                     progDialog.dismiss();
                                     if(result == null){
-                                        Toast.makeText(RuleDetail.this, "通信エラー", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(RuleDetail.this, R.string.error_access, Toast.LENGTH_SHORT).show();
                                         return;
                                     }
                                     if(!result.getResult()){
@@ -132,10 +132,10 @@ public class RuleDetail extends AppCompatActivity{
                                     }
 
                                     new AlertDialog.Builder(RuleDetail.this)
-                                            .setTitle("削除完了")
-                                            .setMessage("削除が完了しました。\n\n前の画面に戻り、リストを上に引っ張るなどでルール一覧を更新してください。")
-                                            .setNegativeButton("キャンセル", null)
-                                            .setPositiveButton("OK", new OnClickListener(){
+                                            .setTitle(R.string.done_delete)
+                                            .setMessage(R.string.back_activity_must_list_refresh)
+                                            .setNegativeButton(R.string.cancel, null)
+                                            .setPositiveButton(R.string.ok, new OnClickListener(){
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which){
                                                     finish();

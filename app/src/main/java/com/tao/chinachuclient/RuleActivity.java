@@ -26,7 +26,6 @@ import Chinachu4j.Rule;
 
 public class RuleActivity extends AppCompatActivity implements OnRefreshListener, OnItemClickListener{
 
-    private ListView list;
     private SwipeRefreshLayout swipeRefresh;
     private RuleListAdapter adapter;
     private ApplicationClass appClass;
@@ -39,7 +38,7 @@ public class RuleActivity extends AppCompatActivity implements OnRefreshListener
 
         appClass = (ApplicationClass)getApplicationContext();
 
-        list = (ListView)findViewById(R.id.programList);
+        ListView list = (ListView)findViewById(R.id.programList);
         adapter = new RuleListAdapter(this);
         list.setAdapter(adapter);
         list.setOnItemClickListener(this);
@@ -49,7 +48,7 @@ public class RuleActivity extends AppCompatActivity implements OnRefreshListener
         swipeRefresh.setOnRefreshListener(this);
 
         actionBar = getSupportActionBar();
-        actionBar.setTitle("ルール");
+        setActionBarTitle(-1);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         asyncLoad(false);
@@ -64,7 +63,7 @@ public class RuleActivity extends AppCompatActivity implements OnRefreshListener
             protected void onPreExecute(){
                 if(!isRefresh){
                     progDialog = new ProgressDialog(RuleActivity.this);
-                    progDialog.setMessage("Loading...");
+                    progDialog.setMessage(getString(R.string.loading));
                     progDialog.setIndeterminate(false);
                     progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                     progDialog.setCancelable(true);
@@ -88,17 +87,21 @@ public class RuleActivity extends AppCompatActivity implements OnRefreshListener
                 else
                     swipeRefresh.setRefreshing(false);
                 if(result == null){
-                    Toast.makeText(RuleActivity.this, "ルール取得エラー", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RuleActivity.this, R.string.error_get_rule, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 adapter.addAll(result);
-                setActionBarCount(result.length);
+                setActionBarTitle(result.length);
             }
         }.execute();
     }
 
-    public void setActionBarCount(int length){
-        actionBar.setTitle("ルール (" + String.valueOf(length) + ")");
+    public void setActionBarTitle(int ruleCount){
+        String title = getString(R.string.rule);
+        if(ruleCount >= 0){
+            title += " (" + ruleCount + ")";
+        }
+        actionBar.setTitle(title);
     }
 
     @Override
