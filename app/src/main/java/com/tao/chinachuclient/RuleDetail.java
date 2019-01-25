@@ -59,13 +59,13 @@ public class RuleDetail extends AppCompatActivity{
         String recorded_format = tmp.getRecorded_format() == null || tmp.getRecorded_format().equals("") ? "default" : tmp.getRecorded_format();
         String isDisabled = tmp.getIsDisabled() ? "無効" : "有効";
 
-        String txt = "タイプ： " + type + "<br /><br />ジャンル：" + category + "<br /><br />対象CH：" + channel +
-                "<br /><br />無視CH：" + ignore_channel + "<br /><br />対象フラグ：" + reserve_flag +
-                "<br /><br />無視フラグ：" + ignore_flag + "<br /><br />時間帯：" + start_end +
-                "<br /><br />長さ(分)：" + min_max + "<br /><br />対象タイトル：" + reserve_title +
-                "<br /><br />無視タイトル：" + ignore_title + "<br /><br />対象説明文：" + reserve_description +
-                "<br /><br />無視説明文：" + ignore_description + "<br /><br />録画ファイル名フォーマット：" +
-                recorded_format + "<br /><br />ルールの状態：" + isDisabled;
+        String txt = "タイプ: " + type + "<br /><br />ジャンル: " + category + "<br /><br />対象CH: " + channel +
+                "<br /><br />無視CH: " + ignore_channel + "<br /><br />対象フラグ: " + reserve_flag +
+                "<br /><br />無視フラグ: " + ignore_flag + "<br /><br />時間帯: " + start_end +
+                "<br /><br />長さ(分): " + min_max + "<br /><br />対象タイトル: " + reserve_title +
+                "<br /><br />無視タイトル: " + ignore_title + "<br /><br />対象説明文: " + reserve_description +
+                "<br /><br />無視説明文: " + ignore_description + "<br /><br />録画ファイル名フォーマット: " +
+                recorded_format + "<br /><br />ルールの状態: " + isDisabled;
 
         textView.setText(Html.fromHtml(txt));
     }

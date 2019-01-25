@@ -147,7 +147,7 @@
             android:layout_toLeftOf="@+id/enc_setting_video_bitrate_spinner"
             android:ems="10"
             android:hint="動画ビットレート"
-            android:inputType="number"></EditText>
+            android:inputType="number" />
 
         <EditText
             android:id="@+id/enc_setting_audioBitrate"

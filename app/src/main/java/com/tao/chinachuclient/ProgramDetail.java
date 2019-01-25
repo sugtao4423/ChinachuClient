@@ -115,7 +115,7 @@ public class ProgramDetail extends AppCompatActivity{
         else
             flag = flag.substring(0, flag.length() - 2);
         String otherText = "<p>" + startStr + " 〜 " + endStr + " (" + minute + ")<br /><br />" + category + " / " + channelType
-                + ": " + channelName + "<br /><br />フラグ：" + flag + "<br /><br />id：" + program.getId() + "</p>";
+                + ": " + channelName + "<br /><br />フラグ: " + flag + "<br /><br />id: " + program.getId() + "</p>";
         otherView.setText(Html.fromHtml(otherText));
 
         if(type == Type.RECORDING || type == Type.RECORDED){
