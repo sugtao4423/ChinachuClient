@@ -6,8 +6,8 @@ android {
         applicationId "com.tao.chinachuclient"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 19
-        versionName "1.8.1"
+        versionCode 20
+        versionName "1.9.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
