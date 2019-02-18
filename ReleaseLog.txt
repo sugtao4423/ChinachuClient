@@ -1,3 +1,6 @@
++1.9.1
+・Android Pieにてhttp通信できない問題をfix
+
 +1.9.0
 ・Adaptive Icon実装
 
