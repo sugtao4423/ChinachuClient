@@ -37,7 +37,7 @@ public class RuleDetail extends AppCompatActivity{
         Rule tmp = (Rule)i.getSerializableExtra("rule");
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(tmp.getReserve_titles().length > 0 ? tmp.getReserve_titles()[0] : "any");
+        actionBar.setTitle(tmp.getReserveTitles().length > 0 ? tmp.getReserveTitles()[0] : "any");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         TextView textView = (TextView)findViewById(R.id.rule_list_text);
@@ -45,18 +45,18 @@ public class RuleDetail extends AppCompatActivity{
         String type = tmp.getTypes().length > 0 ? array2string(tmp.getTypes()) : "any";
         String category = tmp.getCategories().length > 0 ? array2string(tmp.getCategories()) : "any";
         String channel = tmp.getChannels().length > 0 ? array2string(tmp.getChannels()) : "any";
-        String ignore_channel = tmp.getIgnore_channels().length > 0 ? array2string(tmp.getIgnore_channels()) : "none";
-        String reserve_flag = tmp.getReserve_flags().length > 0 ? array2string(tmp.getReserve_flags()) : "any";
-        String ignore_flag = tmp.getIgnore_flags().length > 0 ? array2string(tmp.getIgnore_flags()) : "none";
+        String ignore_channel = tmp.getIgnoreChannels().length > 0 ? array2string(tmp.getIgnoreChannels()) : "none";
+        String reserve_flag = tmp.getReserveFlags().length > 0 ? array2string(tmp.getReserveFlags()) : "any";
+        String ignore_flag = tmp.getIgnoreFlags().length > 0 ? array2string(tmp.getIgnoreFlags()) : "none";
 
         String start_end = (tmp.getStart() == -1 ? 0 : tmp.getStart()) + "〜" + (tmp.getEnd() == -1 ? 0 : tmp.getEnd());
         String min_max = tmp.getMin() == -1 && tmp.getMax() == -1 ? "all" : String.valueOf((tmp.getMin() / 60) + "〜" + (tmp.getMax() / 60));
 
-        reserve_title = tmp.getReserve_titles().length > 0 ? array2string(tmp.getReserve_titles()) : "any";
-        String ignore_title = tmp.getIgnore_titles().length > 0 ? array2string(tmp.getIgnore_titles()) : "none";
-        String reserve_description = tmp.getReserve_descriptions().length > 0 ? array2string(tmp.getReserve_descriptions()) : "any";
-        String ignore_description = tmp.getIgnore_descriptions().length > 0 ? array2string(tmp.getIgnore_descriptions()) : "none";
-        String recorded_format = tmp.getRecorded_format() == null || tmp.getRecorded_format().equals("") ? "default" : tmp.getRecorded_format();
+        reserve_title = tmp.getReserveTitles().length > 0 ? array2string(tmp.getReserveTitles()) : "any";
+        String ignore_title = tmp.getIgnoreTitles().length > 0 ? array2string(tmp.getIgnoreTitles()) : "none";
+        String reserve_description = tmp.getReserveDescriptions().length > 0 ? array2string(tmp.getReserveDescriptions()) : "any";
+        String ignore_description = tmp.getIgnoreDescriptions().length > 0 ? array2string(tmp.getIgnoreDescriptions()) : "none";
+        String recorded_format = tmp.getRecordedFormat() == null || tmp.getRecordedFormat().equals("") ? "default" : tmp.getRecordedFormat();
         String isDisabled = tmp.getIsDisabled() ? "無効" : "有効";
 
         String txt = "タイプ: " + type + "<br /><br />ジャンル: " + category + "<br /><br />対象CH: " + channel +

@@ -110,7 +110,7 @@ public class RuleListAdapter extends ArrayAdapter<Rule>{
             }
         }
 
-        String[] titles = item.getReserve_titles();
+        String[] titles = item.getReserveTitles();
         String title = "";
         if(titles.length != 0){
             for(String s : titles)
