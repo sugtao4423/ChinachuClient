@@ -1,0 +1,160 @@
+package com.tao.chinachuclient
+
+import Chinachu4j.Program
+import Chinachu4j.Recorded
+import Chinachu4j.Reserve
+import android.content.Context
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
+import android.preference.PreferenceManager
+import android.support.v7.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.TextView
+import java.text.SimpleDateFormat
+import java.util.*
+
+class ProgramListAdapter(context: Context, val type: Int) :
+        ArrayAdapter<Any>(context, android.R.layout.simple_list_item_1) {
+
+    private val mInflater = context.getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private val oldCategoryColor =
+            PreferenceManager.getDefaultSharedPreferences(context).getBoolean("oldCategoryColor", false)
+
+    private data class ViewHolder(
+            val title: TextView,
+            val date: TextView
+    )
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        var view = convertView
+        val holder: ViewHolder
+        if (view == null) {
+            view = mInflater.inflate(R.layout.program_list_layout, parent, false)
+            val title = view.findViewById<TextView>(R.id.program_title)
+            val date = view.findViewById<TextView>(R.id.program_date)
+
+            holder = ViewHolder(title, date)
+            view.tag = holder
+        } else {
+            holder = view.tag as ViewHolder
+        }
+
+        var item = getItem(position) ?: return view!!
+        item = when (type) {
+            Type.RESERVES -> (item as Reserve).program
+            Type.RECORDED -> (item as Recorded).program
+            else -> item as Program
+        }
+
+        view?.setBackgroundResource(
+                if (oldCategoryColor) {
+                    when (item.category) {
+                        "anime" -> R.drawable.old_anime
+                        "information" -> R.drawable.old_information
+                        "news" -> R.drawable.old_news
+                        "sports" -> R.drawable.old_sports
+                        "variety" -> R.drawable.old_variety
+                        "drama" -> R.drawable.old_drama
+                        "music" -> R.drawable.old_music
+                        "cinema" -> R.drawable.old_cinema
+                        "etc" -> R.drawable.old_etc
+                        else -> R.drawable.old_etc
+                    }
+                } else {
+                    when (item.category) {
+                        "anime" -> R.drawable.anime
+                        "information" -> R.drawable.information
+                        "news" -> R.drawable.news
+                        "sports" -> R.drawable.sports
+                        "variety" -> R.drawable.variety
+                        "drama" -> R.drawable.drama
+                        "music" -> R.drawable.music
+                        "cinema" -> R.drawable.cinema
+                        "etc" -> R.drawable.etc
+                        else -> R.drawable.etc
+                    }
+                }
+        )
+
+        holder.title.text = item.title
+        holder.date.text = getDateText(item)
+
+        val titlePaint = holder.title.paint
+        val datePaint = holder.date.paint
+        titlePaint.isAntiAlias = true
+        datePaint.isAntiAlias = true
+
+        if (type == Type.RESERVES) {
+            val reserve = getItem(position) as Reserve
+            if (!reserve.isManualReserved && reserve.isSkip) {
+                holder.title.setTextColor(Color.GRAY)
+                holder.date.setTextColor(Color.GRAY)
+                titlePaint.flags = holder.title.paintFlags or STRIKE_THRU_TEXT_FLAG
+                datePaint.flags = holder.date.paintFlags or STRIKE_THRU_TEXT_FLAG
+            } else {
+                holder.title.setTextColor(Color.parseColor(context.getString(R.color.titleText)))
+                holder.date.setTextColor(Color.parseColor(context.getString(R.color.dateText)))
+                titlePaint.flags = holder.title.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                datePaint.flags = holder.date.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+            }
+        }
+        return view!!
+    }
+
+    private fun getDateText(item: Program): String {
+        val dateText = run {
+            val dateFormat = SimpleDateFormat("MM/dd (E) HH:mm", Locale.JAPANESE)
+            val start = dateFormat.format(Date(item.start))
+            var end = dateFormat.format(Date(item.end))
+
+            val startDay = start.substring(0..8)
+            val endDay = end.substring(0..8)
+
+            if (startDay == endDay) {
+                end = end.substring(10)
+            }
+            "$start 〜 $end"
+        }
+
+        if (type == Type.RESERVES || type == Type.RECORDING) {
+            var deltaSec = ((item.start - System.currentTimeMillis()) / 1000).toInt()
+            val suffix: String
+            if (deltaSec < 0) {
+                deltaSec = -deltaSec
+                suffix = "前"
+            } else {
+                suffix = "後"
+            }
+
+            return if (deltaSec < 60) {
+                "$dateText [%d秒%s]".format(deltaSec, suffix)
+            } else {
+                var delta = deltaSec.toFloat() / 60
+                if (delta < 60.0f) {
+                    "$dateText [%.1f分%s]".format(delta, suffix)
+                } else {
+                    delta /= 60f
+                    if (delta < 24.0f) {
+                        "$dateText [%.1f時間%s]".format(delta, suffix)
+                    } else {
+                        delta /= 24f
+                        "$dateText [%.1f日%s]".format(delta, suffix)
+                    }
+                }
+            }
+        }
+
+        return dateText
+    }
+
+    override fun addAll(objects: Array<*>) {
+        objects.map {
+            add(it)
+        }
+    }
+
+}
