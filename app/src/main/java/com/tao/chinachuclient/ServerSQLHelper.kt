@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class ServerSQLHelper(private val context: Context) : SQLiteOpenHelper(context, "servers", null, 3) {
+class ServerSQLHelper(context: Context) : SQLiteOpenHelper(context, "servers", null, 3) {
 
     override fun onCreate(db: SQLiteDatabase?) {
         val tableNames = arrayOf(

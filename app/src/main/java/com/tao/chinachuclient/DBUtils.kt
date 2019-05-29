@@ -3,7 +3,7 @@ package com.tao.chinachuclient
 import android.content.Context
 import android.database.Cursor
 
-class DBUtils(private val context: Context) {
+class DBUtils(context: Context) {
 
     private val db = ServerSQLHelper(context).writableDatabase
 
