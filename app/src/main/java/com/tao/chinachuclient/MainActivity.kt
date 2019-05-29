@@ -16,7 +16,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
     private lateinit var app: App
     private lateinit var dbUtils: DBUtils
-    private lateinit var currentServer: Server
     private lateinit var mainList: ListView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +37,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
             return
         }
 
-        currentServer = dbUtils.getServerFromAddress(chinachuAddress)
+        val currentServer = dbUtils.getServerFromAddress(chinachuAddress)
         app.changeCurrentServer(currentServer)
 
         val listItem = resources.getStringArray(R.array.main_list_names)
@@ -69,13 +68,14 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                 address.add(it.chinachuAddress)
             }
 
+            val currentServer = app.currentServer
             val settingNow = address.indexOf(currentServer.chinachuAddress)
             AlertDialog.Builder(this)
                     .setTitle(R.string.select_server)
                     .setSingleChoiceItems(address.toTypedArray(), settingNow) { dialog, which ->
                         val selectedAddress = address[which]
-                        currentServer = dbUtils.getServerFromAddress(selectedAddress)
-                        app.changeCurrentServer(currentServer)
+                        val selectedServer = dbUtils.getServerFromAddress(selectedAddress)
+                        app.changeCurrentServer(selectedServer)
                         dialog.dismiss()
                     }
                     .setPositiveButton(R.string.cancel, null)
