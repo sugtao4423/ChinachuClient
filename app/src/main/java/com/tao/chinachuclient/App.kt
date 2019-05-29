@@ -7,7 +7,7 @@ import android.util.Base64
 import android.widget.EditText
 import android.widget.Spinner
 
-class ApplicationClass : Application() {
+class App : Application() {
 
     lateinit var chinachu: Chinachu4j
     lateinit var currentServer: Server
@@ -15,7 +15,7 @@ class ApplicationClass : Application() {
     var encStreaming: Boolean = false
     var reloadList: Boolean = false
 
-    fun reloadCurrentServer(){
+    fun reloadCurrentServer() {
         val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val currentChinachuAddress = pref.getString("chinachuAddress", "") ?: ""
         val server = DBUtils(this).getServerFromAddress(currentChinachuAddress)

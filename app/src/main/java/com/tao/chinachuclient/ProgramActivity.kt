@@ -22,7 +22,7 @@ class ProgramActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
 
     private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var programListAdapter: ProgramListAdapter
-    private lateinit var appClass: ApplicationClass
+    private lateinit var app: App
 
     private var type = -1
     private lateinit var query: String
@@ -38,7 +38,7 @@ class ProgramActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        appClass = applicationContext as ApplicationClass
+        app = applicationContext as App
         // type 1: ルール 2: 予約済み 3: 録画中 4: 録画済み 5: 番組検索
         type = intent.getIntExtra("type", -1)
         if (type == -1) {
@@ -120,14 +120,14 @@ class ProgramActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
     private fun load(): Array<*>? {
         try {
             return when (type) {
-                Type.RESERVES -> appClass.chinachu.reserves
-                Type.RECORDING -> appClass.chinachu.recording
+                Type.RESERVES -> app.chinachu.reserves
+                Type.RECORDING -> app.chinachu.recording
                 Type.RECORDED -> {
-                    val recorded = appClass.chinachu.recorded
+                    val recorded = app.chinachu.recorded
                     recorded.reverse()
                     return recorded
                 }
-                Type.SEARCH_PROGRAM -> appClass.chinachu.searchProgram(query)
+                Type.SEARCH_PROGRAM -> app.chinachu.searchProgram(query)
                 else -> null
             }
         } catch (e: Exception) {
@@ -206,7 +206,7 @@ class ProgramActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
 
                             override fun doInBackground(vararg params: Unit?): ChinachuResponse? {
                                 try {
-                                    return appClass.chinachu.recordedCleanUp()
+                                    return app.chinachu.recordedCleanUp()
                                 } catch (e: Exception) {
                                 }
                                 return null
@@ -245,9 +245,9 @@ class ProgramActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
 
     override fun onResume() {
         super.onResume()
-        if (appClass.reloadList) {
+        if (app.reloadList) {
             asyncLoad(true)
-            appClass.reloadList = false
+            app.reloadList = false
         }
     }
 

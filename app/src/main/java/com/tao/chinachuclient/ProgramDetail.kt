@@ -28,7 +28,7 @@ class ProgramDetail : AppCompatActivity() {
 
     private lateinit var program: Program
     private var type: Int = -1
-    private lateinit var appClass: ApplicationClass
+    private lateinit var app: App
     private lateinit var capture: String
     private var randomSecond: Int = 7
     private var reserveIsManualReserved: Boolean = false
@@ -38,7 +38,7 @@ class ProgramDetail : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_program_detail)
 
-        appClass = applicationContext as ApplicationClass
+        app = applicationContext as App
         type = intent.getIntExtra("type", -1)
 
         program = when (type) {
@@ -104,10 +104,10 @@ class ProgramDetail : AppCompatActivity() {
                 override fun doInBackground(vararg params: Unit?): String? {
                     try {
                         if (type == Type.RECORDING)
-                            return appClass.chinachu.getRecordingImage(program.id, "1280x720")
+                            return app.chinachu.getRecordingImage(program.id, "1280x720")
                         if (type == Type.RECORDED) {
                             randomSecond = Random.nextInt(program.seconds) + 1
-                            return appClass.chinachu.getRecordedImage(program.id, randomSecond, "1280x720")
+                            return app.chinachu.getRecordedImage(program.id, randomSecond, "1280x720")
                         }
                     } catch (e: Exception) {
                     }
@@ -181,8 +181,8 @@ class ProgramDetail : AppCompatActivity() {
                         override fun doInBackground(vararg params: Unit?): String? {
                             try {
                                 return when (type) {
-                                    Type.RECORDING -> appClass.chinachu.getRecordingImage(program.id, capSize.text.toString())
-                                    Type.RECORDED -> appClass.chinachu.getRecordedImage(program.id, capPos.text.toString().toInt(), capSize.text.toString())
+                                    Type.RECORDING -> app.chinachu.getRecordingImage(program.id, capSize.text.toString())
+                                    Type.RECORDED -> app.chinachu.getRecordedImage(program.id, capPos.text.toString().toInt(), capSize.text.toString())
                                     else -> null
                                 }
                             } catch (e: Exception) {
@@ -245,10 +245,10 @@ class ProgramDetail : AppCompatActivity() {
                 }
             }
             Type.RECORDING, Type.RECORDED -> {
-                if (appClass.streaming) {
+                if (app.streaming) {
                     menu.add(0, Menu.FIRST + 2, Menu.NONE, R.string.streaming_play)
                 }
-                if (appClass.encStreaming) {
+                if (app.encStreaming) {
                     menu.add(0, Menu.FIRST + 3, Menu.NONE, R.string.streaming_play_encode)
                 }
             }
@@ -269,13 +269,13 @@ class ProgramDetail : AppCompatActivity() {
             android.R.id.home -> finish()
             Menu.FIRST + 2 -> {
                 startActivity(Intent(Intent.ACTION_VIEW, when (type) {
-                    Type.RECORDING -> Uri.parse(appClass.chinachu.getNonEncRecordingMovieURL(program.id))
-                    Type.RECORDED -> Uri.parse(appClass.chinachu.getNonEncRecordedMovieURL(program.id))
+                    Type.RECORDING -> Uri.parse(app.chinachu.getNonEncRecordingMovieURL(program.id))
+                    Type.RECORDED -> Uri.parse(app.chinachu.getNonEncRecordedMovieURL(program.id))
                     else -> null
                 }))
             }
             Menu.FIRST + 3 -> {
-                appClass.currentServer.encode.let {
+                app.currentServer.encode.let {
                     val t = it.type
                     val params = arrayOf(
                             it.containerFormat,
@@ -287,8 +287,8 @@ class ProgramDetail : AppCompatActivity() {
                             it.frame
                     )
                     startActivity(Intent(Intent.ACTION_VIEW, when (type) {
-                        Type.RECORDING -> Uri.parse(appClass.chinachu.getEncRecordingMovieURL(program.id, t, params))
-                        Type.RECORDED -> Uri.parse(appClass.chinachu.getEncRecordedMovieURL(program.id, t, params))
+                        Type.RECORDING -> Uri.parse(app.chinachu.getEncRecordingMovieURL(program.id, t, params))
+                        Type.RECORDED -> Uri.parse(app.chinachu.getEncRecordedMovieURL(program.id, t, params))
                         else -> null
                     }))
                 }
@@ -303,7 +303,7 @@ class ProgramDetail : AppCompatActivity() {
     }
 
     private fun confirm() {
-        val chinachu = appClass.chinachu
+        val chinachu = app.chinachu
 
         val before = AlertDialog.Builder(this)
         before.setTitle(when (type) {
@@ -389,7 +389,7 @@ class ProgramDetail : AppCompatActivity() {
                                 }
                             }
                             after.setMessage(program.fullTitle)
-                            appClass.reloadList = true
+                            app.reloadList = true
                         }
                         Type.RECORDED -> {
                             after.setTitle(R.string.done_delete_recorded_file)

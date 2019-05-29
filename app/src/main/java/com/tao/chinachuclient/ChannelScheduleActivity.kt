@@ -27,7 +27,7 @@ class ChannelScheduleActivity : AppCompatActivity(), ActionBar.OnNavigationListe
     private lateinit var programList: ListView
     private lateinit var programListAdapter: ProgramListAdapter
 
-    private lateinit var appClass: ApplicationClass
+    private lateinit var app: App
 
     private var searchView: SearchView? = null
 
@@ -41,10 +41,10 @@ class ChannelScheduleActivity : AppCompatActivity(), ActionBar.OnNavigationListe
 
         spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item)
 
-        appClass = applicationContext as ApplicationClass
+        app = applicationContext as App
         // チャンネルリストの取得
-        channelIdList = appClass.currentServer.channelIds.split(Regex("\\s*,\\s*"))
-        appClass.currentServer.channelNames.split(Regex("\\s*,\\s*")).map {
+        channelIdList = app.currentServer.channelIds.split(Regex("\\s*,\\s*"))
+        app.currentServer.channelNames.split(Regex("\\s*,\\s*")).map {
             spinnerAdapter.add(it)
         }
 
@@ -73,7 +73,7 @@ class ChannelScheduleActivity : AppCompatActivity(), ActionBar.OnNavigationListe
 
             override fun doInBackground(vararg params: Unit?): Array<Program>? {
                 try {
-                    return appClass.chinachu.getChannelSchedule(selectingChannelId)
+                    return app.chinachu.getChannelSchedule(selectingChannelId)
                 } catch (e: Exception) {
                 }
                 return null
@@ -111,10 +111,10 @@ class ChannelScheduleActivity : AppCompatActivity(), ActionBar.OnNavigationListe
             return false
         }
 
-        if (appClass.streaming) {
+        if (app.streaming) {
             menu.add(0, Menu.FIRST, Menu.NONE, R.string.live_play)
         }
-        if (appClass.encStreaming) {
+        if (app.encStreaming) {
             menu.add(0, Menu.FIRST + 1, Menu.NONE, R.string.live_play_encode)
         }
 
@@ -166,10 +166,10 @@ class ChannelScheduleActivity : AppCompatActivity(), ActionBar.OnNavigationListe
                 setNegativeButton(R.string.cancel, null)
                 setPositiveButton(R.string.ok) { _, _ ->
                     if (item.itemId == Menu.FIRST) {
-                        val uri = Uri.parse(appClass.chinachu.getNonEncLiveMovieURL(selectingChannelId))
+                        val uri = Uri.parse(app.chinachu.getNonEncLiveMovieURL(selectingChannelId))
                         startActivity(Intent(Intent.ACTION_VIEW, uri))
                     } else {
-                        appClass.currentServer.encode.let {
+                        app.currentServer.encode.let {
                             val type = it.type
                             val params = arrayOf(
                                     it.containerFormat,
@@ -180,7 +180,7 @@ class ChannelScheduleActivity : AppCompatActivity(), ActionBar.OnNavigationListe
                                     it.videoSize,
                                     it.frame
                             )
-                            val uri = Uri.parse(appClass.chinachu.getEncLiveMovieURL(selectingChannelId, type, params))
+                            val uri = Uri.parse(app.chinachu.getEncLiveMovieURL(selectingChannelId, type, params))
                             startActivity(Intent(Intent.ACTION_VIEW, uri))
                         }
                     }

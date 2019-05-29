@@ -12,7 +12,7 @@ import android.widget.TextView
 class RuleListAdapter(context: Context) : ArrayAdapter<Rule>(context, android.R.layout.simple_list_item_1) {
 
     private val mInflater = context.getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    private val oldCategoryColor = (context.applicationContext as ApplicationClass).currentServer.oldCategoryColor
+    private val oldCategoryColor = (context.applicationContext as App).currentServer.oldCategoryColor
 
     private data class ViewHolder(
             val title: TextView,

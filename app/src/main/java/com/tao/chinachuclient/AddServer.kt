@@ -111,7 +111,7 @@ class AddServer : AppCompatActivity() {
                     }
                 }
 
-                val encode = (applicationContext as ApplicationClass).getEncodeSetting(
+                val encode = (applicationContext as App).getEncodeSetting(
                         type, containerFormat, videoCodec, audioCodec,
                         videoBitrate, videoBitrateFormat, audioBitrate, audioBitrateFormat, videoSize, frame
                 )
@@ -125,7 +125,7 @@ class AddServer : AppCompatActivity() {
                 dbUtils.close()
 
                 if (startMain) {
-                    (applicationContext as ApplicationClass).changeCurrentServer(server)
+                    (applicationContext as App).changeCurrentServer(server)
                     startActivity(Intent(this@AddServer, MainActivity::class.java))
                 }
                 finish()

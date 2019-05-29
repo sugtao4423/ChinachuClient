@@ -14,7 +14,7 @@ import android.widget.ListView
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
-    private lateinit var appClass: ApplicationClass
+    private lateinit var app: App
     private lateinit var dbUtils: DBUtils
     private lateinit var currentServer: Server
     private lateinit var mainList: ListView
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         setContentView(mainList)
 
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
-        appClass = applicationContext as ApplicationClass
+        app = applicationContext as App
         dbUtils = DBUtils(this)
 
         val chinachuAddress = pref.getString("chinachuAddress", "") ?: ""
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         }
 
         currentServer = dbUtils.getServerFromAddress(chinachuAddress)
-        appClass.changeCurrentServer(currentServer)
+        app.changeCurrentServer(currentServer)
 
         val listItem = resources.getStringArray(R.array.main_list_names)
         val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItem)
@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                     .setSingleChoiceItems(address.toTypedArray(), settingNow) { dialog, which ->
                         val selectedAddress = address[which]
                         currentServer = dbUtils.getServerFromAddress(selectedAddress)
-                        appClass.changeCurrentServer(currentServer)
+                        app.changeCurrentServer(currentServer)
                         dialog.dismiss()
                     }
                     .setPositiveButton(R.string.cancel, null)

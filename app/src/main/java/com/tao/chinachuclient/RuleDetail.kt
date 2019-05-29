@@ -102,7 +102,7 @@ class RuleDetail : AppCompatActivity() {
 
                                 override fun doInBackground(vararg params: Unit?): ChinachuResponse? {
                                     try {
-                                        return (applicationContext as ApplicationClass).chinachu.delRule(position)
+                                        return (applicationContext as App).chinachu.delRule(position)
                                     } catch (e: Exception) {
                                     }
                                     return null

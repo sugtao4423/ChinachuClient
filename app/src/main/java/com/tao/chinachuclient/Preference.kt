@@ -22,7 +22,7 @@ class Preference : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        (applicationContext as ApplicationClass).reloadCurrentServer()
+        (applicationContext as App).reloadCurrentServer()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -41,7 +41,7 @@ class Preference : AppCompatActivity() {
                 super.onCreate(savedInstanceState)
                 addPreferencesFromResource(R.xml.preference)
 
-                val currentServer = (activity.applicationContext as ApplicationClass).currentServer
+                val currentServer = (activity.applicationContext as App).currentServer
 
                 val checkStreaming = findPreference("streaming") as CheckBoxPreference
                 val checkEncode = findPreference("encStreaming") as CheckBoxPreference
@@ -146,7 +146,7 @@ class Preference : AppCompatActivity() {
                                             if (servers.isEmpty()) {
                                                 PreferenceManager.getDefaultSharedPreferences(activity).edit().clear().commit()
                                             } else {
-                                                (activity.applicationContext as ApplicationClass).changeCurrentServer(servers[0])
+                                                (activity.applicationContext as App).changeCurrentServer(servers[0])
                                             }
                                             Toast.makeText(activity, R.string.deleted, Toast.LENGTH_SHORT).show()
                                         }

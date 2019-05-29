@@ -18,13 +18,10 @@ class RuleActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener, 
 
     private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var adapter: RuleListAdapter
-    private lateinit var appClass: ApplicationClass
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_program)
-
-        appClass = applicationContext as ApplicationClass
 
         val list = findViewById<ListView>(R.id.programList)
         adapter = RuleListAdapter(this)
@@ -68,7 +65,7 @@ class RuleActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener, 
 
             override fun doInBackground(vararg params: Unit?): Array<Rule>? {
                 try {
-                    return appClass.chinachu.rules
+                    return (applicationContext as App).chinachu.rules
                 } catch (e: Exception) {
                 }
                 return null

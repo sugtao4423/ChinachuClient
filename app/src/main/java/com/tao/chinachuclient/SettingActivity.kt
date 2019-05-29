@@ -14,7 +14,7 @@ import android.widget.Toast
 
 class SettingActivity : AppCompatActivity() {
 
-    private lateinit var appClass: ApplicationClass
+    private lateinit var app: App
     private lateinit var oldServer: Server
 
     private lateinit var chinachuAddress: EditText
@@ -38,8 +38,8 @@ class SettingActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        appClass = applicationContext as ApplicationClass
-        oldServer = appClass.currentServer
+        app = applicationContext as App
+        oldServer = app.currentServer
 
         AlertDialog.Builder(this)
                 .setTitle(R.string.change_settings)
@@ -122,7 +122,7 @@ class SettingActivity : AppCompatActivity() {
             return
         }
 
-        val newEncode = appClass.getEncodeSetting(
+        val newEncode = app.getEncodeSetting(
                 type, containerFormat, videoCodec, audioCodec,
                 videoBitrate, videoBitrateFormat, audioBitrate, audioBitrateFormat, videoSize, frame)
 
@@ -138,7 +138,7 @@ class SettingActivity : AppCompatActivity() {
         val dbUtils = DBUtils(this)
         dbUtils.updateServer(newServer, oldServer.chinachuAddress)
         dbUtils.close()
-        appClass.changeCurrentServer(newServer)
+        app.changeCurrentServer(newServer)
         finish()
     }
 
