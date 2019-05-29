@@ -2,7 +2,6 @@ package com.tao.chinachuclient
 
 import Chinachu4j.Program
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.AsyncTask
@@ -15,6 +14,7 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.SearchView
 import android.widget.Toast
+import sugtao4423.support.progressdialog.ProgressDialog
 import java.util.*
 
 class ChannelScheduleActivity : AppCompatActivity(), ActionBar.OnNavigationListener {

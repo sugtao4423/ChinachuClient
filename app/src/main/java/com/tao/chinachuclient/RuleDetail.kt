@@ -3,7 +3,6 @@ package com.tao.chinachuclient
 import Chinachu4j.ChinachuResponse
 import Chinachu4j.Rule
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -12,6 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
+import sugtao4423.support.progressdialog.ProgressDialog
 
 class RuleDetail : AppCompatActivity() {
 

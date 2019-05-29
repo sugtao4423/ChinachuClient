@@ -20,6 +20,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    repositories {
+        maven {
+            url 'https://sugtao4423.github.io/android-ProgressDialog/repository'
+        }
+    }
 }
 
 dependencies {
@@ -31,4 +36,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation files('libs/Chinachu4j.jar')
+    implementation 'sugtao4423.support:progressdialog:1.0.0'
 }

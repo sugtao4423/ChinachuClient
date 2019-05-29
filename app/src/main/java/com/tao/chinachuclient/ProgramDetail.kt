@@ -5,7 +5,6 @@ import Chinachu4j.Program
 import Chinachu4j.Recorded
 import Chinachu4j.Reserve
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -19,6 +18,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
+import sugtao4423.support.progressdialog.ProgressDialog
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern

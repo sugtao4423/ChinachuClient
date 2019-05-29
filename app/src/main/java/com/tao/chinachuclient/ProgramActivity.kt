@@ -5,7 +5,6 @@ import Chinachu4j.Program
 import Chinachu4j.Recorded
 import Chinachu4j.Reserve
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.graphics.Color
 import android.os.AsyncTask
 import android.os.Bundle
@@ -16,8 +15,8 @@ import android.view.MenuItem
 import android.widget.ListView
 import android.widget.SearchView
 import android.widget.Toast
+import sugtao4423.support.progressdialog.ProgressDialog
 import java.text.Normalizer
-
 
 class ProgramActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
 
