@@ -2,7 +2,6 @@ package com.tao.chinachuclient
 
 import android.content.Context
 import android.database.Cursor
-import android.preference.PreferenceManager
 
 class DBUtils(private val context: Context) {
 
@@ -80,7 +79,6 @@ class DBUtils(private val context: Context) {
     }
 
     fun updateServer(server: Server, targetChinachuAddress: String) {
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val sql = "UPDATE servers SET chinachuAddress = ?, username = ?, password = ?, streaming = ?, encStreaming = ?," +
                 "type = ?, containerFormat = ?, videoCodec = ?, audioCodec = ?, videoBitrate = ?, audioBitrate = ?," +
                 "videoSize = ?, frame = ?, oldCategoryColor = ? WHERE chinachuAddress = ?"
@@ -89,8 +87,8 @@ class DBUtils(private val context: Context) {
                     chinachuAddress,
                     username,
                     password,
-                    pref.getBoolean("streaming", false).toString(),
-                    pref.getBoolean("encStreaming", false).toString(),
+                    streaming.toString(),
+                    encStreaming.toString(),
                     encode.type,
                     encode.containerFormat,
                     encode.videoCodec,
@@ -99,7 +97,7 @@ class DBUtils(private val context: Context) {
                     encode.audioBitrate,
                     encode.videoSize,
                     encode.frame,
-                    pref.getBoolean("oldCategoryColor", false).toString(),
+                    oldCategoryColor.toString(),
                     targetChinachuAddress
             )
         }
@@ -120,49 +118,6 @@ class DBUtils(private val context: Context) {
 
     fun close() {
         db.close()
-    }
-
-    fun serverPutPref(server: Server) {
-        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
-            putString("chinachuAddress", server.chinachuAddress)
-            putString("username", server.username)
-            putString("password", server.password)
-            putBoolean("streaming", server.streaming)
-            putBoolean("encStreaming", server.encStreaming)
-            putBoolean("oldCategoryColor", server.oldCategoryColor)
-            commit()
-        }
-
-        val encode = server.encode.run {
-            arrayOf(
-                    type,
-                    containerFormat,
-                    videoCodec,
-                    audioCodec,
-                    videoBitrate,
-                    audioBitrate,
-                    videoSize,
-                    frame
-            )
-        }
-
-        context.getSharedPreferences("encodeConfig", Context.MODE_PRIVATE).edit().apply {
-            putString("type", encode[0])
-            putString("containerFormat", encode[1])
-            putString("videoCodec", encode[2])
-            putString("audioCodec", encode[3])
-            putString("videoBitrate", encode[4])
-            putString("audioBitrate", encode[5])
-            putString("videoSize", encode[6])
-            putString("frame", encode[7])
-            commit()
-        }
-
-        context.getSharedPreferences("channels", Context.MODE_PRIVATE).edit().apply {
-            putString("channelIds", server.channelIds)
-            putString("channelNames", server.channelNames)
-            commit()
-        }
     }
 
 }

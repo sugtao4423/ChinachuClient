@@ -7,7 +7,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
-import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
@@ -21,8 +20,7 @@ class ProgramListAdapter(context: Context, val type: Int) :
         ArrayAdapter<Any>(context, android.R.layout.simple_list_item_1) {
 
     private val mInflater = context.getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    private val oldCategoryColor =
-            PreferenceManager.getDefaultSharedPreferences(context).getBoolean("oldCategoryColor", false)
+    private val oldCategoryColor = (context.applicationContext as ApplicationClass).currentServer.oldCategoryColor
 
     private data class ViewHolder(
             val title: TextView,

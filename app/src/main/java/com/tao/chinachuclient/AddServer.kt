@@ -125,7 +125,7 @@ class AddServer : AppCompatActivity() {
                 dbUtils.close()
 
                 if (startMain) {
-                    dbUtils.serverPutPref(server)
+                    (applicationContext as ApplicationClass).changeCurrentServer(server)
                     startActivity(Intent(this@AddServer, MainActivity::class.java))
                 }
                 finish()

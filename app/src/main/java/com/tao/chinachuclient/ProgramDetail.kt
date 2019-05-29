@@ -275,24 +275,23 @@ class ProgramDetail : AppCompatActivity() {
                 }))
             }
             Menu.FIRST + 3 -> {
-                val enc = getSharedPreferences("encodeConfig", MODE_PRIVATE)
-                val t = enc.getString("type", "") ?: ""
-                val params = enc.run {
-                    arrayOf(
-                            getString("containerFormat", ""),
-                            getString("videoCodec", ""),
-                            getString("audioCodec", ""),
-                            getString("videoBitrate", ""),
-                            getString("audioBitrate", ""),
-                            getString("videoSize", ""),
-                            getString("frame", "")
+                appClass.currentServer.encode.let {
+                    val t = it.type
+                    val params = arrayOf(
+                            it.containerFormat,
+                            it.videoCodec,
+                            it.audioCodec,
+                            it.videoBitrate,
+                            it.audioBitrate,
+                            it.videoSize,
+                            it.frame
                     )
+                    startActivity(Intent(Intent.ACTION_VIEW, when (type) {
+                        Type.RECORDING -> Uri.parse(appClass.chinachu.getEncRecordingMovieURL(program.id, t, params))
+                        Type.RECORDED -> Uri.parse(appClass.chinachu.getEncRecordedMovieURL(program.id, t, params))
+                        else -> null
+                    }))
                 }
-                startActivity(Intent(Intent.ACTION_VIEW, when (type) {
-                    Type.RECORDING -> Uri.parse(appClass.chinachu.getEncRecordingMovieURL(program.id, t, params))
-                    Type.RECORDED -> Uri.parse(appClass.chinachu.getEncRecordedMovieURL(program.id, t, params))
-                    else -> null
-                }))
             }
             else -> {
                 if (type == Type.CHANNEL_SCHEDULE_ACTIVITY || type == Type.RESERVES || type == Type.RECORDED || type == Type.SEARCH_PROGRAM) {

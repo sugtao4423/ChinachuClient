@@ -2,15 +2,38 @@ package com.tao.chinachuclient
 
 import Chinachu4j.Chinachu4j
 import android.app.Application
+import android.preference.PreferenceManager
+import android.util.Base64
 import android.widget.EditText
 import android.widget.Spinner
 
 class ApplicationClass : Application() {
 
     lateinit var chinachu: Chinachu4j
+    lateinit var currentServer: Server
     var streaming: Boolean = false
     var encStreaming: Boolean = false
     var reloadList: Boolean = false
+
+    fun reloadCurrentServer(){
+        val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val currentChinachuAddress = pref.getString("chinachuAddress", "") ?: ""
+        val server = DBUtils(this).getServerFromAddress(currentChinachuAddress)
+        changeCurrentServer(server)
+    }
+
+    fun changeCurrentServer(newServer: Server) {
+        currentServer = newServer
+        chinachu = Chinachu4j(newServer.chinachuAddress,
+                String(Base64.decode(newServer.username, Base64.DEFAULT)),
+                String(Base64.decode(newServer.password, Base64.DEFAULT)))
+        streaming = newServer.streaming
+        encStreaming = newServer.encStreaming
+        PreferenceManager.getDefaultSharedPreferences(applicationContext)
+                .edit()
+                .putString("chinachuAddress", newServer.chinachuAddress)
+                .commit()
+    }
 
     fun getEncodeSetting(type: Spinner,
                          containerFormat: EditText, videoCodec: EditText, audioCodec: EditText,

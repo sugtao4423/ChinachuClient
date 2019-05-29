@@ -22,10 +22,7 @@ class Preference : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-        val appClass = applicationContext as ApplicationClass
-        appClass.streaming = pref.getBoolean("streaming", false)
-        appClass.encStreaming = pref.getBoolean("encStreaming", false)
+        (applicationContext as ApplicationClass).reloadCurrentServer()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -44,6 +41,8 @@ class Preference : AppCompatActivity() {
                 super.onCreate(savedInstanceState)
                 addPreferencesFromResource(R.xml.preference)
 
+                val currentServer = (activity.applicationContext as ApplicationClass).currentServer
+
                 val checkStreaming = findPreference("streaming") as CheckBoxPreference
                 val checkEncode = findPreference("encStreaming") as CheckBoxPreference
                 val oldCateColor = findPreference("oldCategoryColor") as CheckBoxPreference
@@ -52,12 +51,12 @@ class Preference : AppCompatActivity() {
                 val settingActivity = findPreference("settingActivity")
                 val delServer = findPreference("delServer")
 
+                checkStreaming.isChecked = currentServer.streaming
                 checkStreaming.onPreferenceChangeListener = OnPreferenceChangeListener { _, newValue ->
-                    val pref = PreferenceManager.getDefaultSharedPreferences(activity)
                     val sql = "UPDATE servers SET streaming = ? WHERE chinachuAddress = ?"
                     val bindArgs = arrayOf(
                             (newValue as Boolean).toString(),
-                            pref.getString("chinachuAddress", "")
+                            currentServer.chinachuAddress
                     )
                     ServerSQLHelper(activity).writableDatabase.compileStatement(sql).apply {
                         bindAllArgsAsStrings(bindArgs)
@@ -67,12 +66,12 @@ class Preference : AppCompatActivity() {
                     true
                 }
 
+                checkEncode.isChecked = currentServer.encStreaming
                 checkEncode.onPreferenceChangeListener = OnPreferenceChangeListener { _, newValue ->
-                    val pref = PreferenceManager.getDefaultSharedPreferences(activity)
                     val sql = "UPDATE servers SET encStreaming = ? WHERE chinachuAddress = ?"
                     val bindArgs = arrayOf(
                             (newValue as Boolean).toString(),
-                            pref.getString("chinachuAddress", "")
+                            currentServer.chinachuAddress
                     )
                     ServerSQLHelper(activity).writableDatabase.compileStatement(sql).apply {
                         bindAllArgsAsStrings(bindArgs)
@@ -94,12 +93,12 @@ class Preference : AppCompatActivity() {
                     true
                 }
 
+                oldCateColor.isChecked = currentServer.oldCategoryColor
                 oldCateColor.onPreferenceChangeListener = OnPreferenceChangeListener { _, newValue ->
-                    val pref = PreferenceManager.getDefaultSharedPreferences(activity)
                     val sql = "UPDATE servers SET oldCategoryColor = ? WHERE chinachuAddress = ?"
                     val bindArgs = arrayOf(
                             (newValue as Boolean).toString(),
-                            pref.getString("chinachuAddress", "")
+                            currentServer.chinachuAddress
                     )
                     ServerSQLHelper(activity).writableDatabase.compileStatement(sql).apply {
                         bindAllArgsAsStrings(bindArgs)
@@ -141,6 +140,14 @@ class Preference : AppCompatActivity() {
                                         .setPositiveButton(R.string.ok) { _, _ ->
                                             val delRowid = rowid[which]
                                             db.execSQL("DELETE from servers WHERE ROWID=$delRowid")
+                                            val dbUtils = DBUtils(activity)
+                                            val servers = dbUtils.getServers()
+                                            dbUtils.close()
+                                            if (servers.isEmpty()) {
+                                                PreferenceManager.getDefaultSharedPreferences(activity).edit().clear().commit()
+                                            } else {
+                                                (activity.applicationContext as ApplicationClass).changeCurrentServer(servers[0])
+                                            }
                                             Toast.makeText(activity, R.string.deleted, Toast.LENGTH_SHORT).show()
                                         }
                                         .show()

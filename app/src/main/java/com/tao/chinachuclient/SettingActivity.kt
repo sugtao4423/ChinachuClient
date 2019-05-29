@@ -1,9 +1,7 @@
 package com.tao.chinachuclient
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.Base64
@@ -16,10 +14,12 @@ import android.widget.Toast
 
 class SettingActivity : AppCompatActivity() {
 
+    private lateinit var appClass: ApplicationClass
+    private lateinit var oldServer: Server
+
     private lateinit var chinachuAddress: EditText
     private lateinit var username: EditText
     private lateinit var password: EditText
-    private lateinit var pref: SharedPreferences
 
     private lateinit var type: Spinner
     private lateinit var videoBitrateFormat: Spinner
@@ -31,7 +31,6 @@ class SettingActivity : AppCompatActivity() {
     private lateinit var audioBitrate: EditText
     private lateinit var videoSize: EditText
     private lateinit var frame: EditText
-    private lateinit var enc: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,12 +38,12 @@ class SettingActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        pref = PreferenceManager.getDefaultSharedPreferences(this)
-        enc = getSharedPreferences("encodeConfig", MODE_PRIVATE)
+        appClass = applicationContext as ApplicationClass
+        oldServer = appClass.currentServer
 
         AlertDialog.Builder(this)
                 .setTitle(R.string.change_settings)
-                .setMessage(getString(R.string.change_current_server_settings) + "\n\n" + getString(R.string.current_server) + "\n" + pref.getString("chinachuAddress", ""))
+                .setMessage(getString(R.string.change_current_server_settings) + "\n\n" + getString(R.string.current_server) + "\n${oldServer.chinachuAddress}")
                 .setCancelable(false)
                 .setPositiveButton(R.string.ok, null)
                 .setNegativeButton(R.string.cancel) { _, _ ->
@@ -56,9 +55,9 @@ class SettingActivity : AppCompatActivity() {
         username = findViewById(R.id.username)
         password = findViewById(R.id.password)
 
-        chinachuAddress.setText(pref.getString("chinachuAddress", ""))
-        username.setText(String(Base64.decode(pref.getString("username", ""), Base64.DEFAULT)))
-        password.setText(String(Base64.decode(pref.getString("password", ""), Base64.DEFAULT)))
+        chinachuAddress.setText(oldServer.chinachuAddress)
+        username.setText(String(Base64.decode(oldServer.username, Base64.DEFAULT)))
+        password.setText(String(Base64.decode(oldServer.password, Base64.DEFAULT)))
 
         type = findViewById(R.id.enc_setting_type_spinner)
         containerFormat = findViewById(R.id.enc_setting_container_edit)
@@ -72,18 +71,19 @@ class SettingActivity : AppCompatActivity() {
         videoSize = findViewById(R.id.enc_setting_videoSize)
         frame = findViewById(R.id.enc_setting_frame)
 
-        type.setSelection(when (enc.getString("type", "")) {
+        type.setSelection(when (oldServer.encode.type) {
             "mp4" -> 0
             "m2ts" -> 1
             "webm" -> 2
             else -> 0
         })
-        containerFormat.setText(enc.getString("containerFormat", ""))
-        videoCodec.setText(enc.getString("videoCodec", ""))
-        audioCodec.setText(enc.getString("audioCodec", ""))
+        containerFormat.setText(oldServer.encode.containerFormat)
+        videoCodec.setText(oldServer.encode.videoCodec)
+        audioCodec.setText(oldServer.encode.audioCodec)
 
-        val prefVideoBitrate = enc.getString("videoBitrate", "0") ?: "0"
-        val videoBit = if (prefVideoBitrate.isEmpty()) 0 else prefVideoBitrate.toInt()
+        val videoBit = oldServer.encode.videoBitrate.let {
+            if (it.isEmpty()) 0 else it.toInt()
+        }
         when {
             (videoBit / 1000 / 1000) != 0 -> {
                 videoBitrateFormat.setSelection(1)
@@ -96,8 +96,9 @@ class SettingActivity : AppCompatActivity() {
             else -> videoBitrate.setText("")
         }
 
-        val prefAudioBitrate = enc.getString("audioBitrate", "0") ?: "0"
-        val audioBit = if (prefAudioBitrate.isEmpty()) 0 else prefAudioBitrate.toInt()
+        val audioBit = oldServer.encode.audioBitrate.let {
+            if (it.isEmpty()) 0 else it.toInt()
+        }
         when {
             (audioBit / 1000 / 1000) != 0 -> {
                 audioBitrateFormat.setSelection(1)
@@ -110,53 +111,34 @@ class SettingActivity : AppCompatActivity() {
             else -> audioBitrate.setText("")
         }
 
-        videoSize.setText(enc.getString("videoSize", ""))
-        frame.setText(enc.getString("frame", ""))
+        videoSize.setText(oldServer.encode.videoSize)
+        frame.setText(oldServer.encode.frame)
     }
 
-    fun ok(v: View) {
+    fun ok(@Suppress("UNUSED_PARAMETER") v: View) {
         val rawChinachuAddress = chinachuAddress.text.toString()
         if (!(rawChinachuAddress.startsWith("http://") || rawChinachuAddress.startsWith("https://"))) {
             Toast.makeText(this, R.string.wrong_server_address, Toast.LENGTH_SHORT).show()
             return
         }
 
-        val oldChinachuAddress = pref.getString("chinachuAddress", "") ?: ""
-
-        val encode = (applicationContext as ApplicationClass).getEncodeSetting(
+        val newEncode = appClass.getEncodeSetting(
                 type, containerFormat, videoCodec, audioCodec,
                 videoBitrate, videoBitrateFormat, audioBitrate, audioBitrateFormat, videoSize, frame)
 
-        val server = Server(rawChinachuAddress,
+        val newServer = Server(rawChinachuAddress,
                 Base64.encodeToString(username.text.toString().toByteArray(), Base64.DEFAULT),
                 Base64.encodeToString(password.text.toString().toByteArray(), Base64.DEFAULT),
-                pref.getBoolean("streaming", false),
-                pref.getBoolean("encStreaming", false),
-                encode,
+                oldServer.streaming,
+                oldServer.encStreaming,
+                newEncode,
                 "", "",
-                pref.getBoolean("oldCategoryColor", false))
-
-        pref.edit().apply {
-            putString("chinachuAddress", server.chinachuAddress)
-            putString("username", server.username)
-            putString("password", server.password)
-            commit()
-        }
-        enc.edit().apply {
-            putString("type", encode.type)
-            putString("containerFormat", encode.containerFormat)
-            putString("videoCodec", encode.videoCodec)
-            putString("audioCodec", encode.audioCodec)
-            putString("videoBitrate", encode.videoBitrate)
-            putString("audioBitrate", encode.audioBitrate)
-            putString("videoSize", encode.videoSize)
-            putString("frame", encode.frame)
-            commit()
-        }
+                oldServer.oldCategoryColor)
 
         val dbUtils = DBUtils(this)
-        dbUtils.updateServer(server, oldChinachuAddress)
+        dbUtils.updateServer(newServer, oldServer.chinachuAddress)
         dbUtils.close()
+        appClass.changeCurrentServer(newServer)
         finish()
     }
 

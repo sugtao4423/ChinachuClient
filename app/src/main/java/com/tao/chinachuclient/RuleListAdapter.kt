@@ -2,7 +2,6 @@ package com.tao.chinachuclient
 
 import Chinachu4j.Rule
 import android.content.Context
-import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,7 @@ import android.widget.TextView
 class RuleListAdapter(context: Context) : ArrayAdapter<Rule>(context, android.R.layout.simple_list_item_1) {
 
     private val mInflater = context.getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    private val oldCategoryColor = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("oldCategoryColor", false)
+    private val oldCategoryColor = (context.applicationContext as ApplicationClass).currentServer.oldCategoryColor
 
     private data class ViewHolder(
             val title: TextView,

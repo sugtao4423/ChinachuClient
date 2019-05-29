@@ -1,6 +1,5 @@
 package com.tao.chinachuclient
 
-import Chinachu4j.Chinachu4j
 import Chinachu4j.Program
 import android.app.AlertDialog
 import android.app.ProgressDialog
@@ -28,7 +27,6 @@ class ChannelScheduleActivity : AppCompatActivity(), ActionBar.OnNavigationListe
     private lateinit var programList: ListView
     private lateinit var programListAdapter: ProgramListAdapter
 
-    private lateinit var chinachu: Chinachu4j
     private lateinit var appClass: ApplicationClass
 
     private var searchView: SearchView? = null
@@ -42,21 +40,17 @@ class ChannelScheduleActivity : AppCompatActivity(), ActionBar.OnNavigationListe
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item)
+
+        appClass = applicationContext as ApplicationClass
         // チャンネルリストの取得
-        val channels = getSharedPreferences("channels", MODE_PRIVATE)
-        channelIdList = channels.getString("channelIds", "").let {
-            it?.split(Regex("\\s*,\\s*")) ?: arrayListOf()
-        }
-        channels.getString("channelNames", "")?.split(Regex("\\s*,\\s*"))?.map {
+        channelIdList = appClass.currentServer.channelIds.split(Regex("\\s*,\\s*"))
+        appClass.currentServer.channelNames.split(Regex("\\s*,\\s*")).map {
             spinnerAdapter.add(it)
         }
 
         programListAdapter = ProgramListAdapter(this, Type.CHANNEL_SCHEDULE_ACTIVITY)
         programList.adapter = programListAdapter
         programList.onItemClickListener = ProgramListClickListener(this, Type.CHANNEL_SCHEDULE_ACTIVITY)
-
-        appClass = applicationContext as ApplicationClass
-        chinachu = appClass.chinachu
 
         supportActionBar?.setListNavigationCallbacks(spinnerAdapter, this)
     }
@@ -79,7 +73,7 @@ class ChannelScheduleActivity : AppCompatActivity(), ActionBar.OnNavigationListe
 
             override fun doInBackground(vararg params: Unit?): Array<Program>? {
                 try {
-                    return chinachu.getChannelSchedule(selectingChannelId)
+                    return appClass.chinachu.getChannelSchedule(selectingChannelId)
                 } catch (e: Exception) {
                 }
                 return null
@@ -175,16 +169,16 @@ class ChannelScheduleActivity : AppCompatActivity(), ActionBar.OnNavigationListe
                         val uri = Uri.parse(appClass.chinachu.getNonEncLiveMovieURL(selectingChannelId))
                         startActivity(Intent(Intent.ACTION_VIEW, uri))
                     } else {
-                        getSharedPreferences("encodeConfig", MODE_PRIVATE).let {
-                            val type = it.getString("type", "") ?: ""
+                        appClass.currentServer.encode.let {
+                            val type = it.type
                             val params = arrayOf(
-                                    it.getString("containerFormat", "") ?: "",
-                                    it.getString("videoCodec", "") ?: "",
-                                    it.getString("audioCodec", "") ?: "",
-                                    it.getString("videoBitrate", "") ?: "",
-                                    it.getString("audioBitrate", "") ?: "",
-                                    it.getString("videoSize", "") ?: "",
-                                    it.getString("frame", "") ?: ""
+                                    it.containerFormat,
+                                    it.videoCodec,
+                                    it.audioCodec,
+                                    it.videoBitrate,
+                                    it.audioBitrate,
+                                    it.videoSize,
+                                    it.frame
                             )
                             val uri = Uri.parse(appClass.chinachu.getEncLiveMovieURL(selectingChannelId, type, params))
                             startActivity(Intent(Intent.ACTION_VIEW, uri))
