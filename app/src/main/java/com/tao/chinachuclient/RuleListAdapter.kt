@@ -66,21 +66,19 @@ class RuleListAdapter(context: Context) : ArrayAdapter<Rule>(context, android.R.
                     })
         }
 
-        val title = run {
-            val titles = item.reserveTitles
-            if (titles.isEmpty()) {
+        val title = item.reserveTitles.let {
+            if (it.isEmpty()) {
                 "any"
             } else {
-                titles.joinToString()
+                it.joinToString()
             }
         }
 
-        val channel = run {
-            val channels = item.channels
-            if (channels.isEmpty()) {
+        val channel = item.channels.let {
+            if (it.isEmpty()) {
                 "any"
             } else {
-                channels.joinToString()
+                it.joinToString()
             }
         }
 
