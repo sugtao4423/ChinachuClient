@@ -2,7 +2,10 @@ package com.tao.chinachuclient
 
 import Chinachu4j.Chinachu4j
 import android.app.Application
+import android.os.Build
 import android.preference.PreferenceManager
+import android.text.Html
+import android.text.Spanned
 import android.util.Base64
 import android.widget.EditText
 import android.widget.Spinner
@@ -63,6 +66,15 @@ class App : Application() {
                 ab,
                 videoSize.text.toString(),
                 frame.text.toString())
+    }
+
+    @Suppress("DEPRECATION")
+    fun fromHtml(html: String): Spanned {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY)
+        } else {
+            Html.fromHtml(html)
+        }
     }
 
 }

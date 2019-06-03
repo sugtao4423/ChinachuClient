@@ -33,7 +33,7 @@ class RuleDetail : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val textView = findViewById<TextView>(R.id.rule_list_text)
-        textView.text = Html.fromHtml(rule.run {
+        textView.text = (applicationContext as App).fromHtml(rule.run {
             val type = if (types.isEmpty()) "any" else types.joinToString()
             val category = if (categories.isEmpty()) "any" else categories.joinToString()
             val channel = if (channels.isEmpty()) "any" else channels.joinToString()

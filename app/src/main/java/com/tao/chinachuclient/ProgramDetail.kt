@@ -83,7 +83,7 @@ class ProgramDetail : AppCompatActivity() {
         val detailText = "<p><strong>フルタイトル</strong><br>${program.fullTitle}<br></p><p><strong>詳細</strong><br>$detail</p>"
 
         val detailView = findViewById<TextView>(R.id.program_detail_detail)
-        detailView.text = Html.fromHtml(detailText)
+        detailView.text = app.fromHtml(detailText)
         detailView.movementMethod = SelectionLinkMovementMethod(this)
 
         val otherView = findViewById<TextView>(R.id.program_detail_other)
@@ -97,7 +97,7 @@ class ProgramDetail : AppCompatActivity() {
             flags.joinToString()
         }
         val otherText = "<p>$startStr 〜 $endStr (${minute}分間)<br><br>$category / $channelType: $channelName<br><br>フラグ: $flag<br><br>id: ${program.id}</p>"
-        otherView.text = Html.fromHtml(otherText)
+        otherView.text = app.fromHtml(otherText)
 
         if (type == Type.RECORDING || type == Type.RECORDED) {
             object : AsyncTask<Unit, Unit, String?>() {
