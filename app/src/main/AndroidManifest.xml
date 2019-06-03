@@ -28,7 +28,8 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="ChannelScheduleActivity"
-            android:label="@string/channel_schedule" />
+            android:label="@string/channel_schedule"
+            android:theme="@style/AppTheme.ChannelScheduleActivityTheme" />
         <activity android:name="ProgramDetail" />
         <activity android:name="ProgramActivity" />
         <activity

@@ -6,18 +6,16 @@ import android.content.Intent
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
-import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.SearchView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import sugtao4423.support.progressdialog.ProgressDialog
 import java.util.*
 
-class ChannelScheduleActivity : AppCompatActivity(), ActionBar.OnNavigationListener {
+class ChannelScheduleActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private lateinit var spinnerAdapter: ArrayAdapter<String>
 
@@ -33,31 +31,31 @@ class ChannelScheduleActivity : AppCompatActivity(), ActionBar.OnNavigationListe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        programList = ListView(this)
-        setContentView(programList)
+        setContentView(R.layout.activity_channel_schedule)
 
-        supportActionBar?.navigationMode = ActionBar.NAVIGATION_MODE_LIST
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item)
-
         app = applicationContext as App
-        // チャンネルリストの取得
+        spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item)
         channelIdList = app.currentServer.channelIds.split(Regex("\\s*,\\s*"))
         app.currentServer.channelNames.split(Regex("\\s*,\\s*")).map {
             spinnerAdapter.add(it)
         }
 
+        val spinner = toolbar.findViewById<Spinner>(R.id.toolbar_spinner)
+        spinner.onItemSelectedListener = this
+        spinner.adapter = spinnerAdapter
+
+        programList = findViewById(R.id.program_list)
         programListAdapter = ProgramListAdapter(this, Type.CHANNEL_SCHEDULE_ACTIVITY)
         programList.adapter = programListAdapter
         programList.onItemClickListener = ProgramListClickListener(this, Type.CHANNEL_SCHEDULE_ACTIVITY)
-
-        supportActionBar?.setListNavigationCallbacks(spinnerAdapter, this)
     }
 
-    // ActionBarのSpinnerで選択された時呼ばれる
-    override fun onNavigationItemSelected(itemPosition: Int, itemId: Long): Boolean {
-        selectingChannelId = channelIdList[itemPosition]
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        selectingChannelId = channelIdList[position]
         object : AsyncTask<Unit, Unit, Array<Program>?>() {
             private lateinit var progressDialog: ProgressDialog
 
@@ -103,7 +101,9 @@ class ChannelScheduleActivity : AppCompatActivity(), ActionBar.OnNavigationListe
                 }
             }
         }.execute()
-        return false
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
