@@ -17,6 +17,7 @@ import android.widget.SearchView
 import android.widget.Toast
 import sugtao4423.support.progressdialog.ProgressDialog
 import java.text.Normalizer
+import java.util.*
 
 class ProgramActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
 
@@ -127,7 +128,17 @@ class ProgramActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
                     recorded.reverse()
                     return recorded
                 }
-                Type.SEARCH_PROGRAM -> app.chinachu.searchProgram(query)
+                Type.SEARCH_PROGRAM -> {
+                    val search = app.chinachu.searchProgram(query)
+                    Arrays.sort(search) { o1: Program, o2: Program ->
+                        when {
+                            o1.start > o2.start -> 1
+                            o1.start < o2.start -> -1
+                            else -> 0
+                        }
+                    }
+                    return search
+                }
                 else -> null
             }
         } catch (e: Exception) {
