@@ -33,6 +33,8 @@ class Preference : AppCompatActivity() {
 
     class PreferencesFragment : PreferenceFragmentCompat() {
 
+        private var dbUtils: DBUtils? = null
+
         override fun onCreatePreferences(bundle: Bundle?, rootKey: String?) {
             if (context == null) {
                 activity?.finish()
@@ -42,6 +44,7 @@ class Preference : AppCompatActivity() {
             setPreferencesFromResource(R.xml.preference, rootKey)
 
             val currentServer = (context.applicationContext as App).currentServer
+            dbUtils = DBUtils(context)
 
             val checkStreaming = findPreference("streaming") as CheckBoxPreference
             val checkEncode = findPreference("encStreaming") as CheckBoxPreference
@@ -53,33 +56,15 @@ class Preference : AppCompatActivity() {
 
             checkStreaming.isChecked = currentServer.streaming
             checkStreaming.setOnPreferenceChangeListener { _, newValue ->
-                val sql = "UPDATE servers SET streaming = ? WHERE chinachuAddress = ?"
-                val bindArgs = arrayOf(
-                        (newValue as Boolean).toString(),
-                        currentServer.chinachuAddress
-                )
-                ServerSQLHelper(context).writableDatabase.compileStatement(sql).apply {
-                    bindAllArgsAsStrings(bindArgs)
-                    execute()
-                    close()
-                }
+                dbUtils!!.updateServerStreaming(newValue as Boolean, currentServer.chinachuAddress)
                 true
             }
 
             checkEncode.isChecked = currentServer.encStreaming
             checkEncode.setOnPreferenceChangeListener { _, newValue ->
-                val sql = "UPDATE servers SET encStreaming = ? WHERE chinachuAddress = ?"
-                val bindArgs = arrayOf(
-                        (newValue as Boolean).toString(),
-                        currentServer.chinachuAddress
-                )
-                ServerSQLHelper(context).writableDatabase.compileStatement(sql).apply {
-                    bindAllArgsAsStrings(bindArgs)
-                    execute()
-                    close()
-                }
+                dbUtils!!.updateServerEncStreaming(newValue as Boolean, currentServer.chinachuAddress)
 
-                if (newValue.toString().toBoolean()) {
+                if (newValue) {
                     AlertDialog.Builder(activity).apply {
                         setTitle(R.string.confirm_settings)
                         setMessage(R.string.plz_use_after_confirm_settings)
@@ -95,16 +80,7 @@ class Preference : AppCompatActivity() {
 
             oldCateColor.isChecked = currentServer.oldCategoryColor
             oldCateColor.setOnPreferenceChangeListener { _, newValue ->
-                val sql = "UPDATE servers SET oldCategoryColor = ? WHERE chinachuAddress = ?"
-                val bindArgs = arrayOf(
-                        (newValue as Boolean).toString(),
-                        currentServer.chinachuAddress
-                )
-                ServerSQLHelper(context).writableDatabase.compileStatement(sql).apply {
-                    bindAllArgsAsStrings(bindArgs)
-                    execute()
-                    close()
-                }
+                dbUtils!!.updateServerOldCategoryColor(newValue as Boolean, currentServer.chinachuAddress)
                 true
             }
 
@@ -119,30 +95,21 @@ class Preference : AppCompatActivity() {
             }
 
             delServer.setOnPreferenceClickListener {
-                val db = ServerSQLHelper(context).writableDatabase
                 val address = arrayListOf<String>()
-                val rowid = arrayListOf<String>()
-                val result = db.rawQuery("SELECT chinachuAddress, ROWID FROM servers", null)
-                var mov = result.moveToFirst()
-                while (mov) {
-                    address.add(result.getString(0))
-                    rowid.add(result.getString(1))
-                    mov = result.moveToNext()
+                dbUtils!!.getServers().map {
+                    address.add(it.chinachuAddress)
                 }
-                result.close()
                 AlertDialog.Builder(activity)
                         .setTitle(R.string.choose_delete_server)
                         .setItems(address.toTypedArray()) { _, which ->
+                            val selectedServerAddress = address[which]
                             AlertDialog.Builder(activity)
                                     .setTitle(R.string.confirm_delete)
-                                    .setMessage(getString(R.string.is_delete_server_below) + "\n" + address[which])
+                                    .setMessage(getString(R.string.is_delete_server_below) + "\n" + selectedServerAddress)
                                     .setNegativeButton(R.string.cancel, null)
                                     .setPositiveButton(R.string.ok) { _, _ ->
-                                        val delRowid = rowid[which]
-                                        db.execSQL("DELETE from servers WHERE ROWID=$delRowid")
-                                        val dbUtils = DBUtils(context)
-                                        val servers = dbUtils.getServers()
-                                        dbUtils.close()
+                                        dbUtils!!.deleteServer(selectedServerAddress)
+                                        val servers = dbUtils!!.getServers()
                                         if (servers.isEmpty()) {
                                             PreferenceManager.getDefaultSharedPreferences(activity).edit().clear().commit()
                                         } else {
@@ -154,6 +121,13 @@ class Preference : AppCompatActivity() {
                         }
                         .show()
                 false
+            }
+        }
+
+        override fun onDestroy() {
+            super.onDestroy()
+            if (dbUtils != null) {
+                dbUtils!!.close()
             }
         }
 

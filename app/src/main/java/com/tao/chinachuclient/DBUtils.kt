@@ -108,6 +108,41 @@ class DBUtils(context: Context) {
         }
     }
 
+    private fun updateServerColumn(columnName: String, newValue: String, targetChinachuAddress: String) {
+        val sql = "UPDATE servers SET $columnName = ? WHERE chinachuAddress = ?"
+        val bindArgs = arrayOf(
+                newValue,
+                targetChinachuAddress
+        )
+        db.compileStatement(sql).apply {
+            bindAllArgsAsStrings(bindArgs)
+            execute()
+            close()
+        }
+    }
+
+    fun updateServerStreaming(newValue: Boolean, targetChinachuAddress: String) {
+        updateServerColumn("streaming", newValue.toString(), targetChinachuAddress)
+    }
+
+    fun updateServerEncStreaming(newValue: Boolean, targetChinachuAddress: String) {
+        updateServerColumn("encStreaming", newValue.toString(), targetChinachuAddress)
+    }
+
+    fun updateServerOldCategoryColor(newValue: Boolean, targetChinachuAddress: String) {
+        updateServerColumn("oldCategoryColor", newValue.toString(), targetChinachuAddress)
+    }
+
+    fun deleteServer(targetChinachuAddress: String) {
+        val sql = "DELETE from servers WHERE chinachuAddress = ?"
+        val bindArgs = arrayOf(targetChinachuAddress)
+        db.compileStatement(sql).apply {
+            bindAllArgsAsStrings(bindArgs)
+            execute()
+            close()
+        }
+    }
+
     fun serverExists(chinachuAddress: String): Boolean {
         val c = db.rawQuery("SELECT * FROM servers WHERE chinachuAddress = ?", arrayOf(chinachuAddress))
         c.moveToFirst()
