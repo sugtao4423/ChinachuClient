@@ -19,6 +19,7 @@
     <!-- ChannelScheduleActivity -->
     <string name="channel_schedule">番組表</string>
     <string name="error_get_schedule">番組取得エラー</string>
+    <string name="search">検索</string>
     <string name="live_play">ライブ再生</string>
     <string name="live_play_encode">ライブ再生(エンコ有)</string>
     <string name="search_of_all_channel">全チャンネルから番組検索</string>
