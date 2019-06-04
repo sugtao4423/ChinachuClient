@@ -1,6 +1,6 @@
 package com.tao.chinachuclient
 
-import Chinachu4j.Program
+import sugtao4423.library.chinachu4j.Program
 import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri

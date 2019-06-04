@@ -1,6 +1,6 @@
 package com.tao.chinachuclient
 
-import Chinachu4j.Chinachu4j
+import sugtao4423.library.chinachu4j.Chinachu4j
 import android.app.Application
 import android.os.Build
 import android.preference.PreferenceManager

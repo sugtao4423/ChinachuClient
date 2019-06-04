@@ -1,9 +1,9 @@
 package com.tao.chinachuclient
 
-import Chinachu4j.ChinachuResponse
-import Chinachu4j.Program
-import Chinachu4j.Recorded
-import Chinachu4j.Reserve
+import sugtao4423.library.chinachu4j.ChinachuResponse
+import sugtao4423.library.chinachu4j.Program
+import sugtao4423.library.chinachu4j.Recorded
+import sugtao4423.library.chinachu4j.Reserve
 import android.app.AlertDialog
 import android.graphics.Color
 import android.os.AsyncTask
@@ -121,10 +121,10 @@ class ProgramActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
     private fun load(): Array<*>? {
         try {
             return when (type) {
-                Type.RESERVES -> app.chinachu.reserves
-                Type.RECORDING -> app.chinachu.recording
+                Type.RESERVES -> app.chinachu.getReserves()
+                Type.RECORDING -> app.chinachu.getRecording()
                 Type.RECORDED -> {
-                    val recorded = app.chinachu.recorded
+                    val recorded = app.chinachu.getRecorded()
                     recorded.reverse()
                     return recorded
                 }

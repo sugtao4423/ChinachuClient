@@ -1,6 +1,6 @@
 package com.tao.chinachuclient
 
-import Chinachu4j.Rule
+import sugtao4423.library.chinachu4j.Rule
 import android.content.Intent
 import android.graphics.Color
 import android.os.AsyncTask
@@ -65,7 +65,7 @@ class RuleActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener, 
 
             override fun doInBackground(vararg params: Unit?): Array<Rule>? {
                 try {
-                    return (applicationContext as App).chinachu.rules
+                    return (applicationContext as App).chinachu.getRules()
                 } catch (e: Exception) {
                 }
                 return null

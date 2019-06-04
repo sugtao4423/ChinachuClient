@@ -21,9 +21,8 @@ android {
         }
     }
     repositories {
-        maven {
-            url 'https://sugtao4423.github.io/android-ProgressDialog/repository'
-        }
+        maven { url 'https://sugtao4423.github.io/Chinachu4j/repository' }
+        maven { url 'https://sugtao4423.github.io/android-ProgressDialog/repository' }
     }
 }
 
@@ -36,6 +35,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation files('libs/Chinachu4j.jar')
+    implementation 'sugtao4423.library:chinachu4j:3.0.0'
     implementation 'sugtao4423.support:progressdialog:1.0.0'
 }

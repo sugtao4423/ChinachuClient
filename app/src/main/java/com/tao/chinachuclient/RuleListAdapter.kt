@@ -1,6 +1,6 @@
 package com.tao.chinachuclient
 
-import Chinachu4j.Rule
+import sugtao4423.library.chinachu4j.Rule
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater

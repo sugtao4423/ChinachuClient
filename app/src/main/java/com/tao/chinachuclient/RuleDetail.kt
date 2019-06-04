@@ -1,7 +1,7 @@
 package com.tao.chinachuclient
 
-import Chinachu4j.ChinachuResponse
-import Chinachu4j.Rule
+import sugtao4423.library.chinachu4j.ChinachuResponse
+import sugtao4423.library.chinachu4j.Rule
 import android.app.AlertDialog
 import android.os.AsyncTask
 import android.os.Bundle

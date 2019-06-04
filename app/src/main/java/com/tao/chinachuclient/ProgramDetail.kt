@@ -1,9 +1,9 @@
 package com.tao.chinachuclient
 
-import Chinachu4j.ChinachuResponse
-import Chinachu4j.Program
-import Chinachu4j.Recorded
-import Chinachu4j.Reserve
+import sugtao4423.library.chinachu4j.ChinachuResponse
+import sugtao4423.library.chinachu4j.Program
+import sugtao4423.library.chinachu4j.Recorded
+import sugtao4423.library.chinachu4j.Reserve
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.BitmapFactory

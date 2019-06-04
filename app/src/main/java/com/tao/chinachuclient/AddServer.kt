@@ -1,7 +1,7 @@
 package com.tao.chinachuclient
 
-import Chinachu4j.Chinachu4j
-import Chinachu4j.Program
+import sugtao4423.library.chinachu4j.Chinachu4j
+import sugtao4423.library.chinachu4j.Program
 import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
@@ -89,7 +89,7 @@ class AddServer : AppCompatActivity() {
             override fun doInBackground(vararg params: Void?): Array<Program>? {
                 try {
                     val chinachu = Chinachu4j(address, username.text.toString(), password.text.toString())
-                    return chinachu.allSchedule
+                    return chinachu.getAllSchedule()
                 } catch (e: Exception) {
                 }
                 return null
