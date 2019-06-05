@@ -1,3 +1,6 @@
++2.0.0
+・Chinachu4j、ChinachuClientのKotlin化
+
 +1.9.1
 ・Android Pieにてhttp通信できない問題をfix
 
