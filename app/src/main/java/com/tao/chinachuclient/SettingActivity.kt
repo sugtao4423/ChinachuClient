@@ -39,6 +39,7 @@ class SettingActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         app = applicationContext as App
+        app.reloadCurrentServer()
         oldServer = app.currentServer
 
         AlertDialog.Builder(this)
