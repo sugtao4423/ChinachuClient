@@ -33,4 +33,5 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.github.sugtao4423:Chinachu4j:3.0.1'
     implementation 'com.github.sugtao4423:android-ProgressDialog:1.0.0'
+    implementation 'com.github.sugtao4423:ZoomImageView:1.0.0'
 }
