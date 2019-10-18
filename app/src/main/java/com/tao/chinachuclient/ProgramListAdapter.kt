@@ -1,8 +1,5 @@
 package com.tao.chinachuclient
 
-import sugtao4423.library.chinachu4j.Program
-import sugtao4423.library.chinachu4j.Recorded
-import sugtao4423.library.chinachu4j.Reserve
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
@@ -13,6 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import sugtao4423.library.chinachu4j.Program
+import sugtao4423.library.chinachu4j.Recorded
+import sugtao4423.library.chinachu4j.Reserve
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -21,6 +21,7 @@ class ProgramListAdapter(context: Context, val type: Int) :
 
     private val mInflater = context.getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     private val oldCategoryColor = (context.applicationContext as App).currentServer.oldCategoryColor
+    private val nowYear = Calendar.getInstance().get(Calendar.YEAR).toString()
 
     private data class ViewHolder(
             val title: TextView,
@@ -105,17 +106,24 @@ class ProgramListAdapter(context: Context, val type: Int) :
 
     private fun getDateText(item: Program): String {
         val dateText = run {
-            val dateFormat = SimpleDateFormat("MM/dd (E) HH:mm", Locale.JAPANESE)
-            val start = dateFormat.format(Date(item.start))
-            var end = dateFormat.format(Date(item.end))
+            val dateFormat = SimpleDateFormat("yyyy,MM/dd (E),HH:mm", Locale.JAPANESE)
+            val startDates = dateFormat.format(Date(item.start)).split(",")
+            val endDates = dateFormat.format(Date(item.end)).split(",")
 
-            val startDay = start.substring(0..8)
-            val endDay = end.substring(0..8)
-
-            if (startDay == endDay) {
-                end = end.substring(10)
+            val startText = startDates.let {
+                when {
+                    it[0] != nowYear -> "${it[0]}/${it[1]} ${it[2]}"
+                    else -> "${it[1]} ${it[2]}"
+                }
             }
-            "$start 〜 $end"
+            val endText = endDates.let {
+                when {
+                    it[0] != startDates[0] -> "${it[0]}/${it[1]} ${it[2]}"
+                    it[1] == startDates[1] -> it[2]
+                    else -> "${it[1]} ${it[2]}"
+                }
+            }
+            "$startText 〜 $endText"
         }
 
         if (type == Type.RESERVES || type == Type.RECORDING) {
