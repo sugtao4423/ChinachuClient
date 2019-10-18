@@ -1,6 +1,5 @@
 package com.tao.chinachuclient
 
-import sugtao4423.library.chinachu4j.Rule
 import android.content.Intent
 import android.graphics.Color
 import android.os.AsyncTask
@@ -12,6 +11,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ListView
 import android.widget.Toast
+import sugtao4423.library.chinachu4j.Rule
 import sugtao4423.support.progressdialog.ProgressDialog
 
 class RuleActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {

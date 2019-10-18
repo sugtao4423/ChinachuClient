@@ -1,7 +1,5 @@
 package com.tao.chinachuclient
 
-import sugtao4423.library.chinachu4j.Chinachu4j
-import sugtao4423.library.chinachu4j.Program
 import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
@@ -14,6 +12,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
+import sugtao4423.library.chinachu4j.Chinachu4j
+import sugtao4423.library.chinachu4j.Program
 import sugtao4423.support.progressdialog.ProgressDialog
 
 class AddServer : AppCompatActivity() {

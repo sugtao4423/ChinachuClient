@@ -1,12 +1,12 @@
 package com.tao.chinachuclient
 
-import sugtao4423.library.chinachu4j.Program
-import sugtao4423.library.chinachu4j.Recorded
-import sugtao4423.library.chinachu4j.Reserve
 import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.widget.AdapterView
+import sugtao4423.library.chinachu4j.Program
+import sugtao4423.library.chinachu4j.Recorded
+import sugtao4423.library.chinachu4j.Reserve
 
 class ProgramListClickListener(private val context: Context, private val type: Int) : AdapterView.OnItemClickListener {
 

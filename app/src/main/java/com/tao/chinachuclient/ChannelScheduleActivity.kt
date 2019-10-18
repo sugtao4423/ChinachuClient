@@ -1,6 +1,5 @@
 package com.tao.chinachuclient
 
-import sugtao4423.library.chinachu4j.Program
 import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
@@ -12,6 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import sugtao4423.library.chinachu4j.Program
 import sugtao4423.support.progressdialog.ProgressDialog
 import java.util.*
 

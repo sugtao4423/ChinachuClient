@@ -1,16 +1,15 @@
 package com.tao.chinachuclient
 
-import sugtao4423.library.chinachu4j.ChinachuResponse
-import sugtao4423.library.chinachu4j.Rule
 import android.app.AlertDialog
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.text.Html
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
+import sugtao4423.library.chinachu4j.ChinachuResponse
+import sugtao4423.library.chinachu4j.Rule
 import sugtao4423.support.progressdialog.ProgressDialog
 
 class RuleDetail : AppCompatActivity() {

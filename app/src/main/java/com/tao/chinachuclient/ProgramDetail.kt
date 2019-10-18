@@ -1,9 +1,5 @@
 package com.tao.chinachuclient
 
-import sugtao4423.library.chinachu4j.ChinachuResponse
-import sugtao4423.library.chinachu4j.Program
-import sugtao4423.library.chinachu4j.Recorded
-import sugtao4423.library.chinachu4j.Reserve
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -11,13 +7,16 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.text.Html
 import android.util.Base64
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
+import sugtao4423.library.chinachu4j.ChinachuResponse
+import sugtao4423.library.chinachu4j.Program
+import sugtao4423.library.chinachu4j.Recorded
+import sugtao4423.library.chinachu4j.Reserve
 import sugtao4423.support.progressdialog.ProgressDialog
 import java.text.SimpleDateFormat
 import java.util.*

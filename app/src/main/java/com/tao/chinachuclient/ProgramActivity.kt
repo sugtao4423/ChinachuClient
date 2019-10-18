@@ -1,9 +1,5 @@
 package com.tao.chinachuclient
 
-import sugtao4423.library.chinachu4j.ChinachuResponse
-import sugtao4423.library.chinachu4j.Program
-import sugtao4423.library.chinachu4j.Recorded
-import sugtao4423.library.chinachu4j.Reserve
 import android.app.AlertDialog
 import android.graphics.Color
 import android.os.AsyncTask
@@ -15,6 +11,10 @@ import android.view.MenuItem
 import android.widget.ListView
 import android.widget.SearchView
 import android.widget.Toast
+import sugtao4423.library.chinachu4j.ChinachuResponse
+import sugtao4423.library.chinachu4j.Program
+import sugtao4423.library.chinachu4j.Recorded
+import sugtao4423.library.chinachu4j.Reserve
 import sugtao4423.support.progressdialog.ProgressDialog
 import java.text.Normalizer
 import java.util.*
