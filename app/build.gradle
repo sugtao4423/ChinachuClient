@@ -10,8 +10,8 @@ android {
         applicationId "com.tao.chinachuclient"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 22
-        versionName "2.0.0"
+        versionCode 23
+        versionName "2.1.0"
     }
     buildTypes {
         release {
