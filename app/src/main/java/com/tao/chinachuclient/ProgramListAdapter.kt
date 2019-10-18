@@ -2,7 +2,6 @@ package com.tao.chinachuclient
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Paint
 import android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
@@ -97,8 +96,8 @@ class ProgramListAdapter(context: Context, val type: Int) :
             } else {
                 holder.title.setTextColor(Color.parseColor(context.getString(R.color.titleText)))
                 holder.date.setTextColor(Color.parseColor(context.getString(R.color.dateText)))
-                titlePaint.flags = holder.title.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-                datePaint.flags = holder.date.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                titlePaint.flags = holder.title.paintFlags and STRIKE_THRU_TEXT_FLAG.inv()
+                datePaint.flags = holder.date.paintFlags and STRIKE_THRU_TEXT_FLAG.inv()
             }
         }
         return view!!
