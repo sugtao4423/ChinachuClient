@@ -111,7 +111,7 @@ class Preference : AppCompatActivity() {
                                         dbUtils!!.deleteServer(selectedServerAddress)
                                         val servers = dbUtils!!.getServers()
                                         if (servers.isEmpty()) {
-                                            PreferenceManager.getDefaultSharedPreferences(activity).edit().clear().commit()
+                                            PreferenceManager.getDefaultSharedPreferences(activity).edit().clear().apply()
                                         } else {
                                             (context.applicationContext as App).changeCurrentServer(servers[0])
                                         }

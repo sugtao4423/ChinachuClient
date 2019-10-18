@@ -1,6 +1,5 @@
 package com.tao.chinachuclient
 
-import sugtao4423.library.chinachu4j.Chinachu4j
 import android.app.Application
 import android.os.Build
 import android.preference.PreferenceManager
@@ -9,6 +8,7 @@ import android.text.Spanned
 import android.util.Base64
 import android.widget.EditText
 import android.widget.Spinner
+import sugtao4423.library.chinachu4j.Chinachu4j
 
 class App : Application() {
 
@@ -32,10 +32,10 @@ class App : Application() {
                 String(Base64.decode(newServer.password, Base64.DEFAULT)))
         streaming = newServer.streaming
         encStreaming = newServer.encStreaming
-        PreferenceManager.getDefaultSharedPreferences(applicationContext)
-                .edit()
-                .putString("chinachuAddress", newServer.chinachuAddress)
-                .commit()
+        PreferenceManager.getDefaultSharedPreferences(applicationContext).edit().apply {
+            putString("chinachuAddress", newServer.chinachuAddress)
+            apply()
+        }
     }
 
     fun getEncodeSetting(type: Spinner,
