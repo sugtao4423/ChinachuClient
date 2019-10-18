@@ -179,8 +179,8 @@ class ProgramActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
                         Type.RECORDED -> (it as Recorded).program
                         else -> (it as Program)
                     }
-                    val itemTitle = Normalizer.normalize(item.fullTitle, Normalizer.Form.NFKC).toLowerCase()
-                    val searchText = newText.toLowerCase()
+                    val itemTitle = Normalizer.normalize(item.fullTitle, Normalizer.Form.NFKC).toLowerCase(Locale.JAPANESE)
+                    val searchText = Normalizer.normalize(newText, Normalizer.Form.NFKC).toLowerCase(Locale.JAPANESE)
                     itemTitle.contains(searchText)
                 }
                 programListAdapter.addAll(filteredPrograms)
