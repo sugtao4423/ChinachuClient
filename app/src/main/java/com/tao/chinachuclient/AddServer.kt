@@ -2,7 +2,6 @@ package com.tao.chinachuclient
 
 import android.content.Context
 import android.content.Intent
-import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Base64
@@ -12,8 +11,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import sugtao4423.library.chinachu4j.Chinachu4j
-import sugtao4423.library.chinachu4j.Program
 import sugtao4423.support.progressdialog.ProgressDialog
 
 class AddServer : AppCompatActivity() {
@@ -73,64 +75,56 @@ class AddServer : AppCompatActivity() {
             return
         }
 
-        object : AsyncTask<Void, Void, Array<Program>?>() {
-            private lateinit var progressDialog: ProgressDialog
-
-            override fun onPreExecute() {
-                progressDialog = ProgressDialog(this@AddServer).apply {
-                    setMessage(getString(R.string.getting_channel_list))
-                    isIndeterminate = false
-                    setProgressStyle(ProgressDialog.STYLE_SPINNER)
-                    setCancelable(true)
-                    show()
-                }
+        CoroutineScope(Dispatchers.Main).launch {
+            val progressDialog = ProgressDialog(this@AddServer).apply {
+                setMessage(getString(R.string.getting_channel_list))
+                isIndeterminate = false
+                setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                setCancelable(true)
+                show()
             }
-
-            override fun doInBackground(vararg params: Void?): Array<Program>? {
+            val result = withContext(Dispatchers.IO) {
                 try {
                     val chinachu = Chinachu4j(address, username.text.toString(), password.text.toString())
-                    return chinachu.getAllSchedule()
+                    chinachu.getAllSchedule()
                 } catch (e: Exception) {
+                    null
                 }
-                return null
+            }
+            progressDialog.dismiss()
+            if (result == null) {
+                Toast.makeText(this@AddServer, R.string.error_get_channel_list, Toast.LENGTH_SHORT).show()
+                return@launch
             }
 
-            override fun onPostExecute(result: Array<Program>?) {
-                progressDialog.dismiss()
-                if (result == null) {
-                    Toast.makeText(this@AddServer, R.string.error_get_channel_list, Toast.LENGTH_SHORT).show()
-                    return
+            val channelIds = arrayListOf<String>()
+            val channelNames = arrayListOf<String>()
+            result.forEach {
+                if (!channelIds.contains(it.channel.id)) {
+                    channelIds.add(it.channel.id)
+                    channelNames.add(it.channel.name)
                 }
-
-                val channelIds = arrayListOf<String>()
-                val channelNames = arrayListOf<String>()
-                result.forEach {
-                    if (!channelIds.contains(it.channel.id)) {
-                        channelIds.add(it.channel.id)
-                        channelNames.add(it.channel.name)
-                    }
-                }
-
-                val encode = (applicationContext as App).getEncodeSetting(
-                        type, containerFormat, videoCodec, audioCodec,
-                        videoBitrate, videoBitrateFormat, audioBitrate, audioBitrateFormat, videoSize, frame
-                )
-                val server = Server(
-                        address,
-                        Base64.encodeToString(username.text.toString().toByteArray(), Base64.DEFAULT),
-                        Base64.encodeToString(password.text.toString().toByteArray(), Base64.DEFAULT),
-                        false, false, encode, channelIds.joinToString(), channelNames.joinToString(), false
-                )
-                dbUtils.insertServer(server)
-                dbUtils.close()
-
-                if (startMain) {
-                    (applicationContext as App).changeCurrentServer(server)
-                    startActivity(Intent(this@AddServer, MainActivity::class.java))
-                }
-                finish()
             }
-        }.execute()
+
+            val encode = (applicationContext as App).getEncodeSetting(
+                    type, containerFormat, videoCodec, audioCodec,
+                    videoBitrate, videoBitrateFormat, audioBitrate, audioBitrateFormat, videoSize, frame
+            )
+            val server = Server(
+                    address,
+                    Base64.encodeToString(username.text.toString().toByteArray(), Base64.DEFAULT),
+                    Base64.encodeToString(password.text.toString().toByteArray(), Base64.DEFAULT),
+                    false, false, encode, channelIds.joinToString(), channelNames.joinToString(), false
+            )
+            dbUtils.insertServer(server)
+            dbUtils.close()
+
+            if (startMain) {
+                (applicationContext as App).changeCurrentServer(server)
+                startActivity(Intent(this@AddServer, MainActivity::class.java))
+            }
+            finish()
+        }
     }
 
     fun background(v: View) {

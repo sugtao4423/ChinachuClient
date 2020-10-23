@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Base64
@@ -13,7 +12,10 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
-import sugtao4423.library.chinachu4j.ChinachuResponse
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import sugtao4423.library.chinachu4j.Program
 import sugtao4423.library.chinachu4j.Recorded
 import sugtao4423.library.chinachu4j.Reserve
@@ -99,36 +101,35 @@ class ProgramDetail : AppCompatActivity() {
         otherView.text = app.fromHtml(otherText)
 
         if (type == Type.RECORDING || type == Type.RECORDED) {
-            object : AsyncTask<Unit, Unit, String?>() {
-                override fun doInBackground(vararg params: Unit?): String? {
+            CoroutineScope(Dispatchers.Main).launch {
+                val result = withContext(Dispatchers.IO) {
                     try {
-                        if (type == Type.RECORDING)
-                            return app.chinachu.getRecordingImage(program.id, "1280x720")
-                        if (type == Type.RECORDED) {
-                            randomSecond = Random.nextInt(program.seconds) + 1
-                            return app.chinachu.getRecordedImage(program.id, randomSecond, "1280x720")
+                        when (type) {
+                            Type.RECORDING -> app.chinachu.getRecordingImage(program.id, "1280x720")
+                            Type.RECORDED -> {
+                                randomSecond = Random.nextInt(program.seconds) + 1
+                                app.chinachu.getRecordedImage(program.id, randomSecond, "1280x720")
+                            }
+                            else -> null
                         }
                     } catch (e: Exception) {
+                        null
                     }
-                    return null
                 }
-
-                override fun onPostExecute(result: String?) {
-                    if (result == null) {
-                        Toast.makeText(this@ProgramDetail, R.string.error_get_image, Toast.LENGTH_SHORT).show()
-                        return
-                    }
-                    val image64 = if (result.startsWith("data:image/jpeg;base64,")) {
-                        result.substring(23)
-                    } else {
-                        result
-                    }
-                    val decodedString = Base64.decode(image64, Base64.DEFAULT)
-                    val img = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
-                    image.setImageBitmap(img)
-                    capture = image64
+                if (result == null) {
+                    Toast.makeText(this@ProgramDetail, R.string.error_get_image, Toast.LENGTH_SHORT).show()
+                    return@launch
                 }
-            }.execute()
+                val image64 = if (result.startsWith("data:image/jpeg;base64,")) {
+                    result.substring(23)
+                } else {
+                    result
+                }
+                val decodedString = Base64.decode(image64, Base64.DEFAULT)
+                val img = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+                image.setImageBitmap(img)
+                capture = image64
+            }
         }
     }
 
@@ -163,53 +164,43 @@ class ProgramDetail : AppCompatActivity() {
                 .setView(view)
                 .setNegativeButton(R.string.cancel, null)
                 .setPositiveButton(R.string.ok) { _, _ ->
-
-                    object : AsyncTask<Unit, Unit, String?>() {
-                        private lateinit var progressDialog: ProgressDialog
-
-                        override fun onPreExecute() {
-                            progressDialog = ProgressDialog(this@ProgramDetail).apply {
-                                setMessage(getString(R.string.loading))
-                                isIndeterminate = false
-                                setProgressStyle(ProgressDialog.STYLE_SPINNER)
-                                setCancelable(true)
-                                show()
-                            }
+                    CoroutineScope(Dispatchers.Main).launch {
+                        val progressDialog = ProgressDialog(this@ProgramDetail).apply {
+                            setMessage(getString(R.string.loading))
+                            isIndeterminate = false
+                            setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                            setCancelable(true)
+                            show()
                         }
-
-                        override fun doInBackground(vararg params: Unit?): String? {
+                        val result = withContext(Dispatchers.IO) {
                             try {
-                                return when (type) {
+                                when (type) {
                                     Type.RECORDING -> app.chinachu.getRecordingImage(program.id, capSize.text.toString())
                                     Type.RECORDED -> app.chinachu.getRecordedImage(program.id, capPos.text.toString().toInt(), capSize.text.toString())
                                     else -> null
                                 }
                             } catch (e: Exception) {
+                                null
                             }
-                            return null
                         }
-
-                        override fun onPostExecute(result: String?) {
-                            progressDialog.dismiss()
-                            if (result == null) {
-                                Toast.makeText(this@ProgramDetail, R.string.error_get_image, Toast.LENGTH_SHORT).show()
-                                return
-                            }
-                            val image64 = if (result.startsWith("data:image/jpeg;base64,")) {
-                                result.substring(23)
-                            } else {
-                                result
-                            }
-                            startActivity(Intent(this@ProgramDetail, ShowImage::class.java).also {
-                                it.putExtra("base64", image64)
-                                it.putExtra("programId", program.id)
-                                if (type == Type.RECORDED) {
-                                    it.putExtra("pos", capPos.text.toString().toInt())
-                                }
-                            })
-
+                        progressDialog.dismiss()
+                        if (result == null) {
+                            Toast.makeText(this@ProgramDetail, R.string.error_get_image, Toast.LENGTH_SHORT).show()
+                            return@launch
                         }
-                    }.execute()
+                        val image64 = if (result.startsWith("data:image/jpeg;base64,")) {
+                            result.substring(23)
+                        } else {
+                            result
+                        }
+                        startActivity(Intent(this@ProgramDetail, ShowImage::class.java).also {
+                            it.putExtra("base64", image64)
+                            it.putExtra("programId", program.id)
+                            if (type == Type.RECORDED) {
+                                it.putExtra("pos", capPos.text.toString().toInt())
+                            }
+                        })
+                    }
                 }
                 .setNeutralButton(R.string.zoom_this_state) { _, _ ->
                     startActivity(Intent(this@ProgramDetail, ShowImage::class.java).also {
@@ -324,22 +315,17 @@ class ProgramDetail : AppCompatActivity() {
         before.setMessage(program.fullTitle)
         before.setNegativeButton(R.string.cancel, null)
         before.setPositiveButton(R.string.ok) { _, _ ->
-            object : AsyncTask<Unit, Unit, ChinachuResponse?>() {
-                private lateinit var progressDialog: ProgressDialog
-
-                override fun onPreExecute() {
-                    progressDialog = ProgressDialog(this@ProgramDetail).apply {
-                        setMessage(getString(R.string.sending))
-                        isIndeterminate = false
-                        setProgressStyle(ProgressDialog.STYLE_SPINNER)
-                        setCancelable(true)
-                        show()
-                    }
+            CoroutineScope(Dispatchers.Main).launch {
+                val progressDialog = ProgressDialog(this@ProgramDetail).apply {
+                    setMessage(getString(R.string.sending))
+                    isIndeterminate = false
+                    setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                    setCancelable(true)
+                    show()
                 }
-
-                override fun doInBackground(vararg params: Unit?): ChinachuResponse? {
+                val result = withContext(Dispatchers.IO) {
                     try {
-                        return when (type) {
+                        when (type) {
                             Type.CHANNEL_SCHEDULE_ACTIVITY, Type.SEARCH_PROGRAM -> chinachu.putReserve(program.id)
                             Type.RESERVES -> {
                                 if (reserveIsManualReserved) {
@@ -356,48 +342,45 @@ class ProgramDetail : AppCompatActivity() {
                             else -> null
                         }
                     } catch (e: Exception) {
+                        null
                     }
-                    return null
+                }
+                progressDialog.dismiss()
+                if (result == null) {
+                    Toast.makeText(this@ProgramDetail, R.string.error_access, Toast.LENGTH_SHORT).show()
+                    return@launch
+                }
+                if (!result.result) {
+                    Toast.makeText(this@ProgramDetail, result.message, Toast.LENGTH_LONG).show()
+                    return@launch
                 }
 
-                override fun onPostExecute(result: ChinachuResponse?) {
-                    progressDialog.dismiss()
-                    if (result == null) {
-                        Toast.makeText(this@ProgramDetail, R.string.error_access, Toast.LENGTH_SHORT).show()
-                        return
+                val after = AlertDialog.Builder(this@ProgramDetail)
+                when (type) {
+                    Type.CHANNEL_SCHEDULE_ACTIVITY, Type.SEARCH_PROGRAM -> {
+                        after.setTitle(R.string.done_reserve)
+                        after.setMessage(program.fullTitle)
                     }
-                    if (!result.result) {
-                        Toast.makeText(this@ProgramDetail, result.message, Toast.LENGTH_LONG).show()
-                        return
-                    }
-
-                    val after = AlertDialog.Builder(this@ProgramDetail)
-                    when (type) {
-                        Type.CHANNEL_SCHEDULE_ACTIVITY, Type.SEARCH_PROGRAM -> {
-                            after.setTitle(R.string.done_reserve)
-                            after.setMessage(program.fullTitle)
-                        }
-                        Type.RESERVES -> {
-                            if (reserveIsManualReserved) {
-                                after.setTitle(R.string.done_delete_reverse)
+                    Type.RESERVES -> {
+                        if (reserveIsManualReserved) {
+                            after.setTitle(R.string.done_delete_reverse)
+                        } else {
+                            if (reserveIsSkip) {
+                                after.setTitle(R.string.done_skip_reserve_release)
                             } else {
-                                if (reserveIsSkip) {
-                                    after.setTitle(R.string.done_skip_reserve_release)
-                                } else {
-                                    after.setTitle(R.string.done_skip_reserve)
-                                }
+                                after.setTitle(R.string.done_skip_reserve)
                             }
-                            after.setMessage(program.fullTitle)
-                            app.reloadList = true
                         }
-                        Type.RECORDED -> {
-                            after.setTitle(R.string.done_delete_recorded_file)
-                            after.setMessage(program.fullTitle + "\n\n" + getString(R.string.reflect_recorded_list_need_cleanup))
-                        }
+                        after.setMessage(program.fullTitle)
+                        app.reloadList = true
                     }
-                    after.show()
+                    Type.RECORDED -> {
+                        after.setTitle(R.string.done_delete_recorded_file)
+                        after.setMessage(program.fullTitle + "\n\n" + getString(R.string.reflect_recorded_list_need_cleanup))
+                    }
                 }
-            }.execute()
+                after.show()
+            }
         }
         before.show()
     }

@@ -2,7 +2,6 @@ package com.tao.chinachuclient
 
 import android.app.AlertDialog
 import android.graphics.Color
-import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
@@ -11,7 +10,10 @@ import android.view.MenuItem
 import android.widget.ListView
 import android.widget.SearchView
 import android.widget.Toast
-import sugtao4423.library.chinachu4j.ChinachuResponse
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import sugtao4423.library.chinachu4j.Program
 import sugtao4423.library.chinachu4j.Recorded
 import sugtao4423.library.chinachu4j.Reserve
@@ -81,41 +83,30 @@ class ProgramActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
 
     private fun asyncLoad(isRefresh: Boolean) {
         programListAdapter.clear()
-        object : AsyncTask<Unit, Unit, Array<*>?>() {
-            private lateinit var progressDialog: ProgressDialog
-
-            override fun onPreExecute() {
-                if (!isRefresh) {
-                    progressDialog = ProgressDialog(this@ProgramActivity).apply {
-                        setMessage(getString(R.string.loading))
-                        isIndeterminate = false
-                        setProgressStyle(ProgressDialog.STYLE_SPINNER)
-                        setCancelable(true)
-                        show()
-                    }
+        CoroutineScope(Dispatchers.Main).launch {
+            var progressDialog: ProgressDialog? = null
+            if (!isRefresh) {
+                progressDialog = ProgressDialog(this@ProgramActivity).apply {
+                    setMessage(getString(R.string.loading))
+                    isIndeterminate = false
+                    setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                    setCancelable(true)
+                    show()
                 }
             }
-
-            override fun doInBackground(vararg params: Unit?): Array<*>? {
-                return load()
+            val result = withContext(Dispatchers.IO) {
+                load()
             }
-
-            override fun onPostExecute(result: Array<*>?) {
-                super.onPostExecute(result)
-                if (!isRefresh) {
-                    progressDialog.dismiss()
-                } else {
-                    swipeRefresh.isRefreshing = false
-                }
-                if (result == null) {
-                    Toast.makeText(this@ProgramActivity, R.string.error_get_schedule, Toast.LENGTH_SHORT).show()
-                    return
-                }
-                programList = result
-                programListAdapter.addAll(result)
-                setActionBarTitle(result.size)
+            progressDialog?.dismiss()
+            swipeRefresh.isRefreshing = false
+            if (result == null) {
+                Toast.makeText(this@ProgramActivity, R.string.error_get_schedule, Toast.LENGTH_SHORT).show()
+                return@launch
             }
-        }.execute()
+            programList = result
+            programListAdapter.addAll(result)
+            setActionBarTitle(result.size)
+        }
     }
 
     private fun load(): Array<*>? {
@@ -202,48 +193,40 @@ class ProgramActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
                     .setMessage(R.string.is_cleanup_of_recorded_list)
                     .setNegativeButton(R.string.cancel, null)
                     .setPositiveButton(R.string.ok) { _, _ ->
-                        object : AsyncTask<Unit, Unit, ChinachuResponse?>() {
-                            private lateinit var progressDialog: ProgressDialog
-
-                            override fun onPreExecute() {
-                                progressDialog = ProgressDialog(this@ProgramActivity).apply {
-                                    setMessage(getString(R.string.loading))
-                                    isIndeterminate = false
-                                    setProgressStyle(ProgressDialog.STYLE_SPINNER)
-                                    setCancelable(true)
-                                    show()
-                                }
+                        CoroutineScope(Dispatchers.Main).launch {
+                            val progressDialog = ProgressDialog(this@ProgramActivity).apply {
+                                setMessage(getString(R.string.loading))
+                                isIndeterminate = false
+                                setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                                setCancelable(true)
+                                show()
                             }
-
-                            override fun doInBackground(vararg params: Unit?): ChinachuResponse? {
+                            val result = withContext(Dispatchers.IO) {
                                 try {
-                                    return app.chinachu.recordedCleanUp()
+                                    app.chinachu.recordedCleanUp()
                                 } catch (e: Exception) {
+                                    null
                                 }
-                                return null
+                            }
+                            progressDialog.dismiss()
+                            if (result == null) {
+                                Toast.makeText(this@ProgramActivity, R.string.error_access, Toast.LENGTH_SHORT).show()
+                                return@launch
+                            }
+                            if (!result.result) {
+                                Toast.makeText(this@ProgramActivity, result.message, Toast.LENGTH_LONG).show()
+                                return@launch
                             }
 
-                            override fun onPostExecute(result: ChinachuResponse?) {
-                                progressDialog.dismiss()
-                                if (result == null) {
-                                    Toast.makeText(this@ProgramActivity, R.string.error_access, Toast.LENGTH_SHORT).show()
-                                    return
-                                }
-                                if (!result.result) {
-                                    Toast.makeText(this@ProgramActivity, result.message, Toast.LENGTH_LONG).show()
-                                    return
-                                }
-
-                                AlertDialog.Builder(this@ProgramActivity)
-                                        .setTitle(R.string.done)
-                                        .setMessage(R.string.cleanup_done_is_refresh)
-                                        .setNegativeButton(R.string.cancel, null)
-                                        .setPositiveButton(R.string.ok) { _, _ ->
-                                            onRefresh()
-                                        }
-                                        .show()
-                            }
-                        }.execute()
+                            AlertDialog.Builder(this@ProgramActivity)
+                                    .setTitle(R.string.done)
+                                    .setMessage(R.string.cleanup_done_is_refresh)
+                                    .setNegativeButton(R.string.cancel, null)
+                                    .setPositiveButton(R.string.ok) { _, _ ->
+                                        onRefresh()
+                                    }
+                                    .show()
+                        }
                     }
                     .show()
         }

@@ -1,14 +1,16 @@
 package com.tao.chinachuclient
 
 import android.app.AlertDialog
-import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
-import sugtao4423.library.chinachu4j.ChinachuResponse
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import sugtao4423.library.chinachu4j.Rule
 import sugtao4423.support.progressdialog.ProgressDialog
 
@@ -86,48 +88,40 @@ class RuleDetail : AppCompatActivity() {
                         .setMessage(getString(R.string.rule_number) + position + "\n" + getString(R.string.target_title_to) + reserveTitle)
                         .setNegativeButton(R.string.cancel, null)
                         .setPositiveButton(R.string.ok) { _, _ ->
-                            object : AsyncTask<Unit, Unit, ChinachuResponse?>() {
-                                private lateinit var progressDialog: ProgressDialog
-
-                                override fun onPreExecute() {
-                                    progressDialog = ProgressDialog(this@RuleDetail).apply {
-                                        setMessage(getString(R.string.sending))
-                                        isIndeterminate = false
-                                        setProgressStyle(ProgressDialog.STYLE_SPINNER)
-                                        setCancelable(true)
-                                        show()
-                                    }
+                            CoroutineScope(Dispatchers.Main).launch {
+                                val progressDialog = ProgressDialog(this@RuleDetail).apply {
+                                    setMessage(getString(R.string.sending))
+                                    isIndeterminate = false
+                                    setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                                    setCancelable(true)
+                                    show()
                                 }
-
-                                override fun doInBackground(vararg params: Unit?): ChinachuResponse? {
+                                val result = withContext(Dispatchers.IO) {
                                     try {
-                                        return (applicationContext as App).chinachu.delRule(position)
+                                        (applicationContext as App).chinachu.delRule(position)
                                     } catch (e: Exception) {
+                                        null
                                     }
-                                    return null
+                                }
+                                progressDialog.dismiss()
+                                if (result == null) {
+                                    Toast.makeText(this@RuleDetail, R.string.error_access, Toast.LENGTH_SHORT).show()
+                                    return@launch
+                                }
+                                if (!result.result) {
+                                    Toast.makeText(this@RuleDetail, result.message, Toast.LENGTH_LONG).show()
+                                    return@launch
                                 }
 
-                                override fun onPostExecute(result: ChinachuResponse?) {
-                                    progressDialog.dismiss()
-                                    if (result == null) {
-                                        Toast.makeText(this@RuleDetail, R.string.error_access, Toast.LENGTH_SHORT).show()
-                                        return
-                                    }
-                                    if (!result.result) {
-                                        Toast.makeText(this@RuleDetail, result.message, Toast.LENGTH_LONG).show()
-                                        return
-                                    }
-
-                                    AlertDialog.Builder(this@RuleDetail)
-                                            .setTitle(R.string.done_delete)
-                                            .setMessage(R.string.back_activity_must_list_refresh)
-                                            .setNegativeButton(R.string.cancel, null)
-                                            .setPositiveButton(R.string.ok) { _, _ ->
-                                                finish()
-                                            }
-                                            .show()
-                                }
-                            }.execute()
+                                AlertDialog.Builder(this@RuleDetail)
+                                        .setTitle(R.string.done_delete)
+                                        .setMessage(R.string.back_activity_must_list_refresh)
+                                        .setNegativeButton(R.string.cancel, null)
+                                        .setPositiveButton(R.string.ok) { _, _ ->
+                                            finish()
+                                        }
+                                        .show()
+                            }
                         }
                         .show()
             }

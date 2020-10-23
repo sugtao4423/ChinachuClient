@@ -3,7 +3,6 @@ package com.tao.chinachuclient
 import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -11,6 +10,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import sugtao4423.library.chinachu4j.Program
 import sugtao4423.support.progressdialog.ProgressDialog
 import java.util.*
@@ -56,51 +59,43 @@ class ChannelScheduleActivity : AppCompatActivity(), AdapterView.OnItemSelectedL
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         selectingChannelId = channelIdList[position]
-        object : AsyncTask<Unit, Unit, Array<Program>?>() {
-            private lateinit var progressDialog: ProgressDialog
-
-            override fun onPreExecute() {
-                progressDialog = ProgressDialog(this@ChannelScheduleActivity).apply {
-                    setMessage(getString(R.string.loading))
-                    isIndeterminate = false
-                    setProgressStyle(ProgressDialog.STYLE_SPINNER)
-                    setCancelable(true)
-                    show()
-                }
+        CoroutineScope(Dispatchers.Main).launch {
+            val progressDialog = ProgressDialog(this@ChannelScheduleActivity).apply {
+                setMessage(getString(R.string.loading))
+                isIndeterminate = false
+                setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                setCancelable(true)
+                show()
             }
-
-            override fun doInBackground(vararg params: Unit?): Array<Program>? {
+            val result = withContext(Dispatchers.IO) {
                 try {
-                    return app.chinachu.getChannelSchedule(selectingChannelId)
+                    app.chinachu.getChannelSchedule(selectingChannelId)
                 } catch (e: Exception) {
-                }
-                return null
-            }
-
-            override fun onPostExecute(result: Array<Program>?) {
-                progressDialog.dismiss()
-                programListAdapter.clear()
-                if (result == null) {
-                    Toast.makeText(this@ChannelScheduleActivity, R.string.error_get_schedule, Toast.LENGTH_SHORT).show()
-                    return
-                }
-                Arrays.sort(result) { o1: Program, o2: Program ->
-                    when {
-                        o1.start > o2.start -> 1
-                        o1.start < o2.start -> -1
-                        else -> 0
-                    }
-                }
-                programListAdapter.addAll(result)
-                result.mapIndexed { i, it ->
-                    val now = Date().time
-                    if (it.start < now && it.end > now) {
-                        programList.setSelection(i)
-                        return@mapIndexed
-                    }
+                    null
                 }
             }
-        }.execute()
+            progressDialog.dismiss()
+            programListAdapter.clear()
+            if (result == null) {
+                Toast.makeText(this@ChannelScheduleActivity, R.string.error_get_schedule, Toast.LENGTH_SHORT).show()
+                return@launch
+            }
+            Arrays.sort(result) { o1: Program, o2: Program ->
+                when {
+                    o1.start > o2.start -> 1
+                    o1.start < o2.start -> -1
+                    else -> 0
+                }
+            }
+            programListAdapter.addAll(result)
+            result.mapIndexed { i, it ->
+                val now = Date().time
+                if (it.start < now && it.end > now) {
+                    programList.setSelection(i)
+                    return@mapIndexed
+                }
+            }
+        }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
