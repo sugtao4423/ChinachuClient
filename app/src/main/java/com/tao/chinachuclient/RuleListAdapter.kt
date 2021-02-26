@@ -24,8 +24,8 @@ class RuleListAdapter(context: Context) : ArrayAdapter<Rule>(context, android.R.
         val holder: ViewHolder
         if (view == null) {
             view = mInflater.inflate(R.layout.program_list_layout, parent, false)
-            val title = view.findViewById<TextView>(R.id.program_title)
-            val channel = view.findViewById<TextView>(R.id.program_date)
+            val title = view.findViewById<TextView>(R.id.programTitle)
+            val channel = view.findViewById<TextView>(R.id.programDate)
 
             holder = ViewHolder(title, channel)
             view.tag = holder

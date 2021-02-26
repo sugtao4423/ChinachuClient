@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/program_title"
+        android:id="@+id/programTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -16,10 +16,10 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/program_date"
+        android:id="@+id/programDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/program_title"
+        android:layout_below="@+id/programTitle"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="3dp"
         android:layout_marginTop="2sp"

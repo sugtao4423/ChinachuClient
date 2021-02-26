@@ -32,8 +32,8 @@ class ProgramListAdapter(context: Context, val type: Int) :
         val holder: ViewHolder
         if (view == null) {
             view = mInflater.inflate(R.layout.program_list_layout, parent, false)
-            val title = view.findViewById<TextView>(R.id.program_title)
-            val date = view.findViewById<TextView>(R.id.program_date)
+            val title = view.findViewById<TextView>(R.id.programTitle)
+            val date = view.findViewById<TextView>(R.id.programDate)
 
             holder = ViewHolder(title, date)
             view.tag = holder

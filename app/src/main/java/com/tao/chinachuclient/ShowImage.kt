@@ -31,7 +31,7 @@ class ShowImage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.show_image)
-        val image = findViewById<ZoomImageView>(R.id.show_image_image)
+        val image = findViewById<ZoomImageView>(R.id.showImageImage)
 
         val base64 = intent.getStringExtra("base64")
         pos = intent.getIntExtra("pos", -1)

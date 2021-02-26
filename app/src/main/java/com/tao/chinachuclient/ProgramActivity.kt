@@ -37,7 +37,7 @@ class ProgramActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
         setContentView(R.layout.activity_program)
 
         val list = findViewById<ListView>(R.id.programList)
-        swipeRefresh = findViewById(R.id.swipe_refresh)
+        swipeRefresh = findViewById(R.id.swipeRefresh)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -149,7 +149,7 @@ class ProgramActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
         }
 
         menuInflater.inflate(R.menu.search, menu)
-        searchView = menu.findItem(R.id.search_view).actionView as SearchView
+        searchView = menu.findItem(R.id.searchView).actionView as SearchView
         searchView!!.queryHint = getString(R.string.search_of_list)
         searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 

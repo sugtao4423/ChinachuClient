@@ -6,7 +6,7 @@
     tools:context=".ShowImage">
 
     <com.tenthbit.view.ZoomImageView
-        android:id="@+id/show_image_image"
+        android:id="@+id/showImageImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -15,7 +15,7 @@
         android:layout_alignParentBottom="true" />
 
     <ImageButton
-        android:id="@+id/show_image_option"
+        android:id="@+id/showImageOption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/cap_pos"
+        android:id="@+id/capPos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -16,10 +16,10 @@
     </EditText>
 
     <EditText
-        android:id="@+id/cap_size"
+        android:id="@+id/capSize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cap_pos"
+        android:layout_below="@+id/capPos"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:ems="10"
@@ -28,12 +28,12 @@
         android:text="1280x720" />
 
     <SeekBar
-        android:id="@+id/cap_seek"
+        android:id="@+id/capSeek"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/cap_pos"
+        android:layout_alignBottom="@+id/capPos"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/cap_pos" />
+        android:layout_toLeftOf="@+id/capPos" />
 
 </RelativeLayout>

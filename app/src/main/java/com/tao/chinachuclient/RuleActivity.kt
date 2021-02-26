@@ -31,7 +31,7 @@ class RuleActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener, 
         list.adapter = adapter
         list.onItemClickListener = this
 
-        swipeRefresh = findViewById(R.id.swipe_refresh)
+        swipeRefresh = findViewById(R.id.swipeRefresh)
         swipeRefresh.setColorSchemeColors(Color.parseColor("#2196F3"))
         swipeRefresh.setOnRefreshListener(this)
 

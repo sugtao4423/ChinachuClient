@@ -69,7 +69,7 @@ class ProgramDetail : AppCompatActivity() {
         val channelType = program.channel.type
         val channelName = program.channel.name
 
-        val image = findViewById<ImageView>(R.id.programs_detail_image)
+        val image = findViewById<ImageView>(R.id.programDetailImage)
         image.visibility = if (type == Type.RECORDING || type == Type.RECORDED) {
             View.VISIBLE
         } else {
@@ -83,11 +83,11 @@ class ProgramDetail : AppCompatActivity() {
         }
         val detailText = "<p><strong>フルタイトル</strong><br>${program.fullTitle}<br></p><p><strong>詳細</strong><br>$detail</p>"
 
-        val detailView = findViewById<TextView>(R.id.program_detail_detail)
+        val detailView = findViewById<TextView>(R.id.programDetailDetail)
         detailView.text = app.fromHtml(detailText)
         detailView.movementMethod = SelectionLinkMovementMethod(this)
 
-        val otherView = findViewById<TextView>(R.id.program_detail_other)
+        val otherView = findViewById<TextView>(R.id.programDetailOther)
 
         val startStr = SimpleDateFormat("yyyy/MM/dd (E) HH:mm", Locale.JAPANESE).format(Date(start))
         val endStr = SimpleDateFormat("HH:mm", Locale.JAPANESE).format(Date(end))
@@ -135,9 +135,9 @@ class ProgramDetail : AppCompatActivity() {
 
     fun imageClick(@Suppress("UNUSED_PARAMETER") v: View) {
         val view = layoutInflater.inflate(R.layout.capture_dialog, null)
-        val capPos = view.findViewById<EditText>(R.id.cap_pos)
-        val capSize = view.findViewById<EditText>(R.id.cap_size)
-        val capSeek = view.findViewById<SeekBar>(R.id.cap_seek)
+        val capPos = view.findViewById<EditText>(R.id.capPos)
+        val capSize = view.findViewById<EditText>(R.id.capSize)
+        val capSeek = view.findViewById<SeekBar>(R.id.capSeek)
 
         if (type == Type.RECORDING) {
             capPos.visibility = View.GONE

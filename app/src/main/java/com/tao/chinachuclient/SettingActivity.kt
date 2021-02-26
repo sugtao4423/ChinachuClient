@@ -60,17 +60,17 @@ class SettingActivity : AppCompatActivity() {
         username.setText(String(Base64.decode(oldServer.username, Base64.DEFAULT)))
         password.setText(String(Base64.decode(oldServer.password, Base64.DEFAULT)))
 
-        type = findViewById(R.id.enc_setting_type_spinner)
-        containerFormat = findViewById(R.id.enc_setting_container_edit)
-        videoCodec = findViewById(R.id.enc_setting_videoCodec_edit)
-        audioCodec = findViewById(R.id.enc_setting_audioCodec_edit)
+        type = findViewById(R.id.encSettingTypeSpinner)
+        containerFormat = findViewById(R.id.encSettingContainerEdit)
+        videoCodec = findViewById(R.id.encSettingVideoCodecEdit)
+        audioCodec = findViewById(R.id.encSettingAudioCodecEdit)
 
-        videoBitrate = findViewById(R.id.enc_setting_videoBitrate)
-        videoBitrateFormat = findViewById(R.id.enc_setting_video_bitrate_spinner)
-        audioBitrate = findViewById(R.id.enc_setting_audioBitrate)
-        audioBitrateFormat = findViewById(R.id.enc_setting_audio_bitrate_spinner)
-        videoSize = findViewById(R.id.enc_setting_videoSize)
-        frame = findViewById(R.id.enc_setting_frame)
+        videoBitrate = findViewById(R.id.encSettingVideoBitrate)
+        videoBitrateFormat = findViewById(R.id.encSettingVideoBitrateSpinner)
+        audioBitrate = findViewById(R.id.encSettingAudioBitrate)
+        audioBitrateFormat = findViewById(R.id.encSettingAudioBitrateSpinner)
+        videoSize = findViewById(R.id.encSettingVideoSize)
+        frame = findViewById(R.id.encSettingFrame)
 
         type.setSelection(when (oldServer.encode.type) {
             "mp4" -> 0

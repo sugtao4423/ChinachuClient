@@ -47,11 +47,11 @@ class ChannelScheduleActivity : AppCompatActivity(), AdapterView.OnItemSelectedL
             spinnerAdapter.add(it)
         }
 
-        val spinner = toolbar.findViewById<Spinner>(R.id.toolbar_spinner)
+        val spinner = toolbar.findViewById<Spinner>(R.id.toolbarSpinner)
         spinner.onItemSelectedListener = this
         spinner.adapter = spinnerAdapter
 
-        programList = findViewById(R.id.program_list)
+        programList = findViewById(R.id.programList)
         programListAdapter = ProgramListAdapter(this, Type.CHANNEL_SCHEDULE_ACTIVITY)
         programList.adapter = programListAdapter
         programList.onItemClickListener = ProgramListClickListener(this, Type.CHANNEL_SCHEDULE_ACTIVITY)
@@ -114,7 +114,7 @@ class ChannelScheduleActivity : AppCompatActivity(), AdapterView.OnItemSelectedL
         }
 
         menuInflater.inflate(R.menu.search, menu)
-        searchView = menu.findItem(R.id.search_view).actionView as SearchView
+        searchView = menu.findItem(R.id.searchView).actionView as SearchView
         searchView!!.queryHint = getString(R.string.search_of_all_channel)
         searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 

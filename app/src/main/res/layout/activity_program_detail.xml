@@ -8,7 +8,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/program_detail_detail"
+            android:id="@+id/programDetailDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -20,22 +20,22 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/program_detail_other"
+            android:id="@+id/programDetailOther"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/program_detail_detail"
-            android:layout_alignLeft="@+id/program_detail_detail"
+            android:layout_below="@+id/programDetailDetail"
+            android:layout_alignLeft="@+id/programDetailDetail"
             android:layout_marginTop="15dp"
             android:textColor="@android:color/secondary_text_light"
             android:textIsSelectable="true"
             android:textSize="16sp" />
 
         <ImageView
-            android:id="@+id/programs_detail_image"
+            android:id="@+id/programDetailImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/program_detail_other"
-            android:layout_alignLeft="@+id/program_detail_other"
+            android:layout_below="@+id/programDetailOther"
+            android:layout_alignLeft="@+id/programDetailOther"
             android:layout_alignParentRight="true"
             android:layout_marginTop="5dp"
             android:layout_marginRight="5dp"

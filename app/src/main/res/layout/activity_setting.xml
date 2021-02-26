@@ -73,149 +73,149 @@
             android:inputType="textPassword" />
 
         <Spinner
-            android:id="@+id/enc_setting_type_spinner"
+            android:id="@+id/encSettingTypeSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/enc_setting_type"
-            android:layout_alignLeft="@+id/enc_setting_type"
+            android:layout_below="@+id/encSettingType"
+            android:layout_alignLeft="@+id/encSettingType"
             android:entries="@array/enc_setting_typeSpinner_item" />
 
         <TextView
-            android:id="@+id/enc_setting_container"
+            android:id="@+id/encSettingContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/enc_setting_type_spinner"
-            android:layout_alignLeft="@+id/enc_setting_type_spinner"
+            android:layout_below="@+id/encSettingTypeSpinner"
+            android:layout_alignLeft="@+id/encSettingTypeSpinner"
             android:layout_marginTop="10dp"
             android:text="コンテナフォーマット" />
 
         <EditText
-            android:id="@+id/enc_setting_container_edit"
+            android:id="@+id/encSettingContainerEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/enc_setting_container"
-            android:layout_alignLeft="@+id/enc_setting_container"
-            android:layout_toLeftOf="@+id/enc_setting_video_bitrate_spinner"
+            android:layout_below="@+id/encSettingContainer"
+            android:layout_alignLeft="@+id/encSettingContainer"
+            android:layout_toLeftOf="@+id/encSettingVideoBitrateSpinner"
             android:hint="h264, mpegts, webm, etc..."
             android:inputType="text" />
 
         <TextView
-            android:id="@+id/enc_setting_video_codec"
+            android:id="@+id/encSettingVideoCodec"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/enc_setting_container_edit"
-            android:layout_alignLeft="@+id/enc_setting_container_edit"
+            android:layout_below="@+id/encSettingContainerEdit"
+            android:layout_alignLeft="@+id/encSettingContainerEdit"
             android:layout_marginTop="10dp"
             android:text="動画コーデック" />
 
         <EditText
-            android:id="@+id/enc_setting_videoCodec_edit"
+            android:id="@+id/encSettingVideoCodecEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/enc_setting_video_codec"
-            android:layout_alignLeft="@+id/enc_setting_video_codec"
-            android:layout_alignRight="@+id/enc_setting_container_edit"
+            android:layout_below="@+id/encSettingVideoCodec"
+            android:layout_alignLeft="@+id/encSettingVideoCodec"
+            android:layout_alignRight="@+id/encSettingContainerEdit"
             android:hint="copy, libvpx, etc..."
             android:inputType="text" />
 
         <TextView
-            android:id="@+id/enc_setting_audio_codec"
+            android:id="@+id/encSettingAudioCodec"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/enc_setting_videoCodec_edit"
-            android:layout_alignLeft="@+id/enc_setting_videoCodec_edit"
+            android:layout_below="@+id/encSettingVideoCodecEdit"
+            android:layout_alignLeft="@+id/encSettingVideoCodecEdit"
             android:layout_marginTop="10dp"
             android:text="音声コーデック" />
 
         <EditText
-            android:id="@+id/enc_setting_audioCodec_edit"
+            android:id="@+id/encSettingAudioCodecEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/enc_setting_audio_codec"
-            android:layout_alignLeft="@+id/enc_setting_audio_codec"
-            android:layout_alignRight="@+id/enc_setting_videoCodec_edit"
+            android:layout_below="@+id/encSettingAudioCodec"
+            android:layout_alignLeft="@+id/encSettingAudioCodec"
+            android:layout_alignRight="@+id/encSettingVideoCodecEdit"
             android:hint="copy, libfdk_aac, etc..."
             android:inputType="text" />
 
         <EditText
-            android:id="@+id/enc_setting_videoBitrate"
+            android:id="@+id/encSettingVideoBitrate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/enc_setting_audioCodec_edit"
-            android:layout_alignLeft="@+id/enc_setting_audioCodec_edit"
+            android:layout_below="@+id/encSettingAudioCodecEdit"
+            android:layout_alignLeft="@+id/encSettingAudioCodecEdit"
             android:layout_marginTop="20dp"
-            android:layout_toLeftOf="@+id/enc_setting_video_bitrate_spinner"
+            android:layout_toLeftOf="@+id/encSettingVideoBitrateSpinner"
             android:ems="10"
             android:hint="動画ビットレート"
             android:inputType="number" />
 
         <EditText
-            android:id="@+id/enc_setting_audioBitrate"
+            android:id="@+id/encSettingAudioBitrate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/enc_setting_videoBitrate"
-            android:layout_alignLeft="@+id/enc_setting_videoBitrate"
-            android:layout_alignRight="@+id/enc_setting_videoBitrate"
+            android:layout_below="@+id/encSettingVideoBitrate"
+            android:layout_alignLeft="@+id/encSettingVideoBitrate"
+            android:layout_alignRight="@+id/encSettingVideoBitrate"
             android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="音声ビットレート"
             android:inputType="number" />
 
         <EditText
-            android:id="@+id/enc_setting_videoSize"
+            android:id="@+id/encSettingVideoSize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/enc_setting_audioBitrate"
-            android:layout_alignLeft="@+id/enc_setting_audioBitrate"
-            android:layout_alignRight="@+id/enc_setting_audioBitrate"
+            android:layout_below="@+id/encSettingAudioBitrate"
+            android:layout_alignLeft="@+id/encSettingAudioBitrate"
+            android:layout_alignRight="@+id/encSettingAudioBitrate"
             android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="映像サイズ(例:1280x720)"
             android:inputType="text" />
 
         <EditText
-            android:id="@+id/enc_setting_frame"
+            android:id="@+id/encSettingFrame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/enc_setting_videoSize"
-            android:layout_alignLeft="@+id/enc_setting_videoSize"
-            android:layout_alignRight="@+id/enc_setting_videoSize"
+            android:layout_below="@+id/encSettingVideoSize"
+            android:layout_alignLeft="@+id/encSettingVideoSize"
+            android:layout_alignRight="@+id/encSettingVideoSize"
             android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="映像フレームレート(例:24)"
             android:inputType="number" />
 
         <Button
-            android:id="@+id/enc_setting_ok"
+            android:id="@+id/encSettingOk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/enc_setting_frame"
+            android:layout_below="@+id/encSettingFrame"
             android:layout_alignParentRight="true"
             android:layout_marginTop="50dp"
             android:onClick="ok"
             android:text="保存" />
 
         <Spinner
-            android:id="@+id/enc_setting_video_bitrate_spinner"
+            android:id="@+id/encSettingVideoBitrateSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/enc_setting_videoBitrate"
-            android:layout_alignBottom="@+id/enc_setting_videoBitrate"
+            android:layout_alignTop="@+id/encSettingVideoBitrate"
+            android:layout_alignBottom="@+id/encSettingVideoBitrate"
             android:layout_alignParentRight="true"
             android:entries="@array/bitrate" />
 
         <Spinner
-            android:id="@+id/enc_setting_audio_bitrate_spinner"
+            android:id="@+id/encSettingAudioBitrateSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/enc_setting_video_bitrate_spinner"
-            android:layout_alignTop="@+id/enc_setting_audioBitrate"
-            android:layout_alignBottom="@+id/enc_setting_audioBitrate"
+            android:layout_alignLeft="@+id/encSettingVideoBitrateSpinner"
+            android:layout_alignTop="@+id/encSettingAudioBitrate"
+            android:layout_alignBottom="@+id/encSettingAudioBitrate"
             android:layout_alignParentRight="true"
             android:entries="@array/bitrate" />
 
         <TextView
-            android:id="@+id/enc_setting_type"
+            android:id="@+id/encSettingType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView4"
