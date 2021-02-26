@@ -11,6 +11,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:ems="10"
+        android:importantForAutofill="no"
         android:inputType="number">
 
         <requestFocus />
@@ -27,6 +28,7 @@
         android:layout_alignParentRight="true"
         android:ems="10"
         android:hint="解像度"
+        android:importantForAutofill="no"
         android:inputType="text"
         android:text="1280x720" />
 

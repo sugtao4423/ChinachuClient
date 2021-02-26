@@ -32,6 +32,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:ems="10"
+            android:importantForAutofill="no"
             android:inputType="text">
 
             <requestFocus />
@@ -57,6 +58,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:ems="10"
+            android:importantForAutofill="no"
             android:inputType="text" />
 
         <TextView
@@ -79,6 +81,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:ems="10"
+            android:importantForAutofill="no"
             android:inputType="textPassword" />
 
         <Spinner
@@ -110,6 +113,7 @@
             android:layout_toStartOf="@+id/encSettingVideoBitrateSpinner"
             android:layout_toLeftOf="@+id/encSettingVideoBitrateSpinner"
             android:hint="h264, mpegts, webm, etc..."
+            android:importantForAutofill="no"
             android:inputType="text" />
 
         <TextView
@@ -132,6 +136,7 @@
             android:layout_alignEnd="@+id/encSettingContainerEdit"
             android:layout_alignRight="@+id/encSettingContainerEdit"
             android:hint="copy, libvpx, etc..."
+            android:importantForAutofill="no"
             android:inputType="text" />
 
         <TextView
@@ -154,6 +159,7 @@
             android:layout_alignEnd="@+id/encSettingVideoCodecEdit"
             android:layout_alignRight="@+id/encSettingVideoCodecEdit"
             android:hint="copy, libfdk_aac, etc..."
+            android:importantForAutofill="no"
             android:inputType="text" />
 
         <EditText
@@ -168,6 +174,7 @@
             android:layout_toLeftOf="@+id/encSettingVideoBitrateSpinner"
             android:ems="10"
             android:hint="動画ビットレート"
+            android:importantForAutofill="no"
             android:inputType="number" />
 
         <EditText
@@ -182,6 +189,7 @@
             android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="音声ビットレート"
+            android:importantForAutofill="no"
             android:inputType="number" />
 
         <EditText
@@ -196,6 +204,7 @@
             android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="映像サイズ(例:1280x720)"
+            android:importantForAutofill="no"
             android:inputType="text" />
 
         <EditText
@@ -210,6 +219,7 @@
             android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="映像フレームレート(例:24)"
+            android:importantForAutofill="no"
             android:inputType="number" />
 
         <Button
