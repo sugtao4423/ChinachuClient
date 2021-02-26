@@ -16,6 +16,7 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:paddingTop="@dimen/activity_horizontal_margin"
@@ -26,7 +27,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView1"
+            android:layout_alignStart="@+id/textView1"
             android:layout_alignLeft="@+id/textView1"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:ems="10"
             android:inputType="text">
@@ -39,6 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/chinachuAddress"
+            android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="30dp"
             android:text="ユーザー名" />
@@ -48,7 +52,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView2"
+            android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:ems="10"
             android:inputType="text" />
@@ -58,6 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/username"
+            android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="20dp"
             android:text="パスワード" />
@@ -67,7 +74,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView3"
+            android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:ems="10"
             android:inputType="textPassword" />
@@ -77,6 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/encSettingType"
+            android:layout_alignStart="@+id/encSettingType"
             android:layout_alignLeft="@+id/encSettingType"
             android:entries="@array/enc_setting_typeSpinner_item" />
 
@@ -85,6 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/encSettingTypeSpinner"
+            android:layout_alignStart="@+id/encSettingTypeSpinner"
             android:layout_alignLeft="@+id/encSettingTypeSpinner"
             android:layout_marginTop="10dp"
             android:text="コンテナフォーマット" />
@@ -94,7 +105,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/encSettingContainer"
+            android:layout_alignStart="@+id/encSettingContainer"
             android:layout_alignLeft="@+id/encSettingContainer"
+            android:layout_toStartOf="@+id/encSettingVideoBitrateSpinner"
             android:layout_toLeftOf="@+id/encSettingVideoBitrateSpinner"
             android:hint="h264, mpegts, webm, etc..."
             android:inputType="text" />
@@ -104,6 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/encSettingContainerEdit"
+            android:layout_alignStart="@+id/encSettingContainerEdit"
             android:layout_alignLeft="@+id/encSettingContainerEdit"
             android:layout_marginTop="10dp"
             android:text="動画コーデック" />
@@ -113,7 +127,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/encSettingVideoCodec"
+            android:layout_alignStart="@+id/encSettingVideoCodec"
             android:layout_alignLeft="@+id/encSettingVideoCodec"
+            android:layout_alignEnd="@+id/encSettingContainerEdit"
             android:layout_alignRight="@+id/encSettingContainerEdit"
             android:hint="copy, libvpx, etc..."
             android:inputType="text" />
@@ -123,6 +139,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/encSettingVideoCodecEdit"
+            android:layout_alignStart="@+id/encSettingVideoCodecEdit"
             android:layout_alignLeft="@+id/encSettingVideoCodecEdit"
             android:layout_marginTop="10dp"
             android:text="音声コーデック" />
@@ -132,7 +149,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/encSettingAudioCodec"
+            android:layout_alignStart="@+id/encSettingAudioCodec"
             android:layout_alignLeft="@+id/encSettingAudioCodec"
+            android:layout_alignEnd="@+id/encSettingVideoCodecEdit"
             android:layout_alignRight="@+id/encSettingVideoCodecEdit"
             android:hint="copy, libfdk_aac, etc..."
             android:inputType="text" />
@@ -142,8 +161,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/encSettingAudioCodecEdit"
+            android:layout_alignStart="@+id/encSettingAudioCodecEdit"
             android:layout_alignLeft="@+id/encSettingAudioCodecEdit"
             android:layout_marginTop="20dp"
+            android:layout_toStartOf="@+id/encSettingVideoBitrateSpinner"
             android:layout_toLeftOf="@+id/encSettingVideoBitrateSpinner"
             android:ems="10"
             android:hint="動画ビットレート"
@@ -154,7 +175,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/encSettingVideoBitrate"
+            android:layout_alignStart="@+id/encSettingVideoBitrate"
             android:layout_alignLeft="@+id/encSettingVideoBitrate"
+            android:layout_alignEnd="@+id/encSettingVideoBitrate"
             android:layout_alignRight="@+id/encSettingVideoBitrate"
             android:layout_marginTop="10dp"
             android:ems="10"
@@ -166,7 +189,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/encSettingAudioBitrate"
+            android:layout_alignStart="@+id/encSettingAudioBitrate"
             android:layout_alignLeft="@+id/encSettingAudioBitrate"
+            android:layout_alignEnd="@+id/encSettingAudioBitrate"
             android:layout_alignRight="@+id/encSettingAudioBitrate"
             android:layout_marginTop="10dp"
             android:ems="10"
@@ -178,7 +203,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/encSettingVideoSize"
+            android:layout_alignStart="@+id/encSettingVideoSize"
             android:layout_alignLeft="@+id/encSettingVideoSize"
+            android:layout_alignEnd="@+id/encSettingVideoSize"
             android:layout_alignRight="@+id/encSettingVideoSize"
             android:layout_marginTop="10dp"
             android:ems="10"
@@ -190,6 +217,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/encSettingFrame"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginTop="50dp"
             android:onClick="ok"
@@ -201,6 +229,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/encSettingVideoBitrate"
             android:layout_alignBottom="@+id/encSettingVideoBitrate"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:entries="@array/bitrate" />
 
@@ -208,9 +237,11 @@
             android:id="@+id/encSettingAudioBitrateSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/encSettingVideoBitrateSpinner"
             android:layout_alignLeft="@+id/encSettingVideoBitrateSpinner"
             android:layout_alignTop="@+id/encSettingAudioBitrate"
             android:layout_alignBottom="@+id/encSettingAudioBitrate"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:entries="@array/bitrate" />
 
@@ -219,6 +250,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView4"
+            android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="20dp"
             android:text="type" />
@@ -228,7 +260,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/password"
+            android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginTop="50dp"
             android:gravity="center"
