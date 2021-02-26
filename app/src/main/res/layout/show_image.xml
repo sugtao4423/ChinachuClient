@@ -24,6 +24,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:background="#00000000"
+        android:contentDescription="@string/contentDescriptionCapture"
         android:onClick="clickImageOption"
         android:src="@drawable/ic_action_settings" />
 

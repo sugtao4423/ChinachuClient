@@ -139,4 +139,6 @@
         <item>Mbps</item>
     </string-array>
 
+    <string name="contentDescriptionCapture">キャプチャ</string>
+
 </resources>
