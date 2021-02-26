@@ -21,13 +21,9 @@
 
     <EditText
         android:id="@+id/capSize"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/capPos"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:ems="10"
         android:hint="@string/hintResolution"
         android:importantForAutofill="no"

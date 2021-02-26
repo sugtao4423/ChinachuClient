@@ -3,4 +3,19 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="paddingProgramDetailActivity">5dp</dimen>
+    <dimen name="marginProgramDetailTextSpace">15dp</dimen>
+
+    <dimen name="paddingRuleDetailActivity">5dp</dimen>
+
+    <dimen name="paddingSettingActivity">16dp</dimen>
+    <dimen name="marginSettingOptionSpace">50dp</dimen>
+    <dimen name="marginSettingNormalSpace">10dp</dimen>
+    <dimen name="marginSettingBigSpace">20dp</dimen>
+    <dimen name="marginSettingSaveButton">50dp</dimen>
+
+    <dimen name="paddingProgramItemHorizontal">3dp</dimen>
+    <dimen name="paddingProgramItemVertical">5dp</dimen>
+    <dimen name="paddingProgramItemSpace">2sp</dimen>
+
 </resources>

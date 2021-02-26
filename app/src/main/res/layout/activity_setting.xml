@@ -8,18 +8,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:onClick="background">
+        android:onClick="background"
+        android:padding="@dimen/paddingSettingActivity">
 
         <TextView
             android:id="@+id/textView1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:paddingTop="@dimen/activity_horizontal_margin"
             android:text="@string/labelChinachuAddress" />
 
         <EditText
@@ -46,7 +42,7 @@
             android:layout_below="@+id/chinachuAddress"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="@dimen/marginSettingBigSpace"
             android:text="@string/labelUsername" />
 
         <EditText
@@ -70,7 +66,7 @@
             android:layout_below="@+id/username"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/marginSettingBigSpace"
             android:text="@string/labelPassword" />
 
         <EditText
@@ -103,7 +99,7 @@
             android:layout_below="@+id/encSettingTypeSpinner"
             android:layout_alignStart="@+id/encSettingTypeSpinner"
             android:layout_alignLeft="@+id/encSettingTypeSpinner"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/marginSettingNormalSpace"
             android:text="@string/labelContainerFormat" />
 
         <EditText
@@ -126,7 +122,7 @@
             android:layout_below="@+id/encSettingContainerEdit"
             android:layout_alignStart="@+id/encSettingContainerEdit"
             android:layout_alignLeft="@+id/encSettingContainerEdit"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/marginSettingNormalSpace"
             android:text="@string/labelVideoCodec" />
 
         <EditText
@@ -149,7 +145,7 @@
             android:layout_below="@+id/encSettingVideoCodecEdit"
             android:layout_alignStart="@+id/encSettingVideoCodecEdit"
             android:layout_alignLeft="@+id/encSettingVideoCodecEdit"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/marginSettingNormalSpace"
             android:text="@string/labelAudioCodec" />
 
         <EditText
@@ -172,7 +168,7 @@
             android:layout_below="@+id/encSettingAudioCodecEdit"
             android:layout_alignStart="@+id/encSettingAudioCodecEdit"
             android:layout_alignLeft="@+id/encSettingAudioCodecEdit"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/marginSettingBigSpace"
             android:layout_toStartOf="@+id/encSettingVideoBitrateSpinner"
             android:layout_toLeftOf="@+id/encSettingVideoBitrateSpinner"
             android:ems="10"
@@ -189,7 +185,7 @@
             android:layout_alignLeft="@+id/encSettingVideoBitrate"
             android:layout_alignEnd="@+id/encSettingVideoBitrate"
             android:layout_alignRight="@+id/encSettingVideoBitrate"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/marginSettingNormalSpace"
             android:ems="10"
             android:hint="@string/hintAudioBitrate"
             android:importantForAutofill="no"
@@ -204,7 +200,7 @@
             android:layout_alignLeft="@+id/encSettingAudioBitrate"
             android:layout_alignEnd="@+id/encSettingAudioBitrate"
             android:layout_alignRight="@+id/encSettingAudioBitrate"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/marginSettingNormalSpace"
             android:ems="10"
             android:hint="@string/hintVideoSize"
             android:importantForAutofill="no"
@@ -220,7 +216,7 @@
             android:layout_alignLeft="@+id/encSettingVideoSize"
             android:layout_alignEnd="@+id/encSettingVideoSize"
             android:layout_alignRight="@+id/encSettingVideoSize"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/marginSettingNormalSpace"
             android:ems="10"
             android:hint="@string/hintVideoFrame"
             android:importantForAutofill="no"
@@ -233,7 +229,7 @@
             android:layout_below="@+id/encSettingFrame"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="@dimen/marginSettingSaveButton"
             android:onClick="ok"
             android:text="@string/save" />
 
@@ -266,7 +262,7 @@
             android:layout_below="@+id/textView4"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/marginSettingBigSpace"
             android:text="@string/labelType" />
 
         <TextView
@@ -278,7 +274,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="@dimen/marginSettingOptionSpace"
             android:gravity="center"
             android:text="@string/labelEncodeSetting"
             android:textAppearance="?android:attr/textAppearanceMedium" />
