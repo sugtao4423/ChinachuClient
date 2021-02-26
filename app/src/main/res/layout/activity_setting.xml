@@ -83,6 +83,30 @@
             android:importantForAutofill="no"
             android:inputType="textPassword" />
 
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/password"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/marginSettingOptionSpace"
+            android:gravity="center"
+            android:text="@string/labelEncodeSetting"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/encSettingType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView4"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="@dimen/marginSettingBigSpace"
+            android:text="@string/labelType" />
+
         <Spinner
             android:id="@+id/encSettingTypeSpinner"
             android:layout_width="wrap_content"
@@ -176,6 +200,16 @@
             android:importantForAutofill="no"
             android:inputType="number" />
 
+        <Spinner
+            android:id="@+id/encSettingVideoBitrateSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/encSettingVideoBitrate"
+            android:layout_alignBottom="@+id/encSettingVideoBitrate"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:entries="@array/bitrate" />
+
         <EditText
             android:id="@+id/encSettingAudioBitrate"
             android:layout_width="wrap_content"
@@ -190,6 +224,18 @@
             android:hint="@string/hintAudioBitrate"
             android:importantForAutofill="no"
             android:inputType="number" />
+
+        <Spinner
+            android:id="@+id/encSettingAudioBitrateSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/encSettingVideoBitrateSpinner"
+            android:layout_alignLeft="@+id/encSettingVideoBitrateSpinner"
+            android:layout_alignTop="@+id/encSettingAudioBitrate"
+            android:layout_alignBottom="@+id/encSettingAudioBitrate"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:entries="@array/bitrate" />
 
         <EditText
             android:id="@+id/encSettingVideoSize"
@@ -232,52 +278,6 @@
             android:layout_marginTop="@dimen/marginSettingSaveButton"
             android:onClick="ok"
             android:text="@string/save" />
-
-        <Spinner
-            android:id="@+id/encSettingVideoBitrateSpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/encSettingVideoBitrate"
-            android:layout_alignBottom="@+id/encSettingVideoBitrate"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:entries="@array/bitrate" />
-
-        <Spinner
-            android:id="@+id/encSettingAudioBitrateSpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/encSettingVideoBitrateSpinner"
-            android:layout_alignLeft="@+id/encSettingVideoBitrateSpinner"
-            android:layout_alignTop="@+id/encSettingAudioBitrate"
-            android:layout_alignBottom="@+id/encSettingAudioBitrate"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:entries="@array/bitrate" />
-
-        <TextView
-            android:id="@+id/encSettingType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView4"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="@dimen/marginSettingBigSpace"
-            android:text="@string/labelType" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/password"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="@dimen/marginSettingOptionSpace"
-            android:gravity="center"
-            android:text="@string/labelEncodeSetting"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
     </RelativeLayout>
 
 </ScrollView>

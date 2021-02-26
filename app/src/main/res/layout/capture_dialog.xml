@@ -4,6 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <SeekBar
+        android:id="@+id/capSeek"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/capPos"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/capPos"
+        android:layout_toLeftOf="@+id/capPos" />
+
     <EditText
         android:id="@+id/capPos"
         android:layout_width="wrap_content"
@@ -30,16 +41,5 @@
         android:inputType="text"
         android:text="@string/text1280x720"
         tools:ignore="TextFields" />
-
-    <SeekBar
-        android:id="@+id/capSeek"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/capPos"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/capPos"
-        android:layout_toLeftOf="@+id/capPos" />
 
 </RelativeLayout>
