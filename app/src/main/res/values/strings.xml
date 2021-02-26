@@ -110,6 +110,24 @@
     <string name="fail_permission">(๑•﹏•๑*)</string>
 
     <!-- Layout xml -->
+    <string name="labelChinachuAddress">Chinachuのアドレス\n例：https://hogehoge:10772/</string>
+    <string name="labelUsername">ユーザー名</string>
+    <string name="labelPassword">パスワード</string>
+    <string name="labelEncodeSetting">以下、エンコード設定（オプション）</string>
+    <string name="labelType">type</string>
+    <string name="labelContainerFormat">コンテナフォーマット</string>
+    <string name="hintContainerFormat">h264, mpegts, webm, etc…</string>
+    <string name="labelVideoCodec">動画コーデック</string>
+    <string name="hintVideoCodec">copy, libvpx, etc…</string>
+    <string name="labelAudioCodec">音声コーデック</string>
+    <string name="hintAudioCodec">copy, libfdk_aac, etc…</string>
+    <string name="hintVideoBitrate">動画ビットレート</string>
+    <string name="hintAudioBitrate">音声ビットレート</string>
+    <string name="hintVideoSize">映像サイズ(例:1280x720)</string>
+    <string name="hintVideoFrame">映像フレームレート(例:24)</string>
+    <string name="save">保存</string>
+    <string name="hintResolution">解像度</string>
+    <string name="text1280x720">1280x720</string>
     <string-array name="enc_setting_typeSpinner_item">
         <item>mp4</item>
         <item>m2ts</item>

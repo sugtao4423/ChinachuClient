@@ -20,7 +20,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:paddingTop="@dimen/activity_horizontal_margin"
-            android:text="Chinachuのアドレス\n例：https://hogehoge:10772/" />
+            android:text="@string/labelChinachuAddress" />
 
         <EditText
             android:id="@+id/chinachuAddress"
@@ -46,7 +46,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="30dp"
-            android:text="ユーザー名" />
+            android:text="@string/labelUsername" />
 
         <EditText
             android:id="@+id/username"
@@ -69,7 +69,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="20dp"
-            android:text="パスワード" />
+            android:text="@string/labelPassword" />
 
         <EditText
             android:id="@+id/password"
@@ -101,7 +101,7 @@
             android:layout_alignStart="@+id/encSettingTypeSpinner"
             android:layout_alignLeft="@+id/encSettingTypeSpinner"
             android:layout_marginTop="10dp"
-            android:text="コンテナフォーマット" />
+            android:text="@string/labelContainerFormat" />
 
         <EditText
             android:id="@+id/encSettingContainerEdit"
@@ -112,7 +112,7 @@
             android:layout_alignLeft="@+id/encSettingContainer"
             android:layout_toStartOf="@+id/encSettingVideoBitrateSpinner"
             android:layout_toLeftOf="@+id/encSettingVideoBitrateSpinner"
-            android:hint="h264, mpegts, webm, etc..."
+            android:hint="@string/hintContainerFormat"
             android:importantForAutofill="no"
             android:inputType="text" />
 
@@ -124,7 +124,7 @@
             android:layout_alignStart="@+id/encSettingContainerEdit"
             android:layout_alignLeft="@+id/encSettingContainerEdit"
             android:layout_marginTop="10dp"
-            android:text="動画コーデック" />
+            android:text="@string/labelVideoCodec" />
 
         <EditText
             android:id="@+id/encSettingVideoCodecEdit"
@@ -135,7 +135,7 @@
             android:layout_alignLeft="@+id/encSettingVideoCodec"
             android:layout_alignEnd="@+id/encSettingContainerEdit"
             android:layout_alignRight="@+id/encSettingContainerEdit"
-            android:hint="copy, libvpx, etc..."
+            android:hint="@string/hintVideoCodec"
             android:importantForAutofill="no"
             android:inputType="text" />
 
@@ -147,7 +147,7 @@
             android:layout_alignStart="@+id/encSettingVideoCodecEdit"
             android:layout_alignLeft="@+id/encSettingVideoCodecEdit"
             android:layout_marginTop="10dp"
-            android:text="音声コーデック" />
+            android:text="@string/labelAudioCodec" />
 
         <EditText
             android:id="@+id/encSettingAudioCodecEdit"
@@ -158,7 +158,7 @@
             android:layout_alignLeft="@+id/encSettingAudioCodec"
             android:layout_alignEnd="@+id/encSettingVideoCodecEdit"
             android:layout_alignRight="@+id/encSettingVideoCodecEdit"
-            android:hint="copy, libfdk_aac, etc..."
+            android:hint="@string/hintAudioCodec"
             android:importantForAutofill="no"
             android:inputType="text" />
 
@@ -173,7 +173,7 @@
             android:layout_toStartOf="@+id/encSettingVideoBitrateSpinner"
             android:layout_toLeftOf="@+id/encSettingVideoBitrateSpinner"
             android:ems="10"
-            android:hint="動画ビットレート"
+            android:hint="@string/hintVideoBitrate"
             android:importantForAutofill="no"
             android:inputType="number" />
 
@@ -188,7 +188,7 @@
             android:layout_alignRight="@+id/encSettingVideoBitrate"
             android:layout_marginTop="10dp"
             android:ems="10"
-            android:hint="音声ビットレート"
+            android:hint="@string/hintAudioBitrate"
             android:importantForAutofill="no"
             android:inputType="number" />
 
@@ -203,7 +203,7 @@
             android:layout_alignRight="@+id/encSettingAudioBitrate"
             android:layout_marginTop="10dp"
             android:ems="10"
-            android:hint="映像サイズ(例:1280x720)"
+            android:hint="@string/hintVideoSize"
             android:importantForAutofill="no"
             android:inputType="text" />
 
@@ -218,7 +218,7 @@
             android:layout_alignRight="@+id/encSettingVideoSize"
             android:layout_marginTop="10dp"
             android:ems="10"
-            android:hint="映像フレームレート(例:24)"
+            android:hint="@string/hintVideoFrame"
             android:importantForAutofill="no"
             android:inputType="number" />
 
@@ -231,7 +231,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="50dp"
             android:onClick="ok"
-            android:text="保存" />
+            android:text="@string/save" />
 
         <Spinner
             android:id="@+id/encSettingVideoBitrateSpinner"
@@ -263,7 +263,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="20dp"
-            android:text="type" />
+            android:text="@string/labelType" />
 
         <TextView
             android:id="@+id/textView4"
@@ -276,7 +276,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="50dp"
             android:gravity="center"
-            android:text="以下、エンコード設定（オプション）"
+            android:text="@string/labelEncodeSetting"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </RelativeLayout>
 
