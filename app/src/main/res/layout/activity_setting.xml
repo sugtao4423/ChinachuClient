@@ -32,6 +32,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:ems="10"
+            android:hint="@string/noHint"
             android:importantForAutofill="no"
             android:inputType="text">
 
@@ -58,6 +59,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:ems="10"
+            android:hint="@string/noHint"
             android:importantForAutofill="no"
             android:inputType="text" />
 
@@ -81,6 +83,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:ems="10"
+            android:hint="@string/noHint"
             android:importantForAutofill="no"
             android:inputType="textPassword" />
 

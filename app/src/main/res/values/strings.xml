@@ -110,6 +110,7 @@
     <string name="fail_permission">(๑•﹏•๑*)</string>
 
     <!-- Layout xml -->
+    <string name="noHint" />
     <string name="labelChinachuAddress">Chinachuのアドレス\n例：https://hogehoge:10772/</string>
     <string name="labelUsername">ユーザー名</string>
     <string name="labelPassword">パスワード</string>
