@@ -7,8 +7,8 @@ android {
         applicationId "com.tao.chinachuclient"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 23
-        versionName "2.1.0"
+        versionCode 24
+        versionName "3.0.0"
     }
     buildFeatures {
         viewBinding true
