@@ -5,15 +5,15 @@
     <string name="ok">OK</string>
     <string name="cancel">キャンセル</string>
     <string name="settings">設定</string>
-    <string name="loading">Loading...</string>
-    <string name="sending">Sending...</string>
+    <string name="loading">Loading…</string>
+    <string name="sending">Sending…</string>
     <string name="error_access">通信エラー</string>
 
     <!-- AddServer -->
     <string name="add_server">サーバー追加</string>
     <string name="wrong_server_address">サーバーアドレスが間違っています</string>
     <string name="already_register">すでに登録されています</string>
-    <string name="getting_channel_list">チャンネルリストの取得中...</string>
+    <string name="getting_channel_list">チャンネルリストの取得中…</string>
     <string name="error_get_channel_list">チャンネル取得に失敗しました\nやり直してください</string>
 
     <!-- ChannelScheduleActivity -->
