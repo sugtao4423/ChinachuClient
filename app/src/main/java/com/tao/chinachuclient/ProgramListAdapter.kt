@@ -3,6 +3,7 @@ package com.tao.chinachuclient
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
@@ -94,8 +95,8 @@ class ProgramListAdapter(context: Context, val type: Int) :
                 titlePaint.flags = holder.title.paintFlags or STRIKE_THRU_TEXT_FLAG
                 datePaint.flags = holder.date.paintFlags or STRIKE_THRU_TEXT_FLAG
             } else {
-                holder.title.setTextColor(Color.parseColor(context.getString(R.color.titleText)))
-                holder.date.setTextColor(Color.parseColor(context.getString(R.color.dateText)))
+                holder.title.setTextColor(ContextCompat.getColor(context, R.color.titleText))
+                holder.date.setTextColor(ContextCompat.getColor(context, R.color.dateText))
                 titlePaint.flags = holder.title.paintFlags and STRIKE_THRU_TEXT_FLAG.inv()
                 datePaint.flags = holder.date.paintFlags and STRIKE_THRU_TEXT_FLAG.inv()
             }
