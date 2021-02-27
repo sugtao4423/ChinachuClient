@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         app.changeCurrentServer(currentServer)
 
         val listItem = resources.getStringArray(R.array.main_list_names)
-        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItem)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listItem)
         mainList.adapter = adapter
         mainList.onItemClickListener = this
     }
