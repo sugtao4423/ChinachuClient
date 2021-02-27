@@ -8,8 +8,8 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ListView
 import android.widget.Toast
+import com.tao.chinachuclient.databinding.ActivityProgramBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,21 +19,24 @@ import sugtao4423.support.progressdialog.ProgressDialog
 
 class RuleActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
 
-    private lateinit var swipeRefresh: SwipeRefreshLayout
+    private lateinit var binding: ActivityProgramBinding
     private lateinit var adapter: RuleListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_program)
+        binding = ActivityProgramBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val list = findViewById<ListView>(R.id.programList)
         adapter = RuleListAdapter(this)
-        list.adapter = adapter
-        list.onItemClickListener = this
+        binding.programList.let {
+            it.adapter = adapter
+            it.onItemClickListener = this
+        }
 
-        swipeRefresh = findViewById(R.id.swipeRefresh)
-        swipeRefresh.setColorSchemeColors(Color.parseColor("#2196F3"))
-        swipeRefresh.setOnRefreshListener(this)
+        binding.swipeRefresh.let {
+            it.setColorSchemeColors(Color.parseColor("#2196F3"))
+            it.setOnRefreshListener(this)
+        }
 
         setActionBarTitle(-1)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -70,7 +73,7 @@ class RuleActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener, 
                 }
             }
             progressDialog?.dismiss()
-            swipeRefresh.isRefreshing = false
+            binding.swipeRefresh.isRefreshing = false
             if (result == null) {
                 Toast.makeText(this@RuleActivity, R.string.error_get_rule, Toast.LENGTH_SHORT).show()
                 return@launch

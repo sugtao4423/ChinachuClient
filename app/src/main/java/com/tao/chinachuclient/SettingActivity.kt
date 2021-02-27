@@ -8,33 +8,19 @@ import android.util.Base64
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.Spinner
 import android.widget.Toast
+import com.tao.chinachuclient.databinding.ActivitySettingBinding
 
 class SettingActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivitySettingBinding
     private lateinit var app: App
     private lateinit var oldServer: Server
 
-    private lateinit var chinachuAddress: EditText
-    private lateinit var username: EditText
-    private lateinit var password: EditText
-
-    private lateinit var type: Spinner
-    private lateinit var videoBitrateFormat: Spinner
-    private lateinit var audioBitrateFormat: Spinner
-    private lateinit var containerFormat: EditText
-    private lateinit var videoCodec: EditText
-    private lateinit var audioCodec: EditText
-    private lateinit var videoBitrate: EditText
-    private lateinit var audioBitrate: EditText
-    private lateinit var videoSize: EditText
-    private lateinit var frame: EditText
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_setting)
+        binding = ActivitySettingBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -52,49 +38,33 @@ class SettingActivity : AppCompatActivity() {
                 }
                 .show()
 
-        chinachuAddress = findViewById(R.id.chinachuAddress)
-        username = findViewById(R.id.username)
-        password = findViewById(R.id.password)
+        binding.chinachuAddress.setText(oldServer.chinachuAddress)
+        binding.username.setText(String(Base64.decode(oldServer.username, Base64.DEFAULT)))
+        binding.password.setText(String(Base64.decode(oldServer.password, Base64.DEFAULT)))
 
-        chinachuAddress.setText(oldServer.chinachuAddress)
-        username.setText(String(Base64.decode(oldServer.username, Base64.DEFAULT)))
-        password.setText(String(Base64.decode(oldServer.password, Base64.DEFAULT)))
-
-        type = findViewById(R.id.encSettingTypeSpinner)
-        containerFormat = findViewById(R.id.encSettingContainerEdit)
-        videoCodec = findViewById(R.id.encSettingVideoCodecEdit)
-        audioCodec = findViewById(R.id.encSettingAudioCodecEdit)
-
-        videoBitrate = findViewById(R.id.encSettingVideoBitrate)
-        videoBitrateFormat = findViewById(R.id.encSettingVideoBitrateSpinner)
-        audioBitrate = findViewById(R.id.encSettingAudioBitrate)
-        audioBitrateFormat = findViewById(R.id.encSettingAudioBitrateSpinner)
-        videoSize = findViewById(R.id.encSettingVideoSize)
-        frame = findViewById(R.id.encSettingFrame)
-
-        type.setSelection(when (oldServer.encode.type) {
+        binding.encSettingTypeSpinner.setSelection(when (oldServer.encode.type) {
             "mp4" -> 0
             "m2ts" -> 1
             "webm" -> 2
             else -> 0
         })
-        containerFormat.setText(oldServer.encode.containerFormat)
-        videoCodec.setText(oldServer.encode.videoCodec)
-        audioCodec.setText(oldServer.encode.audioCodec)
+        binding.encSettingContainerEdit.setText(oldServer.encode.containerFormat)
+        binding.encSettingVideoCodecEdit.setText(oldServer.encode.videoCodec)
+        binding.encSettingAudioCodecEdit.setText(oldServer.encode.audioCodec)
 
         val videoBit = oldServer.encode.videoBitrate.let {
             if (it.isEmpty()) 0 else it.toInt()
         }
         when {
             (videoBit / 1000 / 1000) != 0 -> {
-                videoBitrateFormat.setSelection(1)
-                videoBitrate.setText((videoBit / 1000 / 1000).toString())
+                binding.encSettingVideoBitrateSpinner.setSelection(1)
+                binding.encSettingVideoBitrate.setText((videoBit / 1000 / 1000).toString())
             }
             (videoBit / 1000) != 0 -> {
-                videoBitrateFormat.setSelection(0)
-                videoBitrate.setText((videoBit / 1000).toString())
+                binding.encSettingVideoBitrateSpinner.setSelection(0)
+                binding.encSettingVideoBitrate.setText((videoBit / 1000).toString())
             }
-            else -> videoBitrate.setText("")
+            else -> binding.encSettingVideoBitrate.setText("")
         }
 
         val audioBit = oldServer.encode.audioBitrate.let {
@@ -102,34 +72,43 @@ class SettingActivity : AppCompatActivity() {
         }
         when {
             (audioBit / 1000 / 1000) != 0 -> {
-                audioBitrateFormat.setSelection(1)
-                audioBitrate.setText((audioBit / 1000 / 1000).toString())
+                binding.encSettingAudioBitrateSpinner.setSelection(1)
+                binding.encSettingAudioBitrate.setText((audioBit / 1000 / 1000).toString())
             }
             (audioBit / 1000) != 0 -> {
-                audioBitrateFormat.setSelection(0)
-                audioBitrate.setText((audioBit / 1000).toString())
+                binding.encSettingAudioBitrateSpinner.setSelection(0)
+                binding.encSettingAudioBitrate.setText((audioBit / 1000).toString())
             }
-            else -> audioBitrate.setText("")
+            else -> binding.encSettingAudioBitrate.setText("")
         }
 
-        videoSize.setText(oldServer.encode.videoSize)
-        frame.setText(oldServer.encode.frame)
+        binding.encSettingVideoSize.setText(oldServer.encode.videoSize)
+        binding.encSettingFrame.setText(oldServer.encode.frame)
     }
 
     fun ok(@Suppress("UNUSED_PARAMETER") v: View) {
-        val rawChinachuAddress = chinachuAddress.text.toString()
+        val rawChinachuAddress = binding.chinachuAddress.text.toString()
         if (!(rawChinachuAddress.startsWith("http://") || rawChinachuAddress.startsWith("https://"))) {
             Toast.makeText(this, R.string.wrong_server_address, Toast.LENGTH_SHORT).show()
             return
         }
 
         val newEncode = app.getEncodeSetting(
-                type, containerFormat, videoCodec, audioCodec,
-                videoBitrate, videoBitrateFormat, audioBitrate, audioBitrateFormat, videoSize, frame)
+                binding.encSettingTypeSpinner,
+                binding.encSettingContainerEdit,
+                binding.encSettingVideoCodecEdit,
+                binding.encSettingAudioCodecEdit,
+                binding.encSettingVideoBitrate,
+                binding.encSettingVideoBitrateSpinner,
+                binding.encSettingAudioBitrate,
+                binding.encSettingAudioBitrateSpinner,
+                binding.encSettingVideoSize,
+                binding.encSettingFrame
+        )
 
         val newServer = Server(rawChinachuAddress,
-                Base64.encodeToString(username.text.toString().toByteArray(), Base64.DEFAULT),
-                Base64.encodeToString(password.text.toString().toByteArray(), Base64.DEFAULT),
+                Base64.encodeToString(binding.username.text.toString().toByteArray(), Base64.DEFAULT),
+                Base64.encodeToString(binding.password.text.toString().toByteArray(), Base64.DEFAULT),
                 oldServer.streaming,
                 oldServer.encStreaming,
                 newEncode,

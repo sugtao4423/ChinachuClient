@@ -12,6 +12,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
+import com.tao.chinachuclient.databinding.ActivityProgramDetailBinding
+import com.tao.chinachuclient.databinding.CaptureDialogBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,7 +39,8 @@ class ProgramDetail : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_program_detail)
+        val binding = ActivityProgramDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         app = applicationContext as App
         type = intent.getIntExtra("type", -1)
@@ -61,44 +64,38 @@ class ProgramDetail : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = program.title
 
-        var detail = program.detail
-        val start = program.start
-        val end = program.end
-        val category = program.category
-        val flags = program.flags
-        val channelType = program.channel.type
-        val channelName = program.channel.name
-
-        val image = findViewById<ImageView>(R.id.programDetailImage)
-        image.visibility = if (type == Type.RECORDING || type == Type.RECORDED) {
+        binding.programDetailImage.visibility = if (type == Type.RECORDING || type == Type.RECORDED) {
             View.VISIBLE
         } else {
             View.GONE
         }
 
-        detail = detail.replace("\n", "<br>")
+        var detail = program.detail.replace("\n", "<br>")
         val m = Pattern.compile("https?://[\\w.\\-/:#?=&;%~+]+").matcher(detail)
         while (m.find()) {
             detail = detail.replace(m.group(), "<a href=\"${m.group()}\">${m.group()}</a>")
         }
         val detailText = "<p><strong>フルタイトル</strong><br>${program.fullTitle}<br></p><p><strong>詳細</strong><br>$detail</p>"
 
-        val detailView = findViewById<TextView>(R.id.programDetailDetail)
-        detailView.text = app.fromHtml(detailText)
-        detailView.movementMethod = SelectionLinkMovementMethod(this)
+        binding.programDetailDetail.let {
+            it.text = app.fromHtml(detailText)
+            it.movementMethod = SelectionLinkMovementMethod(this)
+        }
 
-        val otherView = findViewById<TextView>(R.id.programDetailOther)
-
-        val startStr = SimpleDateFormat("yyyy/MM/dd (E) HH:mm", Locale.JAPANESE).format(Date(start))
-        val endStr = SimpleDateFormat("HH:mm", Locale.JAPANESE).format(Date(end))
+        val startStr = SimpleDateFormat("yyyy/MM/dd (E) HH:mm", Locale.JAPANESE).format(Date(program.start))
+        val endStr = SimpleDateFormat("HH:mm", Locale.JAPANESE).format(Date(program.end))
         val minute = program.seconds / 60
-        val flag = if (flags.isEmpty()) {
+        val flag = if (program.flags.isEmpty()) {
             "なし"
         } else {
-            flags.joinToString()
+            program.flags.joinToString()
         }
+
+        val category = program.category
+        val channelType = program.channel.type
+        val channelName = program.channel.name
         val otherText = "<p>$startStr 〜 $endStr (${minute}分間)<br><br>$category / $channelType: $channelName<br><br>フラグ: $flag<br><br>id: ${program.id}</p>"
-        otherView.text = app.fromHtml(otherText)
+        binding.programDetailOther.text = app.fromHtml(otherText)
 
         if (type == Type.RECORDING || type == Type.RECORDED) {
             CoroutineScope(Dispatchers.Main).launch {
@@ -127,41 +124,38 @@ class ProgramDetail : AppCompatActivity() {
                 }
                 val decodedString = Base64.decode(image64, Base64.DEFAULT)
                 val img = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
-                image.setImageBitmap(img)
+                binding.programDetailImage.setImageBitmap(img)
                 capture = image64
             }
         }
     }
 
     fun imageClick(@Suppress("UNUSED_PARAMETER") v: View) {
-        val view = layoutInflater.inflate(R.layout.capture_dialog, null)
-        val capPos = view.findViewById<EditText>(R.id.capPos)
-        val capSize = view.findViewById<EditText>(R.id.capSize)
-        val capSeek = view.findViewById<SeekBar>(R.id.capSeek)
+        val capBinding = CaptureDialogBinding.inflate(layoutInflater)
 
         if (type == Type.RECORDING) {
-            capPos.visibility = View.GONE
-            capSeek.visibility = View.GONE
+            capBinding.capPos.visibility = View.GONE
+            capBinding.capSeek.visibility = View.GONE
         } else if (type == Type.RECORDED) {
-            capPos.setText(randomSecond.toString())
-            val textSize = capPos.textSize
-            capPos.width = ((program.seconds.toString().count() + 1) * textSize).toInt()
-            capSeek.max = program.seconds - 10
-            capSeek.progress = randomSecond
-            capSeek.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            capBinding.capPos.setText(randomSecond.toString())
+            val textSize = capBinding.capPos.textSize
+            capBinding.capPos.width = ((program.seconds.toString().count() + 1) * textSize).toInt()
+            capBinding.capSeek.max = program.seconds - 10
+            capBinding.capSeek.progress = randomSecond
+            capBinding.capSeek.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
 
                 override fun onStopTrackingTouch(seekBar: SeekBar) {}
 
                 override fun onStartTrackingTouch(seekBar: SeekBar) {}
 
                 override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                    capPos.setText(progress.toString())
+                    capBinding.capPos.setText(progress.toString())
                 }
             })
         }
 
         AlertDialog.Builder(this)
-                .setView(view)
+                .setView(capBinding.root)
                 .setNegativeButton(R.string.cancel, null)
                 .setPositiveButton(R.string.ok) { _, _ ->
                     CoroutineScope(Dispatchers.Main).launch {
@@ -175,8 +169,8 @@ class ProgramDetail : AppCompatActivity() {
                         val result = withContext(Dispatchers.IO) {
                             try {
                                 when (type) {
-                                    Type.RECORDING -> app.chinachu.getRecordingImage(program.id, capSize.text.toString())
-                                    Type.RECORDED -> app.chinachu.getRecordedImage(program.id, capPos.text.toString().toInt(), capSize.text.toString())
+                                    Type.RECORDING -> app.chinachu.getRecordingImage(program.id, capBinding.capSize.text.toString())
+                                    Type.RECORDED -> app.chinachu.getRecordedImage(program.id, capBinding.capPos.text.toString().toInt(), capBinding.capSize.text.toString())
                                     else -> null
                                 }
                             } catch (e: Exception) {
@@ -197,7 +191,7 @@ class ProgramDetail : AppCompatActivity() {
                             it.putExtra("base64", image64)
                             it.putExtra("programId", program.id)
                             if (type == Type.RECORDED) {
-                                it.putExtra("pos", capPos.text.toString().toInt())
+                                it.putExtra("pos", capBinding.capPos.text.toString().toInt())
                             }
                         })
                     }
@@ -207,7 +201,7 @@ class ProgramDetail : AppCompatActivity() {
                         it.putExtra("base64", capture)
                         it.putExtra("programId", program.id)
                         if (type == Type.RECORDED) {
-                            it.putExtra("pos", capPos.text.toString().toInt())
+                            it.putExtra("pos", capBinding.capPos.text.toString().toInt())
                         }
                     })
                 }

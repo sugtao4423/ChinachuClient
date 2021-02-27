@@ -5,11 +5,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import com.tao.chinachuclient.databinding.ActivityChannelScheduleBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,12 +20,10 @@ import java.util.*
 
 class ChannelScheduleActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
-    private lateinit var spinnerAdapter: ArrayAdapter<String>
-
     private lateinit var channelIdList: List<String>
     private lateinit var selectingChannelId: String
 
-    private lateinit var programList: ListView
+    private lateinit var binding: ActivityChannelScheduleBinding
     private lateinit var programListAdapter: ProgramListAdapter
 
     private lateinit var app: App
@@ -34,27 +32,26 @@ class ChannelScheduleActivity : AppCompatActivity(), AdapterView.OnItemSelectedL
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_channel_schedule)
+        binding = ActivityChannelScheduleBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         app = applicationContext as App
-        spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item)
+        val spinnerAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item)
         channelIdList = app.currentServer.channelIds.split(Regex("\\s*,\\s*"))
         app.currentServer.channelNames.split(Regex("\\s*,\\s*")).map {
             spinnerAdapter.add(it)
         }
 
-        val spinner = toolbar.findViewById<Spinner>(R.id.toolbarSpinner)
+        val spinner = binding.toolbar.findViewById<Spinner>(R.id.toolbarSpinner)
         spinner.onItemSelectedListener = this
         spinner.adapter = spinnerAdapter
 
-        programList = findViewById(R.id.programList)
         programListAdapter = ProgramListAdapter(this, Type.CHANNEL_SCHEDULE_ACTIVITY)
-        programList.adapter = programListAdapter
-        programList.onItemClickListener = ProgramListClickListener(this, Type.CHANNEL_SCHEDULE_ACTIVITY)
+        binding.programList.adapter = programListAdapter
+        binding.programList.onItemClickListener = ProgramListClickListener(this, Type.CHANNEL_SCHEDULE_ACTIVITY)
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -91,7 +88,7 @@ class ChannelScheduleActivity : AppCompatActivity(), AdapterView.OnItemSelectedL
             result.mapIndexed { i, it ->
                 val now = Date().time
                 if (it.start < now && it.end > now) {
-                    programList.setSelection(i)
+                    binding.programList.setSelection(i)
                     return@mapIndexed
                 }
             }

@@ -7,9 +7,9 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ListView
 import android.widget.SearchView
 import android.widget.Toast
+import com.tao.chinachuclient.databinding.ActivityProgramBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,7 +23,7 @@ import java.util.*
 
 class ProgramActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
 
-    private lateinit var swipeRefresh: SwipeRefreshLayout
+    private lateinit var binding: ActivityProgramBinding
     private lateinit var programListAdapter: ProgramListAdapter
     private lateinit var app: App
 
@@ -34,10 +34,8 @@ class ProgramActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_program)
-
-        val list = findViewById<ListView>(R.id.programList)
-        swipeRefresh = findViewById(R.id.swipeRefresh)
+        binding = ActivityProgramBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -52,11 +50,15 @@ class ProgramActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
         }
 
         programListAdapter = ProgramListAdapter(this, type)
-        list.adapter = programListAdapter
+        binding.programList.let {
+            it.adapter = programListAdapter
+            it.onItemClickListener = ProgramListClickListener(this, type)
+        }
 
-        list.onItemClickListener = ProgramListClickListener(this, type)
-        swipeRefresh.setColorSchemeColors(Color.parseColor("#2196F3"))
-        swipeRefresh.setOnRefreshListener(this)
+        binding.swipeRefresh.let {
+            it.setColorSchemeColors(Color.parseColor("#2196F3"))
+            it.setOnRefreshListener(this)
+        }
 
         setActionBarTitle(-1)
 
@@ -98,7 +100,7 @@ class ProgramActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
                 load()
             }
             progressDialog?.dismiss()
-            swipeRefresh.isRefreshing = false
+            binding.swipeRefresh.isRefreshing = false
             if (result == null) {
                 Toast.makeText(this@ProgramActivity, R.string.error_get_schedule, Toast.LENGTH_SHORT).show()
                 return@launch
