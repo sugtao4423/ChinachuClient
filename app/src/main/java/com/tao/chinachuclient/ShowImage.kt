@@ -6,9 +6,9 @@ import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Environment
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.PermissionChecker
-import android.support.v7.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.PermissionChecker
+import androidx.appcompat.app.AppCompatActivity
 import android.util.Base64
 import android.view.View
 import android.widget.EditText
@@ -35,7 +35,7 @@ class ShowImage : AppCompatActivity() {
 
         val base64 = intent.getStringExtra("base64")
         pos = intent.getIntExtra("pos", -1)
-        programId = intent.getStringExtra("programId")
+        programId = intent.getStringExtra("programId")!!
         byteImage = Base64.decode(base64, Base64.DEFAULT)
 
         image.setImageBitmap(BitmapFactory.decodeByteArray(byteImage, 0, byteImage.size))

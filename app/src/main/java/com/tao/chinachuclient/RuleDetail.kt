@@ -2,11 +2,11 @@ package com.tao.chinachuclient
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,7 +23,7 @@ class RuleDetail : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rule_detail)
 
-        position = intent.getStringExtra("position")
+        position = intent.getStringExtra("position")!!
         val rule = intent.getSerializableExtra("rule") as Rule
 
         supportActionBar?.title = if (rule.reserveTitles.isEmpty()) {
@@ -76,8 +76,8 @@ class RuleDetail : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             android.R.id.home -> {
                 finish()
                 return true

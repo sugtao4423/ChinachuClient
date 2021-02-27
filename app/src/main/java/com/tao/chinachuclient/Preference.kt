@@ -4,11 +4,12 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.preference.CheckBoxPreference
-import android.support.v7.preference.PreferenceFragmentCompat
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.CheckBoxPreference
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 
 class Preference : AppCompatActivity() {
 
@@ -23,8 +24,8 @@ class Preference : AppCompatActivity() {
         (applicationContext as App).reloadCurrentServer()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == android.R.id.home) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
             finish()
             return true
         }
@@ -40,19 +41,18 @@ class Preference : AppCompatActivity() {
                 activity?.finish()
                 return
             }
-            val context = context!!
             setPreferencesFromResource(R.xml.preference, rootKey)
 
-            val currentServer = (context.applicationContext as App).currentServer
-            dbUtils = DBUtils(context)
+            val currentServer = (requireContext().applicationContext as App).currentServer
+            dbUtils = DBUtils(requireContext())
 
-            val checkStreaming = findPreference("streaming") as CheckBoxPreference
-            val checkEncode = findPreference("encStreaming") as CheckBoxPreference
-            val oldCateColor = findPreference("oldCategoryColor") as CheckBoxPreference
+            val checkStreaming = findPreference<CheckBoxPreference>("streaming")!!
+            val checkEncode = findPreference<CheckBoxPreference>("encStreaming")!!
+            val oldCateColor = findPreference<CheckBoxPreference>("oldCategoryColor")!!
 
-            val addServer = findPreference("addServer")
-            val settingActivity = findPreference("settingActivity")
-            val delServer = findPreference("delServer")
+            val addServer = findPreference<Preference>("addServer")!!
+            val settingActivity = findPreference<Preference>("settingActivity")!!
+            val delServer = findPreference<Preference>("delServer")!!
 
             checkStreaming.isChecked = currentServer.streaming
             checkStreaming.setOnPreferenceChangeListener { _, newValue ->
@@ -113,7 +113,7 @@ class Preference : AppCompatActivity() {
                                         if (servers.isEmpty()) {
                                             PreferenceManager.getDefaultSharedPreferences(activity).edit().clear().apply()
                                         } else {
-                                            (context.applicationContext as App).changeCurrentServer(servers[0])
+                                            (requireContext().applicationContext as App).changeCurrentServer(servers[0])
                                         }
                                         Toast.makeText(context, R.string.deleted, Toast.LENGTH_SHORT).show()
                                     }

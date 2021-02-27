@@ -4,13 +4,13 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
@@ -60,8 +60,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == Menu.FIRST) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == Menu.FIRST) {
             val address = arrayListOf<String>()
             val servers = dbUtils.getServers()
             servers.map {
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                     }
                     .setPositiveButton(R.string.cancel, null)
                     .show()
-        } else if (item?.itemId == Menu.FIRST + 1) {
+        } else if (item.itemId == Menu.FIRST + 1) {
             startActivity(Intent(this, Preference::class.java))
         }
         return super.onOptionsItemSelected(item)

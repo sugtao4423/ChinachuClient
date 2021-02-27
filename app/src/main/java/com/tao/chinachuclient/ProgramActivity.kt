@@ -3,12 +3,12 @@ package com.tao.chinachuclient
 import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.tao.chinachuclient.databinding.ActivityProgramBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -46,7 +46,7 @@ class ProgramActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
             finish()
             return
         } else if (type == Type.SEARCH_PROGRAM) {
-            query = intent.getStringExtra("query")
+            query = intent.getStringExtra("query")!!
         }
 
         programListAdapter = ProgramListAdapter(this, type)
@@ -183,13 +183,13 @@ class ProgramActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == android.R.id.home) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
             finish()
             return true
         }
 
-        if (item?.itemId == Menu.FIRST) {
+        if (item.itemId == Menu.FIRST) {
             AlertDialog.Builder(this)
                     .setTitle(R.string.cleanup)
                     .setMessage(R.string.is_cleanup_of_recorded_list)

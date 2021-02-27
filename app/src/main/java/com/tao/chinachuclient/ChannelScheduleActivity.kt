@@ -4,11 +4,11 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import com.tao.chinachuclient.databinding.ActivityChannelScheduleBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -133,11 +133,7 @@ class ChannelScheduleActivity : AppCompatActivity(), AdapterView.OnItemSelectedL
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item == null) {
-            return false
-        }
-
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == Menu.FIRST || item.itemId == Menu.FIRST + 1) {
             val nowProgramTitle: String = run {
                 var title = ""

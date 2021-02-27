@@ -1,12 +1,12 @@
 package com.tao.chinachuclient
 
 import android.content.Context
-import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import sugtao4423.library.chinachu4j.Rule
 
 class RuleListAdapter(context: Context) : ArrayAdapter<Rule>(context, android.R.layout.simple_list_item_1) {

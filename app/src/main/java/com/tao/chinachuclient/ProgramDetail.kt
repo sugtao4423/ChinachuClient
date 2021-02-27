@@ -5,13 +5,13 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Base64
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
+import androidx.appcompat.app.AppCompatActivity
 import com.tao.chinachuclient.databinding.ActivityProgramDetailBinding
 import com.tao.chinachuclient.databinding.CaptureDialogBinding
 import kotlinx.coroutines.CoroutineScope
@@ -244,11 +244,7 @@ class ProgramDetail : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item == null) {
-            return false
-        }
-
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> finish()
             Menu.FIRST + 2 -> {

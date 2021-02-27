@@ -3,13 +3,13 @@ package com.tao.chinachuclient
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import sugtao4423.library.chinachu4j.Program
 import sugtao4423.library.chinachu4j.Recorded
 import sugtao4423.library.chinachu4j.Reserve

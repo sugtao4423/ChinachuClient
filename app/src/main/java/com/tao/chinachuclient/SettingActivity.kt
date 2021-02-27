@@ -2,13 +2,13 @@ package com.tao.chinachuclient
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
 import android.util.Base64
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.tao.chinachuclient.databinding.ActivitySettingBinding
 
 class SettingActivity : AppCompatActivity() {
@@ -127,8 +127,8 @@ class SettingActivity : AppCompatActivity() {
         inputMethodManager.hideSoftInputFromWindow(v.windowToken, 0)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == android.R.id.home) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
             finish()
             return true
         }
