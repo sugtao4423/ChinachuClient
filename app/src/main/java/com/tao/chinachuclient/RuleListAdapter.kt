@@ -1,12 +1,15 @@
 package com.tao.chinachuclient
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import sugtao4423.library.chinachu4j.Rule
 
 class RuleListAdapter(context: Context) : ArrayAdapter<Rule>(context, android.R.layout.simple_list_item_1) {
@@ -84,6 +87,18 @@ class RuleListAdapter(context: Context) : ArrayAdapter<Rule>(context, android.R.
 
         holder.title.text = title
         holder.channel.text = channel
+
+        if (item.isDisabled) {
+            holder.title.setTextColor(Color.GRAY)
+            holder.channel.setTextColor(Color.GRAY)
+            holder.title.paint.flags = holder.title.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            holder.channel.paint.flags = holder.channel.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        } else {
+            holder.title.setTextColor(ContextCompat.getColor(context, R.color.titleText))
+            holder.channel.setTextColor(ContextCompat.getColor(context, R.color.dateText))
+            holder.title.paint.flags = holder.title.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+            holder.channel.paint.flags = holder.channel.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+        }
 
         return view!!
     }
