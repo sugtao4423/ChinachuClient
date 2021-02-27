@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -86,20 +87,13 @@ class ProgramActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
     private fun asyncLoad(isRefresh: Boolean) {
         programListAdapter.clear()
         CoroutineScope(Dispatchers.Main).launch {
-            var progressDialog: ProgressDialog? = null
             if (!isRefresh) {
-                progressDialog = ProgressDialog(this@ProgramActivity).apply {
-                    setMessage(getString(R.string.loading))
-                    isIndeterminate = false
-                    setProgressStyle(ProgressDialog.STYLE_SPINNER)
-                    setCancelable(true)
-                    show()
-                }
+                binding.loading.visibility = View.VISIBLE
             }
             val result = withContext(Dispatchers.IO) {
                 load()
             }
-            progressDialog?.dismiss()
+            binding.loading.visibility = View.GONE
             binding.swipeRefresh.isRefreshing = false
             if (result == null) {
                 Toast.makeText(this@ProgramActivity, R.string.error_get_schedule, Toast.LENGTH_SHORT).show()

@@ -15,7 +15,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import sugtao4423.library.chinachu4j.Program
-import sugtao4423.support.progressdialog.ProgressDialog
 import java.util.*
 
 class ChannelScheduleActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
@@ -57,13 +56,8 @@ class ChannelScheduleActivity : AppCompatActivity(), AdapterView.OnItemSelectedL
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         selectingChannelId = channelIdList[position]
         CoroutineScope(Dispatchers.Main).launch {
-            val progressDialog = ProgressDialog(this@ChannelScheduleActivity).apply {
-                setMessage(getString(R.string.loading))
-                isIndeterminate = false
-                setProgressStyle(ProgressDialog.STYLE_SPINNER)
-                setCancelable(true)
-                show()
-            }
+            programListAdapter.clear()
+            binding.loading.visibility = View.VISIBLE
             val result = withContext(Dispatchers.IO) {
                 try {
                     app.chinachu.getChannelSchedule(selectingChannelId)
@@ -71,8 +65,7 @@ class ChannelScheduleActivity : AppCompatActivity(), AdapterView.OnItemSelectedL
                     null
                 }
             }
-            progressDialog.dismiss()
-            programListAdapter.clear()
+            binding.loading.visibility = View.GONE
             if (result == null) {
                 Toast.makeText(this@ChannelScheduleActivity, R.string.error_get_schedule, Toast.LENGTH_SHORT).show()
                 return@launch

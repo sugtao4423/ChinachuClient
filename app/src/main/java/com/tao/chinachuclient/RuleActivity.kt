@@ -15,7 +15,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import sugtao4423.library.chinachu4j.Rule
-import sugtao4423.support.progressdialog.ProgressDialog
 
 class RuleActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
 
@@ -55,15 +54,8 @@ class RuleActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener, 
     private fun asyncLoad(isRefresh: Boolean) {
         adapter.clear()
         CoroutineScope(Dispatchers.Main).launch {
-            var progressDialog: ProgressDialog? = null
             if (!isRefresh) {
-                progressDialog = ProgressDialog(this@RuleActivity).apply {
-                    setMessage(getString(R.string.loading))
-                    isIndeterminate = false
-                    setProgressStyle(ProgressDialog.STYLE_SPINNER)
-                    setCancelable(true)
-                    show()
-                }
+                binding.loading.visibility = View.VISIBLE
             }
             val result = withContext(Dispatchers.IO) {
                 try {
@@ -72,7 +64,7 @@ class RuleActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener, 
                     null
                 }
             }
-            progressDialog?.dismiss()
+            binding.loading.visibility = View.GONE
             binding.swipeRefresh.isRefreshing = false
             if (result == null) {
                 Toast.makeText(this@RuleActivity, R.string.error_get_rule, Toast.LENGTH_SHORT).show()
