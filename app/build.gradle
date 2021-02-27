@@ -10,8 +10,8 @@ android {
         versionCode 23
         versionName "2.1.0"
     }
-    viewBinding {
-        enabled = true
+    buildFeatures {
+        viewBinding true
     }
     buildTypes {
         release {
