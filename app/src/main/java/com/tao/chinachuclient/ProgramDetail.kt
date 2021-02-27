@@ -77,7 +77,7 @@ class ProgramDetail : AppCompatActivity() {
         }
 
         detail = detail.replace("\n", "<br>")
-        val m = Pattern.compile("http(s)?://[\\w\\.\\-/:\\#\\?\\=\\&\\;\\%\\~\\+]+").matcher(detail)
+        val m = Pattern.compile("https?://[\\w.\\-/:#?=&;%~+]+").matcher(detail)
         while (m.find()) {
             detail = detail.replace(m.group(), "<a href=\"${m.group()}\">${m.group()}</a>")
         }
