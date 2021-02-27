@@ -99,15 +99,7 @@
 
     <!-- ShowImage -->
     <string name="is_save">保存しますか？</string>
-    <string name="error_file_already_exists">エラー: ファイルが既に存在しています</string>
-    <string-array name="file_already_exists_fix_suggestion">
-        <item>上書き</item>
-        <item>ファイル名を指定して保存</item>
-        <item>キャンセル</item>
-    </string-array>
-    <string name="assign_file_name">ファイル名を指定してください</string>
     <string name="saved">保存しました</string>
-    <string name="fail_permission">(๑•﹏•๑*)</string>
 
     <!-- Layout xml -->
     <string name="noHint" />

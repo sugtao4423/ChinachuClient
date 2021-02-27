@@ -1,28 +1,18 @@
 package com.tao.chinachuclient
 
-import android.Manifest
 import android.app.AlertDialog
-import android.content.pm.PackageManager
+import android.content.ContentValues
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.os.Environment
-import androidx.core.app.ActivityCompat
-import androidx.core.content.PermissionChecker
-import androidx.appcompat.app.AppCompatActivity
+import android.provider.MediaStore
 import android.util.Base64
 import android.view.View
-import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.tenthbit.view.ZoomImageView
-import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
 
 class ShowImage : AppCompatActivity() {
-
-    companion object {
-        const val REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 810
-    }
 
     private lateinit var programId: String
     private var pos: Int = -1
@@ -52,81 +42,34 @@ class ShowImage : AppCompatActivity() {
     }
 
     private fun saveImage() {
-        if (!hasWriteExternalStoragePermission()) {
-            requestWriteExternalStoragePermission()
-            return
-        }
-
         val fileName = if (pos == -1) {
             programId
         } else {
             "$programId-$pos"
         }
         val type = ".jpg"
-        val saveDir = Environment.getExternalStorageDirectory().absolutePath + "/" + Environment.DIRECTORY_DOWNLOADS
-        val imgPath = "$saveDir/$fileName$type"
+        val imageName = fileName + type
 
-        if (File(imgPath).exists()) {
-            AlertDialog.Builder(this)
-                    .setTitle(R.string.error_file_already_exists)
-                    .setItems(resources.getStringArray(R.array.file_already_exists_fix_suggestion)) { _, which ->
-                        if (which == 0) {
-                            save(imgPath)
-                        } else if (which == 1) {
-                            val edit = EditText(this)
-                            edit.setText(fileName)
-                            AlertDialog.Builder(this)
-                                    .setTitle(R.string.assign_file_name)
-                                    .setView(edit)
-                                    .setNegativeButton(R.string.cancel, null)
-                                    .setPositiveButton(R.string.ok) { _, _ ->
-                                        val newPath = "$saveDir/${edit.text}$type"
-                                        if (File(newPath).exists()) {
-                                            saveImage()
-                                        } else {
-                                            save(newPath)
-                                        }
-
-                                    }.show()
-                        }
-                    }
-                    .show()
-        } else {
-            save(imgPath)
+        val values = ContentValues().apply {
+            put(MediaStore.Downloads.DISPLAY_NAME, imageName)
+            put(MediaStore.Downloads.MIME_TYPE, "image/jpg")
+            put(MediaStore.Downloads.IS_PENDING, true)
         }
-    }
 
-    private fun save(imgPath: String) {
-        try {
-            val fos = FileOutputStream(imgPath, true)
-            fos.write(byteImage)
-            fos.close()
-        } catch (e: IOException) {
-            Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
-            return
+        val collection = MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+        val item = contentResolver.insert(collection, values)!!
+        contentResolver.openFileDescriptor(item, "w").use {
+            FileOutputStream(it!!.fileDescriptor).use { fos ->
+                fos.write(byteImage)
+                fos.close()
+            }
         }
-        Toast.makeText(this, getString(R.string.saved) + "\n" + imgPath, Toast.LENGTH_LONG).show()
-    }
 
-    private fun hasWriteExternalStoragePermission(): Boolean {
-        val writeExternalStorage = PermissionChecker.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        return (writeExternalStorage == PackageManager.PERMISSION_GRANTED)
-    }
+        values.clear()
+        values.put(MediaStore.Downloads.IS_PENDING, false)
+        contentResolver.update(item, values, null, null)
 
-    private fun requestWriteExternalStoragePermission() {
-        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_CODE_WRITE_EXTERNAL_STORAGE)
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode != REQUEST_CODE_WRITE_EXTERNAL_STORAGE) {
-            return
-        }
-        if (permissions[0] == Manifest.permission.WRITE_EXTERNAL_STORAGE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            saveImage()
-        } else {
-            Toast.makeText(applicationContext, R.string.fail_permission, Toast.LENGTH_LONG).show()
-        }
+        Toast.makeText(this, getString(R.string.saved) + "\n" + imageName, Toast.LENGTH_LONG).show()
     }
 
 }
