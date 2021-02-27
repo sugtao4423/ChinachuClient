@@ -2,12 +2,12 @@ package com.tao.chinachuclient
 
 import android.app.Application
 import android.os.Build
-import android.preference.PreferenceManager
 import android.text.Html
 import android.text.Spanned
 import android.util.Base64
 import android.widget.EditText
 import android.widget.Spinner
+import androidx.preference.PreferenceManager
 import sugtao4423.library.chinachu4j.Chinachu4j
 
 class App : Application() {

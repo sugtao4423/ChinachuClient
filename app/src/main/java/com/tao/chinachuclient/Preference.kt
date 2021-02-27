@@ -3,13 +3,13 @@ package com.tao.chinachuclient
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.CheckBoxPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceManager
 
 class Preference : AppCompatActivity() {
 
