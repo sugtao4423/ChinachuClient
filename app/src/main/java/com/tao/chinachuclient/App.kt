@@ -8,9 +8,16 @@ import android.util.Base64
 import android.widget.EditText
 import android.widget.Spinner
 import androidx.preference.PreferenceManager
+import com.tao.chinachuclient.db.ServerRoomDatabase
+import com.tao.chinachuclient.entity.Encode
+import com.tao.chinachuclient.entity.Server
+import com.tao.chinachuclient.model.ServerRepository
 import sugtao4423.library.chinachu4j.Chinachu4j
 
 class App : Application() {
+
+    private val serverDatabase by lazy { ServerRoomDatabase.getDatabase(this) }
+    val serverRepository by lazy { ServerRepository(serverDatabase.serverDao()) }
 
     lateinit var chinachu: Chinachu4j
     lateinit var currentServer: Server
@@ -18,11 +25,12 @@ class App : Application() {
     var encStreaming: Boolean = false
     var reloadList: Boolean = false
 
-    fun reloadCurrentServer() {
+    suspend fun reloadCurrentServer() {
         val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val currentChinachuAddress = pref.getString("chinachuAddress", "") ?: ""
-        val server = DBUtils(this).getServerFromAddress(currentChinachuAddress)
-        changeCurrentServer(server)
+        serverRepository.findByAddress(currentChinachuAddress)?.let {
+            changeCurrentServer(it)
+        }
     }
 
     fun changeCurrentServer(newServer: Server) {
