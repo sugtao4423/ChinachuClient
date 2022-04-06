@@ -34,8 +34,6 @@ class Preference : AppCompatActivity() {
 
     class PreferencesFragment : PreferenceFragmentCompat() {
 
-        private var dbUtils: DBUtils? = null
-
         override fun onCreatePreferences(bundle: Bundle?, rootKey: String?) {
             if (context == null) {
                 activity?.finish()
@@ -43,8 +41,8 @@ class Preference : AppCompatActivity() {
             }
             setPreferencesFromResource(R.xml.preference, rootKey)
 
-            val currentServer = (requireContext().applicationContext as App).currentServer
-            dbUtils = DBUtils(requireContext())
+            val serverRepository = (requireContext() as App).serverRepository
+            val currentServer = (requireContext() as App).currentServer
 
             val checkStreaming = findPreference<CheckBoxPreference>("streaming")!!
             val checkEncode = findPreference<CheckBoxPreference>("encStreaming")!!
@@ -56,13 +54,13 @@ class Preference : AppCompatActivity() {
 
             checkStreaming.isChecked = currentServer.streaming
             checkStreaming.setOnPreferenceChangeListener { _, newValue ->
-                dbUtils!!.updateServerStreaming(newValue as Boolean, currentServer.chinachuAddress)
+                serverRepository.updateStreaming(newValue as Boolean, currentServer.chinachuAddress)
                 true
             }
 
             checkEncode.isChecked = currentServer.encStreaming
             checkEncode.setOnPreferenceChangeListener { _, newValue ->
-                dbUtils!!.updateServerEncStreaming(newValue as Boolean, currentServer.chinachuAddress)
+                serverRepository.updateEncStreaming(newValue as Boolean, currentServer.chinachuAddress)
 
                 if (newValue) {
                     AlertDialog.Builder(activity).apply {
@@ -80,7 +78,7 @@ class Preference : AppCompatActivity() {
 
             oldCateColor.isChecked = currentServer.oldCategoryColor
             oldCateColor.setOnPreferenceChangeListener { _, newValue ->
-                dbUtils!!.updateServerOldCategoryColor(newValue as Boolean, currentServer.chinachuAddress)
+                serverRepository.updateOldCategoryColor(newValue as Boolean, currentServer.chinachuAddress)
                 true
             }
 
@@ -95,10 +93,7 @@ class Preference : AppCompatActivity() {
             }
 
             delServer.setOnPreferenceClickListener {
-                val address = arrayListOf<String>()
-                dbUtils!!.getServers().map {
-                    address.add(it.chinachuAddress)
-                }
+                val address = serverRepository.getAll().map { it.chinachuAddress }
                 AlertDialog.Builder(activity)
                         .setTitle(R.string.choose_delete_server)
                         .setItems(address.toTypedArray()) { _, which ->
@@ -108,8 +103,8 @@ class Preference : AppCompatActivity() {
                                     .setMessage(getString(R.string.is_delete_server_below) + "\n" + selectedServerAddress)
                                     .setNegativeButton(R.string.cancel, null)
                                     .setPositiveButton(R.string.ok) { _, _ ->
-                                        dbUtils!!.deleteServer(selectedServerAddress)
-                                        val servers = dbUtils!!.getServers()
+                                        serverRepository.delete(selectedServerAddress)
+                                        val servers = serverRepository.getAll()
                                         if (servers.isEmpty()) {
                                             PreferenceManager.getDefaultSharedPreferences(requireActivity()).edit().clear().apply()
                                         } else {
@@ -123,14 +118,6 @@ class Preference : AppCompatActivity() {
                 false
             }
         }
-
-        override fun onDestroy() {
-            super.onDestroy()
-            if (dbUtils != null) {
-                dbUtils!!.close()
-            }
-        }
-
     }
 
 }

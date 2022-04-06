@@ -10,6 +10,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.tao.chinachuclient.databinding.ActivitySettingBinding
+import com.tao.chinachuclient.entity.Server
+import com.tao.chinachuclient.model.ServerRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,6 +21,7 @@ import sugtao4423.support.progressdialog.ProgressDialog
 
 class AddServer : AppCompatActivity() {
 
+    private lateinit var serverRepository: ServerRepository
     private lateinit var binding: ActivitySettingBinding
     private var startMain: Boolean = false
 
@@ -29,6 +32,7 @@ class AddServer : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        serverRepository = (applicationContext as App).serverRepository
         startMain = intent.getBooleanExtra("startMain", false)
     }
 
@@ -39,10 +43,8 @@ class AddServer : AppCompatActivity() {
             return
         }
 
-        val dbUtils = DBUtils(this)
-        if (dbUtils.serverExists(address)) {
+        if (serverRepository.isExists(address)) {
             Toast.makeText(this, R.string.already_register, Toast.LENGTH_SHORT).show()
-            dbUtils.close()
             return
         }
 
@@ -95,8 +97,7 @@ class AddServer : AppCompatActivity() {
                     Base64.encodeToString(binding.password.text.toString().toByteArray(), Base64.DEFAULT),
                     false, false, encode, channelIds.joinToString(), channelNames.joinToString(), false
             )
-            dbUtils.insertServer(server)
-            dbUtils.close()
+            serverRepository.insert(server)
 
             if (startMain) {
                 (applicationContext as App).changeCurrentServer(server)

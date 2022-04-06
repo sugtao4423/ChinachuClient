@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.tao.chinachuclient.databinding.ActivitySettingBinding
+import com.tao.chinachuclient.entity.Server
 
 class SettingActivity : AppCompatActivity() {
 
@@ -115,9 +116,7 @@ class SettingActivity : AppCompatActivity() {
                 "", "",
                 oldServer.oldCategoryColor)
 
-        val dbUtils = DBUtils(this)
-        dbUtils.updateServer(newServer, oldServer.chinachuAddress)
-        dbUtils.close()
+        app.serverRepository.update(newServer)
         app.changeCurrentServer(newServer)
         finish()
     }
