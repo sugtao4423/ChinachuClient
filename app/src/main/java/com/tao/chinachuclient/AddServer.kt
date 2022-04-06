@@ -43,12 +43,13 @@ class AddServer : AppCompatActivity() {
             return
         }
 
-        if (serverRepository.isExists(address)) {
-            Toast.makeText(this, R.string.already_register, Toast.LENGTH_SHORT).show()
-            return
-        }
-
         CoroutineScope(Dispatchers.Main).launch {
+            val serverExists = withContext(Dispatchers.IO) { serverRepository.isExists(address) }
+            if (serverExists) {
+                Toast.makeText(this@AddServer, R.string.already_register, Toast.LENGTH_SHORT).show()
+                return@launch
+            }
+
             val progressDialog = ProgressDialog(this@AddServer).apply {
                 setMessage(getString(R.string.getting_channel_list))
                 isIndeterminate = false

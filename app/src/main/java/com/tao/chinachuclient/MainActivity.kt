@@ -11,6 +11,10 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
@@ -25,24 +29,26 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
         app = applicationContext as App
 
-        val chinachuAddress = pref.getString("chinachuAddress", "") ?: ""
-        val serverExists = app.serverRepository.isExists(chinachuAddress)
-        if (chinachuAddress == "" || !serverExists) {
-            startActivity(Intent(this, AddServer::class.java).apply {
-                putExtra("startMain", true)
-            })
-            finish()
-            return
-        }
+        CoroutineScope(Dispatchers.Main).launch {
+            val chinachuAddress = pref.getString("chinachuAddress", "") ?: ""
+            val serverExists = withContext(Dispatchers.IO) { app.serverRepository.isExists(chinachuAddress) }
+            if (chinachuAddress == "" || !serverExists) {
+                startActivity(Intent(this@MainActivity, AddServer::class.java).apply {
+                    putExtra("startMain", true)
+                })
+                finish()
+                return@launch
+            }
 
-        app.serverRepository.findByAddress(chinachuAddress)?.let {
-            app.changeCurrentServer(it)
-        }
+            withContext(Dispatchers.IO) { app.serverRepository.findByAddress(chinachuAddress) }?.let {
+                app.changeCurrentServer(it)
+            }
 
-        val listItem = resources.getStringArray(R.array.main_list_names)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listItem)
-        mainList.adapter = adapter
-        mainList.onItemClickListener = this
+            val listItem = resources.getStringArray(R.array.main_list_names)
+            val adapter = ArrayAdapter(this@MainActivity, android.R.layout.simple_list_item_1, listItem)
+            mainList.adapter = adapter
+            mainList.onItemClickListener = this@MainActivity
+        }
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -61,22 +67,26 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == Menu.FIRST) {
-            val servers = app.serverRepository.getAll()
-            val address = servers.map { it.chinachuAddress }
+            CoroutineScope(Dispatchers.Main).launch {
+                val servers = withContext(Dispatchers.IO) { app.serverRepository.getAll() }
+                val address = servers.map { it.chinachuAddress }
 
-            val currentServer = app.currentServer
-            val settingNow = address.indexOf(currentServer.chinachuAddress)
-            AlertDialog.Builder(this)
+                val currentServer = app.currentServer
+                val settingNow = address.indexOf(currentServer.chinachuAddress)
+                AlertDialog.Builder(this@MainActivity)
                     .setTitle(R.string.select_server)
                     .setSingleChoiceItems(address.toTypedArray(), settingNow) { dialog, which ->
-                        val selectedAddress = address[which]
-                        app.serverRepository.findByAddress(selectedAddress)?.let {
-                            app.changeCurrentServer(it)
+                        CoroutineScope(Dispatchers.Main).launch {
+                            val selectedAddress = address[which]
+                            withContext(Dispatchers.IO) { app.serverRepository.findByAddress(selectedAddress) }?.let {
+                                app.changeCurrentServer(it)
+                            }
+                            dialog.dismiss()
                         }
-                        dialog.dismiss()
                     }
                     .setPositiveButton(R.string.cancel, null)
                     .show()
+            }
         } else if (item.itemId == Menu.FIRST + 1) {
             startActivity(Intent(this, Preference::class.java))
         }

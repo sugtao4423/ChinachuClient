@@ -25,7 +25,7 @@ class App : Application() {
     var encStreaming: Boolean = false
     var reloadList: Boolean = false
 
-    fun reloadCurrentServer() {
+    suspend fun reloadCurrentServer() {
         val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val currentChinachuAddress = pref.getString("chinachuAddress", "") ?: ""
         serverRepository.findByAddress(currentChinachuAddress)?.let {

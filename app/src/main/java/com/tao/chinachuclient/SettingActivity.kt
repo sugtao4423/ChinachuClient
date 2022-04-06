@@ -11,6 +11,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.tao.chinachuclient.databinding.ActivitySettingBinding
 import com.tao.chinachuclient.entity.Server
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class SettingActivity : AppCompatActivity() {
 
@@ -26,10 +29,11 @@ class SettingActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         app = applicationContext as App
-        app.reloadCurrentServer()
-        oldServer = app.currentServer
+        CoroutineScope(Dispatchers.Main).launch {
+            app.reloadCurrentServer()
+            oldServer = app.currentServer
 
-        AlertDialog.Builder(this)
+            AlertDialog.Builder(this@SettingActivity)
                 .setTitle(R.string.change_settings)
                 .setMessage(getString(R.string.change_current_server_settings) + "\n\n" + getString(R.string.current_server) + "\n${oldServer.chinachuAddress}")
                 .setCancelable(false)
@@ -38,7 +42,11 @@ class SettingActivity : AppCompatActivity() {
                     finish()
                 }
                 .show()
+            initView()
+        }
+    }
 
+    private fun initView() {
         binding.chinachuAddress.setText(oldServer.chinachuAddress)
         binding.username.setText(String(Base64.decode(oldServer.username, Base64.DEFAULT)))
         binding.password.setText(String(Base64.decode(oldServer.password, Base64.DEFAULT)))
@@ -116,9 +124,11 @@ class SettingActivity : AppCompatActivity() {
                 "", "",
                 oldServer.oldCategoryColor)
 
-        app.serverRepository.update(newServer)
-        app.changeCurrentServer(newServer)
-        finish()
+        CoroutineScope(Dispatchers.Main).launch {
+            app.serverRepository.update(newServer)
+            app.changeCurrentServer(newServer)
+            finish()
+        }
     }
 
     fun background(v: View) {

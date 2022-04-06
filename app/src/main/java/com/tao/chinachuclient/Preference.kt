@@ -10,6 +10,10 @@ import androidx.preference.CheckBoxPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Preference : AppCompatActivity() {
 
@@ -21,7 +25,9 @@ class Preference : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        (applicationContext as App).reloadCurrentServer()
+        CoroutineScope(Dispatchers.Main).launch {
+            (applicationContext as App).reloadCurrentServer()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -41,8 +47,8 @@ class Preference : AppCompatActivity() {
             }
             setPreferencesFromResource(R.xml.preference, rootKey)
 
-            val serverRepository = (requireContext() as App).serverRepository
-            val currentServer = (requireContext() as App).currentServer
+            val serverRepository = (requireContext().applicationContext as App).serverRepository
+            val currentServer = (requireContext().applicationContext as App).currentServer
 
             val checkStreaming = findPreference<CheckBoxPreference>("streaming")!!
             val checkEncode = findPreference<CheckBoxPreference>("encStreaming")!!
@@ -54,15 +60,19 @@ class Preference : AppCompatActivity() {
 
             checkStreaming.isChecked = currentServer.streaming
             checkStreaming.setOnPreferenceChangeListener { _, newValue ->
-                serverRepository.updateStreaming(newValue as Boolean, currentServer.chinachuAddress)
+                CoroutineScope(Dispatchers.Main).launch {
+                    serverRepository.updateStreaming(newValue as Boolean, currentServer.chinachuAddress)
+                }
                 true
             }
 
             checkEncode.isChecked = currentServer.encStreaming
             checkEncode.setOnPreferenceChangeListener { _, newValue ->
-                serverRepository.updateEncStreaming(newValue as Boolean, currentServer.chinachuAddress)
+                CoroutineScope(Dispatchers.Main).launch {
+                    serverRepository.updateEncStreaming(newValue as Boolean, currentServer.chinachuAddress)
+                }
 
-                if (newValue) {
+                if (newValue as Boolean) {
                     AlertDialog.Builder(activity).apply {
                         setTitle(R.string.confirm_settings)
                         setMessage(R.string.plz_use_after_confirm_settings)
@@ -78,7 +88,9 @@ class Preference : AppCompatActivity() {
 
             oldCateColor.isChecked = currentServer.oldCategoryColor
             oldCateColor.setOnPreferenceChangeListener { _, newValue ->
-                serverRepository.updateOldCategoryColor(newValue as Boolean, currentServer.chinachuAddress)
+                CoroutineScope(Dispatchers.Main).launch {
+                    serverRepository.updateOldCategoryColor(newValue as Boolean, currentServer.chinachuAddress)
+                }
                 true
             }
 
@@ -93,8 +105,9 @@ class Preference : AppCompatActivity() {
             }
 
             delServer.setOnPreferenceClickListener {
-                val address = serverRepository.getAll().map { it.chinachuAddress }
-                AlertDialog.Builder(activity)
+                CoroutineScope(Dispatchers.Main).launch {
+                    val address = withContext(Dispatchers.IO) { serverRepository.getAll() } .map { it.chinachuAddress }
+                    AlertDialog.Builder(activity)
                         .setTitle(R.string.choose_delete_server)
                         .setItems(address.toTypedArray()) { _, which ->
                             val selectedServerAddress = address[which]
@@ -103,18 +116,21 @@ class Preference : AppCompatActivity() {
                                     .setMessage(getString(R.string.is_delete_server_below) + "\n" + selectedServerAddress)
                                     .setNegativeButton(R.string.cancel, null)
                                     .setPositiveButton(R.string.ok) { _, _ ->
-                                        serverRepository.delete(selectedServerAddress)
-                                        val servers = serverRepository.getAll()
-                                        if (servers.isEmpty()) {
-                                            PreferenceManager.getDefaultSharedPreferences(requireActivity()).edit().clear().apply()
-                                        } else {
-                                            (requireContext().applicationContext as App).changeCurrentServer(servers[0])
+                                        CoroutineScope(Dispatchers.Main).launch {
+                                            serverRepository.delete(selectedServerAddress)
+                                            val servers = withContext(Dispatchers.IO) { serverRepository.getAll() }
+                                            if (servers.isEmpty()) {
+                                                PreferenceManager.getDefaultSharedPreferences(requireActivity()).edit().clear().apply()
+                                            } else {
+                                                (requireContext().applicationContext as App).changeCurrentServer(servers[0])
+                                            }
+                                            Toast.makeText(context, R.string.deleted, Toast.LENGTH_SHORT).show()
                                         }
-                                        Toast.makeText(context, R.string.deleted, Toast.LENGTH_SHORT).show()
-                                    }
-                                    .show()
+                                }
+                                .show()
                         }
                         .show()
+                }
                 false
             }
         }
