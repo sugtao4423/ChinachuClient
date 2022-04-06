@@ -5,20 +5,20 @@ import com.tao.chinachuclient.entity.Server
 
 class ServerRepository(private val serverDao: ServerDao) {
 
-    fun getAll(): List<Server> = serverDao.getServers()
+    suspend fun getAll(): List<Server> = serverDao.getServers()
 
-    fun findByAddress(chinachuAddress: String): Server? =
+    suspend fun findByAddress(chinachuAddress: String): Server? =
         serverDao.findServerByAddress(chinachuAddress)
 
-    fun isExists(chinachuAddress: String): Boolean = findByAddress(chinachuAddress) != null
+    suspend fun isExists(chinachuAddress: String): Boolean = findByAddress(chinachuAddress) != null
 
-    fun insert(server: Server) = serverDao.insert(server)
+    suspend fun insert(server: Server) = serverDao.insert(server)
 
-    fun update(server: Server) = serverDao.update(server)
+    suspend fun update(server: Server) = serverDao.update(server)
 
-    fun delete(chinachuAddress: String) = serverDao.delete(chinachuAddress)
+    suspend fun delete(chinachuAddress: String) = serverDao.delete(chinachuAddress)
 
-    private fun updateColumn(
+    private suspend fun updateColumn(
         chinachuAddress: String,
         streaming: Boolean? = null,
         encStreaming: Boolean? = null,
@@ -34,13 +34,13 @@ class ServerRepository(private val serverDao: ServerDao) {
         }
     }
 
-    fun updateStreaming(newValue: Boolean, chinachuAddress: String) =
+    suspend fun updateStreaming(newValue: Boolean, chinachuAddress: String) =
         updateColumn(chinachuAddress, streaming = newValue)
 
-    fun updateEncStreaming(newValue: Boolean, chinachuAddress: String) =
+    suspend fun updateEncStreaming(newValue: Boolean, chinachuAddress: String) =
         updateColumn(chinachuAddress, encStreaming = newValue)
 
-    fun updateOldCategoryColor(newValue: Boolean, chinachuAddress: String) =
+    suspend fun updateOldCategoryColor(newValue: Boolean, chinachuAddress: String) =
         updateColumn(chinachuAddress, oldCategoryColor = newValue)
 
 }

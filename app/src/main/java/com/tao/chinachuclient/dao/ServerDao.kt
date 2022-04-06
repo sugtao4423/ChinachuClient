@@ -10,18 +10,18 @@ import com.tao.chinachuclient.entity.Server
 interface ServerDao {
 
     @Query("SELECT * FROM servers")
-    fun getServers(): List<Server>
+    suspend fun getServers(): List<Server>
 
     @Query("SELECT * FROM servers WHERE chinachuAddress = :chinachuAddress")
-    fun findServerByAddress(chinachuAddress: String): Server?
+    suspend fun findServerByAddress(chinachuAddress: String): Server?
 
     @Insert
-    fun insert(server: Server)
+    suspend fun insert(server: Server)
 
     @Update
-    fun update(server: Server)
+    suspend fun update(server: Server)
 
     @Query("DELETE FROM servers WHERE chinachuAddress = :chinachuAddress")
-    fun delete(chinachuAddress: String)
+    suspend fun delete(chinachuAddress: String)
 
 }
