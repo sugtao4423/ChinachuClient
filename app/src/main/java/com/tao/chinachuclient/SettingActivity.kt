@@ -47,7 +47,10 @@ class SettingActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        binding.chinachuAddress.setText(oldServer.chinachuAddress)
+        binding.chinachuAddress.apply {
+            setText(oldServer.chinachuAddress)
+            isEnabled = false
+        }
         binding.username.setText(String(Base64.decode(oldServer.username, Base64.DEFAULT)))
         binding.password.setText(String(Base64.decode(oldServer.password, Base64.DEFAULT)))
 
