@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".SettingActivity">
+    >
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.tao.chinachuclient.viewmodel.BaseActivitySettingViewModel" />
+    </data>
+
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="background"
+        android:onClick="@{(v) -> viewModel.closeKeyboard(v)}"
         android:padding="@dimen/paddingSettingActivity">
 
         <TextView
@@ -30,7 +37,8 @@
             android:ems="10"
             android:hint="@string/noHint"
             android:importantForAutofill="no"
-            android:inputType="text">
+            android:inputType="text"
+            android:text="@={viewModel.chinachuAddress}">
 
             <requestFocus />
         </EditText>
@@ -57,7 +65,8 @@
             android:ems="10"
             android:hint="@string/noHint"
             android:importantForAutofill="no"
-            android:inputType="text" />
+            android:inputType="text"
+            android:text="@={viewModel.username}" />
 
         <TextView
             android:id="@+id/textView3"
@@ -81,7 +90,8 @@
             android:ems="10"
             android:hint="@string/noHint"
             android:importantForAutofill="no"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:text="@={viewModel.password}"/>
 
         <TextView
             android:id="@+id/textView4"
@@ -114,7 +124,8 @@
             android:layout_below="@+id/encSettingType"
             android:layout_alignStart="@+id/encSettingType"
             android:layout_alignLeft="@+id/encSettingType"
-            android:entries="@array/enc_setting_typeSpinner_item" />
+            android:entries="@array/enc_setting_typeSpinner_item"
+            android:selectedItemPosition="@={viewModel.encodeTypePosition}"/>
 
         <TextView
             android:id="@+id/encSettingContainer"
@@ -137,7 +148,8 @@
             android:layout_toLeftOf="@+id/encSettingVideoBitrateSpinner"
             android:hint="@string/hintContainerFormat"
             android:importantForAutofill="no"
-            android:inputType="text" />
+            android:inputType="text"
+            android:text="@={viewModel.encodeContainerFormat}"/>
 
         <TextView
             android:id="@+id/encSettingVideoCodec"
@@ -160,7 +172,8 @@
             android:layout_alignRight="@+id/encSettingContainerEdit"
             android:hint="@string/hintVideoCodec"
             android:importantForAutofill="no"
-            android:inputType="text" />
+            android:inputType="text"
+            android:text="@={viewModel.encodeVideoCodec}"/>
 
         <TextView
             android:id="@+id/encSettingAudioCodec"
@@ -183,7 +196,8 @@
             android:layout_alignRight="@+id/encSettingVideoCodecEdit"
             android:hint="@string/hintAudioCodec"
             android:importantForAutofill="no"
-            android:inputType="text" />
+            android:inputType="text"
+            android:text="@={viewModel.encodeAudioCodec}"/>
 
         <EditText
             android:id="@+id/encSettingVideoBitrate"
@@ -198,7 +212,8 @@
             android:ems="10"
             android:hint="@string/hintVideoBitrate"
             android:importantForAutofill="no"
-            android:inputType="number" />
+            android:inputType="number"
+            android:text="@={viewModel.encodeVideoBitrate}"/>
 
         <Spinner
             android:id="@+id/encSettingVideoBitrateSpinner"
@@ -208,7 +223,8 @@
             android:layout_alignBottom="@+id/encSettingVideoBitrate"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:entries="@array/bitrate" />
+            android:entries="@array/bitrate"
+            android:selectedItemPosition="@={viewModel.encodeVideoBitrateUnitPosition}"/>
 
         <EditText
             android:id="@+id/encSettingAudioBitrate"
@@ -223,7 +239,8 @@
             android:ems="10"
             android:hint="@string/hintAudioBitrate"
             android:importantForAutofill="no"
-            android:inputType="number" />
+            android:inputType="number"
+            android:text="@={viewModel.encodeAudioBitrate}"/>
 
         <Spinner
             android:id="@+id/encSettingAudioBitrateSpinner"
@@ -235,7 +252,8 @@
             android:layout_alignBottom="@+id/encSettingAudioBitrate"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:entries="@array/bitrate" />
+            android:entries="@array/bitrate"
+            android:selectedItemPosition="@={viewModel.encodeAudioBitrateUnitPosition}"/>
 
         <EditText
             android:id="@+id/encSettingVideoSize"
@@ -251,7 +269,8 @@
             android:hint="@string/hintVideoSize"
             android:importantForAutofill="no"
             android:inputType="text"
-            tools:ignore="TextFields" />
+            tools:ignore="TextFields"
+            android:text="@={viewModel.encodeVideoSize}"/>
 
         <EditText
             android:id="@+id/encSettingFrame"
@@ -266,7 +285,8 @@
             android:ems="10"
             android:hint="@string/hintVideoFrame"
             android:importantForAutofill="no"
-            android:inputType="number" />
+            android:inputType="number"
+            android:text="@={viewModel.encodeFrame}"/>
 
         <Button
             android:id="@+id/encSettingOk"
@@ -276,8 +296,8 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginTop="@dimen/marginSettingSaveButton"
-            android:onClick="ok"
+            android:onClick="@{() -> viewModel.onOk()}"
             android:text="@string/save" />
     </RelativeLayout>
-
 </ScrollView>
+</layout>
