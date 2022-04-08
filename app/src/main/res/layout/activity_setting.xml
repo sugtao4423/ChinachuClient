@@ -1,303 +1,271 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.tao.chinachuclient.viewmodel.BaseActivitySettingViewModel" />
     </data>
 
-<ScrollView android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="@{(v) -> viewModel.closeKeyboard(v)}"
-        android:padding="@dimen/paddingSettingActivity">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/textView1"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:text="@string/labelChinachuAddress" />
+            android:onClick="@{(v) -> viewModel.closeKeyboard(v)}"
+            android:padding="@dimen/paddingSettingActivity">
 
-        <EditText
-            android:id="@+id/chinachuAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView1"
-            android:layout_alignStart="@+id/textView1"
-            android:layout_alignLeft="@+id/textView1"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:ems="10"
-            android:hint="@string/noHint"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:text="@={viewModel.chinachuAddress}">
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="@string/labelChinachuAddress" />
 
-            <requestFocus />
-        </EditText>
+            <EditText
+                android:id="@+id/chinachuAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView1"
+                android:layout_alignStart="@+id/textView1"
+                android:layout_alignParentEnd="true"
+                android:ems="10"
+                android:hint="@string/noHint"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:text="@={viewModel.chinachuAddress}">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/chinachuAddress"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="@dimen/marginSettingBigSpace"
-            android:text="@string/labelUsername" />
+                <requestFocus />
+            </EditText>
 
-        <EditText
-            android:id="@+id/username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView2"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:ems="10"
-            android:hint="@string/noHint"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:text="@={viewModel.username}" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/chinachuAddress"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="@dimen/marginSettingBigSpace"
+                android:text="@string/labelUsername" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/username"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="@dimen/marginSettingBigSpace"
-            android:text="@string/labelPassword" />
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView2"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:ems="10"
+                android:hint="@string/noHint"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:text="@={viewModel.username}" />
 
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView3"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:ems="10"
-            android:hint="@string/noHint"
-            android:importantForAutofill="no"
-            android:inputType="textPassword"
-            android:text="@={viewModel.password}"/>
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/username"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="@dimen/marginSettingBigSpace"
+                android:text="@string/labelPassword" />
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/password"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="@dimen/marginSettingOptionSpace"
-            android:gravity="center"
-            android:text="@string/labelEncodeSetting"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView3"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:ems="10"
+                android:hint="@string/noHint"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                android:text="@={viewModel.password}" />
 
-        <TextView
-            android:id="@+id/encSettingType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView4"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="@dimen/marginSettingBigSpace"
-            android:text="@string/labelType" />
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/password"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/marginSettingOptionSpace"
+                android:gravity="center"
+                android:text="@string/labelEncodeSetting"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <Spinner
-            android:id="@+id/encSettingTypeSpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/encSettingType"
-            android:layout_alignStart="@+id/encSettingType"
-            android:layout_alignLeft="@+id/encSettingType"
-            android:entries="@array/enc_setting_typeSpinner_item"
-            android:selectedItemPosition="@={viewModel.encodeTypePosition}"/>
+            <TextView
+                android:id="@+id/encSettingType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView4"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="@dimen/marginSettingBigSpace"
+                android:text="@string/labelType" />
 
-        <TextView
-            android:id="@+id/encSettingContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/encSettingTypeSpinner"
-            android:layout_alignStart="@+id/encSettingTypeSpinner"
-            android:layout_alignLeft="@+id/encSettingTypeSpinner"
-            android:layout_marginTop="@dimen/marginSettingNormalSpace"
-            android:text="@string/labelContainerFormat" />
+            <Spinner
+                android:id="@+id/encSettingTypeSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/encSettingType"
+                android:layout_alignStart="@+id/encSettingType"
+                android:entries="@array/enc_setting_typeSpinner_item"
+                android:selectedItemPosition="@={viewModel.encodeTypePosition}" />
 
-        <EditText
-            android:id="@+id/encSettingContainerEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/encSettingContainer"
-            android:layout_alignStart="@+id/encSettingContainer"
-            android:layout_alignLeft="@+id/encSettingContainer"
-            android:layout_toStartOf="@+id/encSettingVideoBitrateSpinner"
-            android:layout_toLeftOf="@+id/encSettingVideoBitrateSpinner"
-            android:hint="@string/hintContainerFormat"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:text="@={viewModel.encodeContainerFormat}"/>
+            <TextView
+                android:id="@+id/encSettingContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/encSettingTypeSpinner"
+                android:layout_alignStart="@+id/encSettingTypeSpinner"
+                android:layout_marginTop="@dimen/marginSettingNormalSpace"
+                android:text="@string/labelContainerFormat" />
 
-        <TextView
-            android:id="@+id/encSettingVideoCodec"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/encSettingContainerEdit"
-            android:layout_alignStart="@+id/encSettingContainerEdit"
-            android:layout_alignLeft="@+id/encSettingContainerEdit"
-            android:layout_marginTop="@dimen/marginSettingNormalSpace"
-            android:text="@string/labelVideoCodec" />
+            <EditText
+                android:id="@+id/encSettingContainerEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/encSettingContainer"
+                android:layout_alignStart="@+id/encSettingContainer"
+                android:layout_toStartOf="@+id/encSettingVideoBitrateSpinner"
+                android:hint="@string/hintContainerFormat"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:text="@={viewModel.encodeContainerFormat}" />
 
-        <EditText
-            android:id="@+id/encSettingVideoCodecEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/encSettingVideoCodec"
-            android:layout_alignStart="@+id/encSettingVideoCodec"
-            android:layout_alignLeft="@+id/encSettingVideoCodec"
-            android:layout_alignEnd="@+id/encSettingContainerEdit"
-            android:layout_alignRight="@+id/encSettingContainerEdit"
-            android:hint="@string/hintVideoCodec"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:text="@={viewModel.encodeVideoCodec}"/>
+            <TextView
+                android:id="@+id/encSettingVideoCodec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/encSettingContainerEdit"
+                android:layout_alignStart="@+id/encSettingContainerEdit"
+                android:layout_marginTop="@dimen/marginSettingNormalSpace"
+                android:text="@string/labelVideoCodec" />
 
-        <TextView
-            android:id="@+id/encSettingAudioCodec"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/encSettingVideoCodecEdit"
-            android:layout_alignStart="@+id/encSettingVideoCodecEdit"
-            android:layout_alignLeft="@+id/encSettingVideoCodecEdit"
-            android:layout_marginTop="@dimen/marginSettingNormalSpace"
-            android:text="@string/labelAudioCodec" />
+            <EditText
+                android:id="@+id/encSettingVideoCodecEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/encSettingVideoCodec"
+                android:layout_alignStart="@+id/encSettingVideoCodec"
+                android:layout_alignEnd="@+id/encSettingContainerEdit"
+                android:hint="@string/hintVideoCodec"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:text="@={viewModel.encodeVideoCodec}" />
 
-        <EditText
-            android:id="@+id/encSettingAudioCodecEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/encSettingAudioCodec"
-            android:layout_alignStart="@+id/encSettingAudioCodec"
-            android:layout_alignLeft="@+id/encSettingAudioCodec"
-            android:layout_alignEnd="@+id/encSettingVideoCodecEdit"
-            android:layout_alignRight="@+id/encSettingVideoCodecEdit"
-            android:hint="@string/hintAudioCodec"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:text="@={viewModel.encodeAudioCodec}"/>
+            <TextView
+                android:id="@+id/encSettingAudioCodec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/encSettingVideoCodecEdit"
+                android:layout_alignStart="@+id/encSettingVideoCodecEdit"
+                android:layout_marginTop="@dimen/marginSettingNormalSpace"
+                android:text="@string/labelAudioCodec" />
 
-        <EditText
-            android:id="@+id/encSettingVideoBitrate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/encSettingAudioCodecEdit"
-            android:layout_alignStart="@+id/encSettingAudioCodecEdit"
-            android:layout_alignLeft="@+id/encSettingAudioCodecEdit"
-            android:layout_marginTop="@dimen/marginSettingBigSpace"
-            android:layout_toStartOf="@+id/encSettingVideoBitrateSpinner"
-            android:layout_toLeftOf="@+id/encSettingVideoBitrateSpinner"
-            android:ems="10"
-            android:hint="@string/hintVideoBitrate"
-            android:importantForAutofill="no"
-            android:inputType="number"
-            android:text="@={viewModel.encodeVideoBitrate}"/>
+            <EditText
+                android:id="@+id/encSettingAudioCodecEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/encSettingAudioCodec"
+                android:layout_alignStart="@+id/encSettingAudioCodec"
+                android:layout_alignEnd="@+id/encSettingVideoCodecEdit"
+                android:hint="@string/hintAudioCodec"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:text="@={viewModel.encodeAudioCodec}" />
 
-        <Spinner
-            android:id="@+id/encSettingVideoBitrateSpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/encSettingVideoBitrate"
-            android:layout_alignBottom="@+id/encSettingVideoBitrate"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:entries="@array/bitrate"
-            android:selectedItemPosition="@={viewModel.encodeVideoBitrateUnitPosition}"/>
+            <EditText
+                android:id="@+id/encSettingVideoBitrate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/encSettingAudioCodecEdit"
+                android:layout_alignStart="@+id/encSettingAudioCodecEdit"
+                android:layout_marginTop="@dimen/marginSettingBigSpace"
+                android:layout_toStartOf="@+id/encSettingVideoBitrateSpinner"
+                android:ems="10"
+                android:hint="@string/hintVideoBitrate"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:text="@={viewModel.encodeVideoBitrate}" />
 
-        <EditText
-            android:id="@+id/encSettingAudioBitrate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/encSettingVideoBitrate"
-            android:layout_alignStart="@+id/encSettingVideoBitrate"
-            android:layout_alignLeft="@+id/encSettingVideoBitrate"
-            android:layout_alignEnd="@+id/encSettingVideoBitrate"
-            android:layout_alignRight="@+id/encSettingVideoBitrate"
-            android:layout_marginTop="@dimen/marginSettingNormalSpace"
-            android:ems="10"
-            android:hint="@string/hintAudioBitrate"
-            android:importantForAutofill="no"
-            android:inputType="number"
-            android:text="@={viewModel.encodeAudioBitrate}"/>
+            <Spinner
+                android:id="@+id/encSettingVideoBitrateSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/encSettingVideoBitrate"
+                android:layout_alignBottom="@+id/encSettingVideoBitrate"
+                android:layout_alignParentEnd="true"
+                android:entries="@array/bitrate"
+                android:selectedItemPosition="@={viewModel.encodeVideoBitrateUnitPosition}" />
 
-        <Spinner
-            android:id="@+id/encSettingAudioBitrateSpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/encSettingVideoBitrateSpinner"
-            android:layout_alignLeft="@+id/encSettingVideoBitrateSpinner"
-            android:layout_alignTop="@+id/encSettingAudioBitrate"
-            android:layout_alignBottom="@+id/encSettingAudioBitrate"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:entries="@array/bitrate"
-            android:selectedItemPosition="@={viewModel.encodeAudioBitrateUnitPosition}"/>
+            <EditText
+                android:id="@+id/encSettingAudioBitrate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/encSettingVideoBitrate"
+                android:layout_alignStart="@+id/encSettingVideoBitrate"
+                android:layout_alignEnd="@+id/encSettingVideoBitrate"
+                android:layout_marginTop="@dimen/marginSettingNormalSpace"
+                android:ems="10"
+                android:hint="@string/hintAudioBitrate"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:text="@={viewModel.encodeAudioBitrate}" />
 
-        <EditText
-            android:id="@+id/encSettingVideoSize"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/encSettingAudioBitrate"
-            android:layout_alignStart="@+id/encSettingAudioBitrate"
-            android:layout_alignLeft="@+id/encSettingAudioBitrate"
-            android:layout_alignEnd="@+id/encSettingAudioBitrate"
-            android:layout_alignRight="@+id/encSettingAudioBitrate"
-            android:layout_marginTop="@dimen/marginSettingNormalSpace"
-            android:ems="10"
-            android:hint="@string/hintVideoSize"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            tools:ignore="TextFields"
-            android:text="@={viewModel.encodeVideoSize}"/>
+            <Spinner
+                android:id="@+id/encSettingAudioBitrateSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/encSettingVideoBitrateSpinner"
+                android:layout_alignTop="@+id/encSettingAudioBitrate"
+                android:layout_alignBottom="@+id/encSettingAudioBitrate"
+                android:layout_alignParentEnd="true"
+                android:entries="@array/bitrate"
+                android:selectedItemPosition="@={viewModel.encodeAudioBitrateUnitPosition}" />
 
-        <EditText
-            android:id="@+id/encSettingFrame"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/encSettingVideoSize"
-            android:layout_alignStart="@+id/encSettingVideoSize"
-            android:layout_alignLeft="@+id/encSettingVideoSize"
-            android:layout_alignEnd="@+id/encSettingVideoSize"
-            android:layout_alignRight="@+id/encSettingVideoSize"
-            android:layout_marginTop="@dimen/marginSettingNormalSpace"
-            android:ems="10"
-            android:hint="@string/hintVideoFrame"
-            android:importantForAutofill="no"
-            android:inputType="number"
-            android:text="@={viewModel.encodeFrame}"/>
+            <EditText
+                android:id="@+id/encSettingVideoSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/encSettingAudioBitrate"
+                android:layout_alignStart="@+id/encSettingAudioBitrate"
+                android:layout_alignEnd="@+id/encSettingAudioBitrate"
+                android:layout_marginTop="@dimen/marginSettingNormalSpace"
+                android:ems="10"
+                android:hint="@string/hintVideoSize"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:text="@={viewModel.encodeVideoSize}"
+                tools:ignore="TextFields" />
 
-        <Button
-            android:id="@+id/encSettingOk"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/encSettingFrame"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="@dimen/marginSettingSaveButton"
-            android:onClick="@{() -> viewModel.onOk()}"
-            android:text="@string/save" />
-    </RelativeLayout>
-</ScrollView>
+            <EditText
+                android:id="@+id/encSettingFrame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/encSettingVideoSize"
+                android:layout_alignStart="@+id/encSettingVideoSize"
+                android:layout_alignEnd="@+id/encSettingVideoSize"
+                android:layout_marginTop="@dimen/marginSettingNormalSpace"
+                android:ems="10"
+                android:hint="@string/hintVideoFrame"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:text="@={viewModel.encodeFrame}" />
+
+            <Button
+                android:id="@+id/encSettingOk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/encSettingFrame"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/marginSettingSaveButton"
+                android:onClick="@{() -> viewModel.onOk()}"
+                android:text="@string/save" />
+        </RelativeLayout>
+    </ScrollView>
 </layout>
