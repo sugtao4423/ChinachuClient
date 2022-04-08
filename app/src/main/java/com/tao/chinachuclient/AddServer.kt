@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.tao.chinachuclient.databinding.ActivitySettingBinding
 import com.tao.chinachuclient.entity.Server
 import com.tao.chinachuclient.model.ServerRepository
+import com.tao.chinachuclient.view.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
