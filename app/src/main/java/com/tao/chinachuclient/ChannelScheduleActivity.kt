@@ -91,11 +91,7 @@ class ChannelScheduleActivity : AppCompatActivity(), AdapterView.OnItemSelectedL
     override fun onNothingSelected(parent: AdapterView<*>?) {
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if (menu == null) {
-            return false
-        }
-
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         if (app.streaming) {
             menu.add(0, Menu.FIRST, Menu.NONE, R.string.live_play)
         }

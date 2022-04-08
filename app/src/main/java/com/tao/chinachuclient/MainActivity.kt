@@ -59,9 +59,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         })
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menu?.add(0, Menu.FIRST, Menu.NONE, R.string.change_server)?.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
-        menu?.add(0, Menu.FIRST + 1, Menu.NONE, R.string.settings)?.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menu.add(0, Menu.FIRST, Menu.NONE, R.string.change_server).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+        menu.add(0, Menu.FIRST + 1, Menu.NONE, R.string.settings).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
         return super.onCreateOptionsMenu(menu)
     }
 

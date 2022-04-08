@@ -71,8 +71,8 @@ class RuleDetail : AppCompatActivity() {
         })
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menu?.add(0, Menu.FIRST, Menu.NONE, R.string.delete_rule)
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menu.add(0, Menu.FIRST, Menu.NONE, R.string.delete_rule)
         return true
     }
 

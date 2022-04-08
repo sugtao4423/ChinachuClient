@@ -208,11 +208,7 @@ class ProgramDetail : AppCompatActivity() {
                 .show()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if (menu == null) {
-            return false
-        }
-
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         when (type) {
             Type.CHANNEL_SCHEDULE_ACTIVITY, Type.SEARCH_PROGRAM -> {
                 menu.add(0, Menu.FIRST, Menu.NONE, R.string.reserve)

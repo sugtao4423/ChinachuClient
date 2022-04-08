@@ -133,10 +133,7 @@ class ProgramActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
         return null
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if (menu == null) {
-            return false
-        }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         if (type == Type.RECORDED) {
             menu.add(0, Menu.FIRST, Menu.NONE, R.string.cleanup)?.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
         }
