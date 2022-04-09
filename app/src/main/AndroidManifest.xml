@@ -39,7 +39,7 @@
             android:name="Preference"
             android:label="@string/settings" />
         <activity
-            android:name="AddServer"
+            android:name=".view.AddServerActivity"
             android:label="@string/add_server" />
         <activity android:name="RuleActivity" />
         <activity android:name="RuleDetail" />

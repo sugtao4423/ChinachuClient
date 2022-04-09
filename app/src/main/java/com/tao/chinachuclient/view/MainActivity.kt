@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.tao.chinachuclient.AddServer
 import com.tao.chinachuclient.ProgramActivity
 import com.tao.chinachuclient.R
 import com.tao.chinachuclient.viewmodel.MainActivityViewModel
@@ -44,7 +43,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun replaceToAddServerActivity() {
-        val intent = Intent(this, AddServer::class.java).apply {
+        val intent = Intent(this, AddServerActivity::class.java).apply {
             putExtra("startMain", true)
         }
         startActivity(intent)

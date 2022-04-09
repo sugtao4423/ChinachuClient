@@ -10,6 +10,7 @@ import androidx.preference.CheckBoxPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
+import com.tao.chinachuclient.view.AddServerActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -95,7 +96,7 @@ class Preference : AppCompatActivity() {
             }
 
             addServer.setOnPreferenceClickListener {
-                startActivity(Intent(activity, AddServer::class.java))
+                startActivity(Intent(activity, AddServerActivity::class.java))
                 false
             }
 
