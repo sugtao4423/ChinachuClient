@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.hadilq.liveevent.LiveEvent
 import com.tao.chinachuclient.*
+import com.tao.chinachuclient.view.PreferenceActivity
 import kotlinx.coroutines.launch
 
 class MainActivityViewModel(application: Application) : AndroidViewModel(application) {
@@ -58,7 +59,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
                     ChangeServerDialogData(addresses, currentServerIndex)
             }
         } else if (item.itemId == Menu.FIRST + 1) {
-            _onStartActivityWoExtra.value = Preference::class.java
+            _onStartActivityWoExtra.value = PreferenceActivity::class.java
         }
     }
 

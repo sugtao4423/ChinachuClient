@@ -36,7 +36,7 @@
         <activity android:name="ProgramDetail" />
         <activity android:name="ProgramActivity" />
         <activity
-            android:name="Preference"
+            android:name=".view.PreferenceActivity"
             android:label="@string/settings" />
         <activity
             android:name=".view.AddServerActivity"

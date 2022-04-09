@@ -43,7 +43,7 @@
     <string name="plz_use_after_confirm_settings">エンコードの設定を確認してからご使用ください</string>
     <string name="choose_delete_server">削除するサーバーを選択</string>
     <string name="confirm_delete">削除の確認</string>
-    <string name="is_delete_server_below">以下のサーバーを削除しますか？</string>
+    <string name="is_delete_server_below">以下のサーバーを削除しますか？\n%s</string>
     <string name="deleted">削除しました</string>
 
     <!-- ProgramActivity -->

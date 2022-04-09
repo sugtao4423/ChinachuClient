@@ -5,10 +5,7 @@ import android.os.Build
 import android.text.Html
 import android.text.Spanned
 import android.util.Base64
-import android.widget.EditText
-import android.widget.Spinner
 import com.tao.chinachuclient.db.ServerRoomDatabase
-import com.tao.chinachuclient.entity.Encode
 import com.tao.chinachuclient.entity.Server
 import com.tao.chinachuclient.model.PrefRepository
 import com.tao.chinachuclient.model.ServerRepository
@@ -59,36 +56,6 @@ class App : Application() {
         reloadCurrentServer()
     }
 
-    fun getEncodeSetting(type: Spinner,
-                         containerFormat: EditText, videoCodec: EditText, audioCodec: EditText,
-                         videoBitrate: EditText, videoBitrateFormat: Spinner,
-                         audioBitrate: EditText, audioBitrateFormat: Spinner,
-                         videoSize: EditText, frame: EditText): Encode {
-        var vb = ""
-        var ab = ""
-        if (videoBitrate.text.toString().isNotEmpty()) {
-            var videoBit = videoBitrate.text.toString().toInt()
-            videoBit *= if (videoBitrateFormat.selectedItemPosition == 0) 1000 else 1000000
-            vb = videoBit.toString()
-        }
-
-        if (audioBitrate.text.toString().isNotEmpty()) {
-            var audioBit = audioBitrate.text.toString().toInt()
-            audioBit *= if (audioBitrateFormat.selectedItemPosition == 0) 1000 else 1000000
-            ab = audioBit.toString()
-        }
-
-        return Encode(
-                type.selectedItem as String,
-                containerFormat.text.toString(),
-                videoCodec.text.toString(),
-                audioCodec.text.toString(),
-                vb,
-                ab,
-                videoSize.text.toString(),
-                frame.text.toString())
-    }
-
     @Suppress("DEPRECATION")
     fun fromHtml(html: String): Spanned {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -97,5 +64,4 @@ class App : Application() {
             Html.fromHtml(html)
         }
     }
-
 }
