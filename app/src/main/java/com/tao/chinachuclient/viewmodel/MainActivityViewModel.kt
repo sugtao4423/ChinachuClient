@@ -11,18 +11,11 @@ import com.hadilq.liveevent.LiveEvent
 import com.tao.chinachuclient.*
 import kotlinx.coroutines.launch
 
-class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
+class MainActivityViewModel(application: Application) : AndroidViewModel(application) {
 
     private val app = getApplication<App>()
 
-    private val _onStartAddServerActivity = LiveEvent<Unit>()
-    val onStartAddServerActivity: LiveData<Unit> = _onStartAddServerActivity
-
-    init {
-        if (!getApplication<App>().chinachuInitialized) {
-            _onStartAddServerActivity.value = Unit
-        }
-    }
+    val isStartAddServerActivity = !app.chinachuInitialized
 
     private val _onStartActivityWoExtra = LiveEvent<Class<*>>()
     val onStartActivityWoExtra: LiveData<Class<*>> = _onStartActivityWoExtra

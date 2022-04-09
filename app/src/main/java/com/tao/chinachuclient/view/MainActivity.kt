@@ -22,10 +22,11 @@ class MainActivity : AppCompatActivity() {
         val mainList = ListView(this)
         setContentView(mainList)
 
-        viewModel.onStartAddServerActivity.observe(this) {
+        if (viewModel.isStartAddServerActivity) {
             replaceToAddServerActivity()
-            return@observe
+            return
         }
+
         viewModel.onStartActivityWoExtra.observe(this) {
             startActivityWoExtra(it)
         }
