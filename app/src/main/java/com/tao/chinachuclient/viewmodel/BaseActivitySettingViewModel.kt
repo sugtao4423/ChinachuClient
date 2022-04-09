@@ -10,21 +10,21 @@ import com.tao.chinachuclient.App
 
 abstract class BaseActivitySettingViewModel(app: Application) : AndroidViewModel(app) {
 
-    private val app by lazy { getApplication<App>() }
+    protected val app by lazy { getApplication<App>() }
 
-    val chinachuAddress = MutableLiveData<String>()
-    val username = MutableLiveData<String>()
-    val password = MutableLiveData<String>()
-    val encodeTypePosition = MutableLiveData<Int>()
-    val encodeContainerFormat = MutableLiveData<String>()
-    val encodeVideoCodec = MutableLiveData<String>()
-    val encodeAudioCodec = MutableLiveData<String>()
-    val encodeVideoBitrate = MutableLiveData<String>()
-    val encodeVideoBitrateUnitPosition = MutableLiveData<Int>()
-    val encodeAudioBitrate = MutableLiveData<String>()
-    val encodeAudioBitrateUnitPosition = MutableLiveData<Int>()
-    val encodeVideoSize = MutableLiveData<String>()
-    val encodeFrame = MutableLiveData<String>()
+    val chinachuAddress = MutableLiveData("")
+    val username = MutableLiveData("")
+    val password = MutableLiveData("")
+    val encodeTypePosition = MutableLiveData(0)
+    val encodeContainerFormat = MutableLiveData("")
+    val encodeVideoCodec = MutableLiveData("")
+    val encodeAudioCodec = MutableLiveData("")
+    val encodeVideoBitrate = MutableLiveData("")
+    val encodeVideoBitrateUnitPosition = MutableLiveData(0)
+    val encodeAudioBitrate = MutableLiveData("")
+    val encodeAudioBitrateUnitPosition = MutableLiveData(0)
+    val encodeVideoSize = MutableLiveData("")
+    val encodeFrame = MutableLiveData("")
 
     fun closeKeyboard(v: View) {
         val inputMethodManager =
