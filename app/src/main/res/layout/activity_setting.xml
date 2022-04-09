@@ -34,6 +34,7 @@
                 android:layout_alignStart="@+id/textView1"
                 android:layout_alignParentEnd="true"
                 android:ems="10"
+                android:enabled="@{!viewModel.disableChinachuAddress}"
                 android:hint="@string/noHint"
                 android:importantForAutofill="no"
                 android:inputType="text"

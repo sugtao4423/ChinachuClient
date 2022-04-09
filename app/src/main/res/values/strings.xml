@@ -94,8 +94,7 @@
     <!-- SettingActivity -->
     <string name="change_server_settings">サーバー設定変更</string>
     <string name="change_settings">設定変更</string>
-    <string name="change_current_server_settings">現在選択されているサーバーの設定を変更します</string>
-    <string name="current_server">現在選択中のサーバー</string>
+    <string name="change_current_server_settings">現在選択されているサーバーの設定を変更します\n\n現在選択中のサーバー\n%s</string>
 
     <!-- ShowImage -->
     <string name="is_save">保存しますか？</string>

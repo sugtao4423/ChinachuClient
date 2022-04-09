@@ -13,6 +13,7 @@ abstract class BaseActivitySettingViewModel(app: Application) : AndroidViewModel
     protected val app by lazy { getApplication<App>() }
 
     val chinachuAddress = MutableLiveData("")
+    val disableChinachuAddress = MutableLiveData(false)
     val username = MutableLiveData("")
     val password = MutableLiveData("")
     val encodeTypePosition = MutableLiveData(0)
