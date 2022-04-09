@@ -7,9 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.tao.chinachuclient.databinding.ProgramListLayoutBinding
 import sugtao4423.library.chinachu4j.Program
 import sugtao4423.library.chinachu4j.Recorded
 import sugtao4423.library.chinachu4j.Reserve
@@ -17,91 +16,91 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ProgramListAdapter(context: Context, val type: Int) :
-        ArrayAdapter<Any>(context, android.R.layout.simple_list_item_1) {
+    ArrayAdapter<Any>(context, android.R.layout.simple_list_item_1) {
 
-    private val mInflater = context.getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    private val oldCategoryColor = (context.applicationContext as App).currentServer.oldCategoryColor
+    private val oldCategoryColor =
+        (context.applicationContext as App).currentServer.oldCategoryColor
     private val nowYear = Calendar.getInstance().get(Calendar.YEAR).toString()
 
-    private data class ViewHolder(
-            val title: TextView,
-            val date: TextView
-    )
-
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var view = convertView
-        val holder: ViewHolder
-        if (view == null) {
-            view = mInflater.inflate(R.layout.program_list_layout, parent, false)
-            val title = view.findViewById<TextView>(R.id.programTitle)
-            val date = view.findViewById<TextView>(R.id.programDate)
-
-            holder = ViewHolder(title, date)
-            view.tag = holder
+        val binding = if (convertView == null) {
+            val inflater = LayoutInflater.from(context)
+            val tBinding = ProgramListLayoutBinding.inflate(inflater, parent, false)
+            tBinding.root.tag = tBinding
+            tBinding
         } else {
-            holder = view.tag as ViewHolder
+            convertView.tag as ProgramListLayoutBinding
         }
 
-        var item = getItem(position) ?: return view!!
+        var item = getItem(position)
         item = when (type) {
             Type.RESERVES -> (item as Reserve).program
             Type.RECORDED -> (item as Recorded).program
             else -> item as Program
         }
 
-        view?.setBackgroundResource(
-                if (oldCategoryColor) {
-                    when (item.category) {
-                        "anime" -> R.drawable.old_anime
-                        "information" -> R.drawable.old_information
-                        "news" -> R.drawable.old_news
-                        "sports" -> R.drawable.old_sports
-                        "variety" -> R.drawable.old_variety
-                        "drama" -> R.drawable.old_drama
-                        "music" -> R.drawable.old_music
-                        "cinema" -> R.drawable.old_cinema
-                        "etc" -> R.drawable.old_etc
-                        else -> R.drawable.old_etc
-                    }
-                } else {
-                    when (item.category) {
-                        "anime" -> R.drawable.anime
-                        "information" -> R.drawable.information
-                        "news" -> R.drawable.news
-                        "sports" -> R.drawable.sports
-                        "variety" -> R.drawable.variety
-                        "drama" -> R.drawable.drama
-                        "music" -> R.drawable.music
-                        "cinema" -> R.drawable.cinema
-                        "etc" -> R.drawable.etc
-                        else -> R.drawable.etc
-                    }
+        binding.root.setBackgroundResource(
+            if (oldCategoryColor) {
+                when (item.category) {
+                    "anime" -> R.drawable.old_anime
+                    "information" -> R.drawable.old_information
+                    "news" -> R.drawable.old_news
+                    "sports" -> R.drawable.old_sports
+                    "variety" -> R.drawable.old_variety
+                    "drama" -> R.drawable.old_drama
+                    "music" -> R.drawable.old_music
+                    "cinema" -> R.drawable.old_cinema
+                    "etc" -> R.drawable.old_etc
+                    else -> R.drawable.old_etc
                 }
+            } else {
+                when (item.category) {
+                    "anime" -> R.drawable.anime
+                    "information" -> R.drawable.information
+                    "news" -> R.drawable.news
+                    "sports" -> R.drawable.sports
+                    "variety" -> R.drawable.variety
+                    "drama" -> R.drawable.drama
+                    "music" -> R.drawable.music
+                    "cinema" -> R.drawable.cinema
+                    "etc" -> R.drawable.etc
+                    else -> R.drawable.etc
+                }
+            }
         )
 
-        holder.title.text = item.title
-        holder.date.text = getDateText(item)
-
-        val titlePaint = holder.title.paint
-        val datePaint = holder.date.paint
-        titlePaint.isAntiAlias = true
-        datePaint.isAntiAlias = true
+        binding.programTitle.apply {
+            text = item.title
+            paint.isAntiAlias = true
+        }
+        binding.programDate.apply {
+            text = getDateText(item)
+            paint.isAntiAlias = true
+        }
 
         if (type == Type.RESERVES) {
             val reserve = getItem(position) as Reserve
             if (!reserve.isManualReserved && reserve.isSkip) {
-                holder.title.setTextColor(Color.GRAY)
-                holder.date.setTextColor(Color.GRAY)
-                titlePaint.flags = holder.title.paintFlags or STRIKE_THRU_TEXT_FLAG
-                datePaint.flags = holder.date.paintFlags or STRIKE_THRU_TEXT_FLAG
+                binding.programTitle.let {
+                    it.setTextColor(Color.GRAY)
+                    it.paint.flags = it.paintFlags or STRIKE_THRU_TEXT_FLAG
+                }
+                binding.programDate.let {
+                    it.setTextColor(Color.GRAY)
+                    it.paint.flags = it.paintFlags or STRIKE_THRU_TEXT_FLAG
+                }
             } else {
-                holder.title.setTextColor(ContextCompat.getColor(context, R.color.titleText))
-                holder.date.setTextColor(ContextCompat.getColor(context, R.color.dateText))
-                titlePaint.flags = holder.title.paintFlags and STRIKE_THRU_TEXT_FLAG.inv()
-                datePaint.flags = holder.date.paintFlags and STRIKE_THRU_TEXT_FLAG.inv()
+                binding.programTitle.let {
+                    it.setTextColor(ContextCompat.getColor(context, R.color.titleText))
+                    it.paint.flags = it.paintFlags and STRIKE_THRU_TEXT_FLAG.inv()
+                }
+                binding.programDate.let {
+                    it.setTextColor(ContextCompat.getColor(context, R.color.dateText))
+                    it.paint.flags = it.paintFlags and STRIKE_THRU_TEXT_FLAG.inv()
+                }
             }
         }
-        return view!!
+        return binding.root
     }
 
     private fun getDateText(item: Program): String {
