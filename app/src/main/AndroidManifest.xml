@@ -34,7 +34,7 @@
             android:label="@string/channel_schedule"
             android:theme="@style/AppTheme.ChannelScheduleActivityTheme" />
         <activity android:name="ProgramDetail" />
-        <activity android:name="ProgramActivity" />
+        <activity android:name=".view.ProgramActivity" />
         <activity
             android:name=".view.PreferenceActivity"
             android:label="@string/settings" />

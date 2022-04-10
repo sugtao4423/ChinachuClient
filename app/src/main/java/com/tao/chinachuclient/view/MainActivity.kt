@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.tao.chinachuclient.ProgramActivity
 import com.tao.chinachuclient.R
 import com.tao.chinachuclient.viewmodel.MainActivityViewModel
 
