@@ -10,6 +10,11 @@ import kotlinx.coroutines.withContext
 
 class RuleActivityViewModel(app: Application) : BaseActivityProgramViewModel(app) {
 
+    init {
+        refreshActionBarTitle()
+        loadData(false)
+    }
+
     override fun refreshActionBarTitle(count: Int) {
         var title = app.applicationContext.resources.getString(R.string.rule)
         if (count >= 0) {

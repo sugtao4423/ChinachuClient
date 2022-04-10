@@ -56,9 +56,6 @@ class RuleActivity : AppCompatActivity() {
             adapter.clear()
             adapter.addAll(it.map { obj -> obj as Rule })
         }
-
-        viewModel.refreshActionBarTitle()
-        viewModel.loadData(false)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
