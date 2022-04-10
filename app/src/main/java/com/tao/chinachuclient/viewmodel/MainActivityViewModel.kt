@@ -11,6 +11,7 @@ import com.hadilq.liveevent.LiveEvent
 import com.tao.chinachuclient.*
 import com.tao.chinachuclient.view.ChannelScheduleActivity
 import com.tao.chinachuclient.view.PreferenceActivity
+import com.tao.chinachuclient.view.RuleActivity
 import kotlinx.coroutines.launch
 
 class MainActivityViewModel(application: Application) : AndroidViewModel(application) {

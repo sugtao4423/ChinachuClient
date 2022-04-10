@@ -41,7 +41,7 @@
         <activity
             android:name=".view.AddServerActivity"
             android:label="@string/add_server" />
-        <activity android:name="RuleActivity" />
+        <activity android:name=".view.RuleActivity" />
         <activity android:name="RuleDetail" />
         <activity
             android:name="ShowImage"
