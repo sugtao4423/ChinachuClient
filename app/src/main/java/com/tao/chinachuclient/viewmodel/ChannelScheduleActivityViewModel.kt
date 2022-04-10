@@ -62,7 +62,7 @@ class ChannelScheduleActivityViewModel(application: Application) : AndroidViewMo
                     else -> 0
                 }
             }
-            _programList.value = result!!
+            result.let { _programList.value = it }
 
             val now = Date().time
             result.forEachIndexed { index, program ->
