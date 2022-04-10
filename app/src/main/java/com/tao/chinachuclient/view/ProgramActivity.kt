@@ -78,9 +78,6 @@ class ProgramActivity : AppCompatActivity() {
         viewModel.onRecordedListCleanUpSuccess.observe(this) {
             showRecordedCleanUpSuccessDialog()
         }
-
-        viewModel.refreshActionBarTitle()
-        viewModel.loadData(false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

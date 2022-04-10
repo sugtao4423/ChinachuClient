@@ -3,6 +3,7 @@ package com.tao.chinachuclient.viewmodel
 import android.app.Application
 import android.view.View
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.hadilq.liveevent.LiveEvent
 import com.tao.chinachuclient.R
@@ -19,9 +20,15 @@ import java.util.*
 class ProgramActivityViewModel(app: Application) : BaseActivityProgramViewModel(app) {
 
     var listType = -1
+        set(value) {
+            if (field == value) return
+            field = value
+            refreshActionBarTitle()
+            loadData(false)
+        }
     var query: String? = null
 
-    private val _filteredProgramList = LiveEvent<Array<*>>()
+    private val _filteredProgramList = MutableLiveData<Array<*>>()
     val filteredProgramList: LiveData<Array<*>> = _filteredProgramList
 
     private val _toggleLoadingProgressDialog = LiveEvent<Unit>()

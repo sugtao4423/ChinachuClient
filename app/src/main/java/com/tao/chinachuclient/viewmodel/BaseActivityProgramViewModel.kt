@@ -16,8 +16,8 @@ abstract class BaseActivityProgramViewModel(app: Application) : AndroidViewModel
     val isShowSwipeRefresh = MutableLiveData(false)
 
     val onToast = LiveEvent<String>()
-    val actionBarTitle = LiveEvent<String>()
-    val programList = LiveEvent<Array<*>>()
+    val actionBarTitle = MutableLiveData<String>()
+    val programList = MutableLiveData<Array<*>>()
 
     abstract fun refreshActionBarTitle(count: Int = -1)
 
