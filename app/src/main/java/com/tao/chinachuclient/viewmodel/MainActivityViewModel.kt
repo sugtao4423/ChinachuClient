@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.hadilq.liveevent.LiveEvent
 import com.tao.chinachuclient.*
+import com.tao.chinachuclient.view.ChannelScheduleActivity
 import com.tao.chinachuclient.view.PreferenceActivity
 import kotlinx.coroutines.launch
 

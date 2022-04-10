@@ -30,7 +30,7 @@
             android:label="@string/change_server_settings"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="ChannelScheduleActivity"
+            android:name=".view.ChannelScheduleActivity"
             android:label="@string/channel_schedule"
             android:theme="@style/AppTheme.ChannelScheduleActivityTheme" />
         <activity android:name="ProgramDetail" />
