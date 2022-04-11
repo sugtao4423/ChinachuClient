@@ -10,10 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/capPos"
         android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/capPos"
-        android:layout_toLeftOf="@+id/capPos" />
+        android:layout_toStartOf="@+id/capPos" />
 
     <EditText
         android:id="@+id/capPos"
@@ -21,7 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:ems="10"
         android:hint="@string/noHint"
         android:importantForAutofill="no"
