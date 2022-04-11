@@ -17,7 +17,7 @@ class App : Application() {
     private val serverDatabase by lazy { ServerRoomDatabase.getDatabase(this) }
     val serverRepository by lazy { ServerRepository(serverDatabase.serverDao()) }
 
-    private val prefRepository by lazy { PrefRepository(this) }
+    val prefRepository by lazy { PrefRepository(this) }
 
     var chinachuInitialized = false
         private set

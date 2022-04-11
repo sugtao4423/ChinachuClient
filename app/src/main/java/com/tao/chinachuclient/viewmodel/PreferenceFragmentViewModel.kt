@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.hadilq.liveevent.LiveEvent
 import com.tao.chinachuclient.App
 import com.tao.chinachuclient.R
-import com.tao.chinachuclient.model.PrefRepository
 import kotlinx.coroutines.launch
 
 class PreferenceFragmentViewModel(application: Application) : AndroidViewModel(application) {
@@ -71,7 +70,7 @@ class PreferenceFragmentViewModel(application: Application) : AndroidViewModel(a
             app.serverRepository.delete(chinachuAddress)
             val servers = app.serverRepository.getAll()
             if (servers.isEmpty()) {
-                PrefRepository(app.applicationContext).clear()
+                app.prefRepository.clear()
             } else {
                 app.changeCurrentServer(servers.first())
             }
