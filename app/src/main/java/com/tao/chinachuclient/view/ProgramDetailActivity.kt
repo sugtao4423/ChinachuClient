@@ -112,7 +112,7 @@ class ProgramDetailActivity : AppCompatActivity() {
             it.setPositiveButton(R.string.ok) { _, _ ->
                 viewModel.openCapture(
                     binding.capPos.text.toString().toInt(),
-                    binding.capSize.text.toString()
+                    binding.capResolution.text.toString()
                 )
             }
             it.setNeutralButton(R.string.zoom_this_state) { _, _ ->
