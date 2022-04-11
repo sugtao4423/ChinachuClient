@@ -25,10 +25,6 @@ class App : Application() {
         private set
     lateinit var currentServer: Server
         private set
-    var streaming: Boolean = false
-        private set
-    var encStreaming: Boolean = false
-        private set
     var reloadList: Boolean = false
 
     override fun onCreate() {
@@ -45,8 +41,6 @@ class App : Application() {
             val username = String(Base64.decode(it.username, Base64.DEFAULT))
             val password = String(Base64.decode(it.password, Base64.DEFAULT))
             chinachu = Chinachu4j(it.chinachuAddress, username, password)
-            streaming = it.streaming
-            encStreaming = it.encStreaming
             chinachuInitialized = true
         }
     }

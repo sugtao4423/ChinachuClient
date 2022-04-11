@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.widget.AdapterView
+import com.tao.chinachuclient.view.ProgramDetailActivity
 import sugtao4423.library.chinachu4j.Program
 import sugtao4423.library.chinachu4j.Recorded
 import sugtao4423.library.chinachu4j.Reserve
@@ -15,7 +16,7 @@ class ProgramListClickListener(private val context: Context, private val type: I
             return
         }
 
-        val i = Intent(context, ProgramDetail::class.java)
+        val i = Intent(context, ProgramDetailActivity::class.java)
         when (type) {
             Type.RESERVES -> i.putExtra("reserve", (parent.getItemAtPosition(position) as Reserve))
             Type.RECORDED -> i.putExtra("recorded", (parent.getItemAtPosition(position) as Recorded))
