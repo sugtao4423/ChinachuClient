@@ -95,11 +95,7 @@ class ProgramDetailActivity : AppCompatActivity() {
 
     private fun showOpenThumbnailDialog(data: ProgramDetailActivityViewModel.OpenThumbnailDialogData) {
         val binding = CaptureDialogBinding.inflate(layoutInflater).also {
-            it.capSeek.visibility = data.visibilityPosition
-            it.capPos.visibility = data.visibilityPosition
-
-            it.capSeek.max = data.programLength - 10
-            it.capSeek.progress = data.selectedSecond
+            it.data = data
             it.capSeek.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                     it.capPos.setText(progress.toString())
@@ -108,10 +104,6 @@ class ProgramDetailActivity : AppCompatActivity() {
                 override fun onStartTrackingTouch(seekBar: SeekBar?) {}
                 override fun onStopTrackingTouch(seekBar: SeekBar?) {}
             })
-
-            it.capPos.setText(data.selectedSecond.toString())
-            val digit = data.programLength.toString().count() + 1
-            it.capPos.width = (digit * it.capPos.textSize).toInt()
         }
 
         AlertDialog.Builder(this).also {
