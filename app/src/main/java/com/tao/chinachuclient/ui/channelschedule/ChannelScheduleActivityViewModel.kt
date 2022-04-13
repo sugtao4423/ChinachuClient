@@ -1,4 +1,4 @@
-package com.tao.chinachuclient.viewmodel
+package com.tao.chinachuclient.ui.channelschedule
 
 import android.app.Application
 import android.net.Uri

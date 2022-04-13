@@ -1,4 +1,4 @@
-package com.tao.chinachuclient.view
+package com.tao.chinachuclient.ui.programdetail
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -17,7 +17,7 @@ import com.tao.chinachuclient.R
 import com.tao.chinachuclient.SelectionLinkMovementMethod
 import com.tao.chinachuclient.databinding.ActivityProgramDetailBinding
 import com.tao.chinachuclient.databinding.CaptureDialogBinding
-import com.tao.chinachuclient.viewmodel.ProgramDetailActivityViewModel
+import com.tao.chinachuclient.ui.showimage.ShowImageActivity
 import sugtao4423.library.chinachu4j.Program
 import sugtao4423.library.chinachu4j.Recorded
 import sugtao4423.library.chinachu4j.Reserve

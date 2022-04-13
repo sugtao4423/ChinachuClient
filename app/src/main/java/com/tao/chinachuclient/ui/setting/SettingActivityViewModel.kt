@@ -1,4 +1,4 @@
-package com.tao.chinachuclient.viewmodel
+package com.tao.chinachuclient.ui.setting
 
 import android.app.Application
 import android.util.Base64
@@ -10,6 +10,7 @@ import com.hadilq.liveevent.LiveEventConfig
 import com.tao.chinachuclient.R
 import com.tao.chinachuclient.entity.Server
 import com.tao.chinachuclient.model.EncodeUtil
+import com.tao.chinachuclient.ui.BaseActivitySettingViewModel
 import kotlinx.coroutines.launch
 
 class SettingActivityViewModel(application: Application) :

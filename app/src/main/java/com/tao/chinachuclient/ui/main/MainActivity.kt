@@ -1,4 +1,4 @@
-package com.tao.chinachuclient.view
+package com.tao.chinachuclient.ui.main
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -10,7 +10,8 @@ import android.widget.ListView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.tao.chinachuclient.R
-import com.tao.chinachuclient.viewmodel.MainActivityViewModel
+import com.tao.chinachuclient.ui.addserver.AddServerActivity
+import com.tao.chinachuclient.ui.program.ProgramActivity
 
 class MainActivity : AppCompatActivity() {
 

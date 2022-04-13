@@ -5,7 +5,7 @@
 
         <variable
             name="data"
-            type="com.tao.chinachuclient.viewmodel.ProgramDetailActivityViewModel.OpenThumbnailDialogData" />
+            type="com.tao.chinachuclient.ui.programdetail.ProgramDetailActivityViewModel.OpenThumbnailDialogData" />
     </data>
 
     <RelativeLayout

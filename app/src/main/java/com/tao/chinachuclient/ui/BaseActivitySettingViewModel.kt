@@ -1,4 +1,4 @@
-package com.tao.chinachuclient.viewmodel
+package com.tao.chinachuclient.ui
 
 import android.app.Application
 import android.content.Context

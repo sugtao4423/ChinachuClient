@@ -1,4 +1,4 @@
-package com.tao.chinachuclient.view
+package com.tao.chinachuclient.ui.ruledetail
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -9,7 +9,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.tao.chinachuclient.R
 import com.tao.chinachuclient.databinding.ActivityRuleDetailBinding
-import com.tao.chinachuclient.viewmodel.RuleDetailActivityViewModel
 import sugtao4423.library.chinachu4j.Rule
 import sugtao4423.support.progressdialog.ProgressDialog
 

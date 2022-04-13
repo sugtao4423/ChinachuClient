@@ -1,4 +1,4 @@
-package com.tao.chinachuclient.view
+package com.tao.chinachuclient.ui.setting
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -7,7 +7,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.tao.chinachuclient.R
 import com.tao.chinachuclient.databinding.ActivitySettingBinding
-import com.tao.chinachuclient.viewmodel.SettingActivityViewModel
 
 class SettingActivity : AppCompatActivity() {
 

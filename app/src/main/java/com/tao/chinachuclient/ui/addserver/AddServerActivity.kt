@@ -1,4 +1,4 @@
-package com.tao.chinachuclient.view
+package com.tao.chinachuclient.ui.addserver
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.tao.chinachuclient.R
 import com.tao.chinachuclient.databinding.ActivitySettingBinding
-import com.tao.chinachuclient.viewmodel.AddServerActivityViewModelViewModel
+import com.tao.chinachuclient.ui.main.MainActivity
 import sugtao4423.support.progressdialog.ProgressDialog
 
 class AddServerActivity : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.tao.chinachuclient.view
+package com.tao.chinachuclient.ui.rule
 
 import android.content.Intent
 import android.graphics.Color
@@ -10,7 +10,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.tao.chinachuclient.RuleListAdapter
 import com.tao.chinachuclient.databinding.ActivityProgramBinding
-import com.tao.chinachuclient.viewmodel.RuleActivityViewModel
+import com.tao.chinachuclient.ui.ruledetail.RuleDetailActivity
 import sugtao4423.library.chinachu4j.Rule
 
 class RuleActivity : AppCompatActivity() {

@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.tao.chinachuclient.viewmodel.RuleDetailActivityViewModel" />
+            type="com.tao.chinachuclient.ui.ruledetail.RuleDetailActivityViewModel" />
     </data>
 
     <LinearLayout

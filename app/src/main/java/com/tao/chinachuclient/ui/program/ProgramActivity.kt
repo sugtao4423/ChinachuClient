@@ -1,4 +1,4 @@
-package com.tao.chinachuclient.view
+package com.tao.chinachuclient.ui.program
 
 import android.app.AlertDialog
 import android.graphics.Color
@@ -11,7 +11,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.tao.chinachuclient.*
 import com.tao.chinachuclient.databinding.ActivityProgramBinding
-import com.tao.chinachuclient.viewmodel.ProgramActivityViewModel
 import sugtao4423.support.progressdialog.ProgressDialog
 
 class ProgramActivity : AppCompatActivity() {

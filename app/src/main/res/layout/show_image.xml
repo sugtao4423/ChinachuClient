@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.tao.chinachuclient.viewmodel.ShowImageActivityViewModel" />
+            type="com.tao.chinachuclient.ui.showimage.ShowImageActivityViewModel" />
     </data>
 
     <FrameLayout

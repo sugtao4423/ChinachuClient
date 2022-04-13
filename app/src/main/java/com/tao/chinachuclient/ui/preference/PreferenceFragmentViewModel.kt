@@ -1,4 +1,4 @@
-package com.tao.chinachuclient.viewmodel
+package com.tao.chinachuclient.ui.preference
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

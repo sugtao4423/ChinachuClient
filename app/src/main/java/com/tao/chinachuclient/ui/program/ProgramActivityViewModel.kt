@@ -1,4 +1,4 @@
-package com.tao.chinachuclient.viewmodel
+package com.tao.chinachuclient.ui.program
 
 import android.app.Application
 import android.view.View
@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.hadilq.liveevent.LiveEvent
 import com.tao.chinachuclient.R
 import com.tao.chinachuclient.Type
+import com.tao.chinachuclient.ui.BaseActivityProgramViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

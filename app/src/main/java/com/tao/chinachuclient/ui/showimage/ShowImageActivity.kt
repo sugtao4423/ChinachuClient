@@ -1,4 +1,4 @@
-package com.tao.chinachuclient.view
+package com.tao.chinachuclient.ui.showimage
 
 import android.Manifest
 import android.app.AlertDialog
@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.tao.chinachuclient.R
 import com.tao.chinachuclient.databinding.ShowImageBinding
-import com.tao.chinachuclient.viewmodel.ShowImageActivityViewModel
 
 class ShowImageActivity : AppCompatActivity() {
 

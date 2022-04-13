@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.widget.AdapterView
-import com.tao.chinachuclient.view.ProgramDetailActivity
+import com.tao.chinachuclient.ui.programdetail.ProgramDetailActivity
 import sugtao4423.library.chinachu4j.Program
 import sugtao4423.library.chinachu4j.Recorded
 import sugtao4423.library.chinachu4j.Reserve

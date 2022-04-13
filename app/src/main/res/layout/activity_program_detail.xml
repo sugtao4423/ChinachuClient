@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.tao.chinachuclient.viewmodel.ProgramDetailActivityViewModel" />
+            type="com.tao.chinachuclient.ui.programdetail.ProgramDetailActivityViewModel" />
     </data>
 
     <ScrollView

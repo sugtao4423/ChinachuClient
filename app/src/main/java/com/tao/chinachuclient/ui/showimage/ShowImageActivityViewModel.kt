@@ -1,4 +1,4 @@
-package com.tao.chinachuclient.viewmodel
+package com.tao.chinachuclient.ui.showimage
 
 import android.Manifest
 import android.app.Application
@@ -18,7 +18,6 @@ import androidx.lifecycle.MutableLiveData
 import com.hadilq.liveevent.LiveEvent
 import com.tao.chinachuclient.App
 import com.tao.chinachuclient.R
-import com.tao.chinachuclient.view.ShowImageActivity
 import java.io.File
 import java.io.FileOutputStream
 

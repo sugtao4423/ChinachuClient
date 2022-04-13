@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.tao.chinachuclient.viewmodel.ChannelScheduleActivityViewModel" />
+            type="com.tao.chinachuclient.ui.channelschedule.ChannelScheduleActivityViewModel" />
     </data>
 
     <LinearLayout

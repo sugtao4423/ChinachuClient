@@ -1,4 +1,4 @@
-package com.tao.chinachuclient.view
+package com.tao.chinachuclient.ui.preference
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -9,7 +9,8 @@ import androidx.preference.CheckBoxPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.tao.chinachuclient.R
-import com.tao.chinachuclient.viewmodel.PreferenceFragmentViewModel
+import com.tao.chinachuclient.ui.addserver.AddServerActivity
+import com.tao.chinachuclient.ui.setting.SettingActivity
 
 class PreferenceFragment : PreferenceFragmentCompat() {
 

@@ -1,4 +1,4 @@
-package com.tao.chinachuclient.view
+package com.tao.chinachuclient.ui.channelschedule
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -12,7 +12,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.tao.chinachuclient.*
 import com.tao.chinachuclient.databinding.ActivityChannelScheduleBinding
-import com.tao.chinachuclient.viewmodel.ChannelScheduleActivityViewModel
+import com.tao.chinachuclient.ui.program.ProgramActivity
 
 class ChannelScheduleActivity : AppCompatActivity() {
 

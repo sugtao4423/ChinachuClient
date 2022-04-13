@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.tao.chinachuclient.viewmodel.BaseActivitySettingViewModel" />
+            type="com.tao.chinachuclient.ui.BaseActivitySettingViewModel" />
     </data>
 
     <ScrollView

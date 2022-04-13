@@ -1,10 +1,9 @@
-package com.tao.chinachuclient.view
+package com.tao.chinachuclient.ui.preference
 
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.tao.chinachuclient.viewmodel.PreferenceFragmentViewModel
 
 class PreferenceActivity : AppCompatActivity() {
 

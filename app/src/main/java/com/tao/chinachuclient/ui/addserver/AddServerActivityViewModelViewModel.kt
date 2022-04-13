@@ -1,4 +1,4 @@
-package com.tao.chinachuclient.viewmodel
+package com.tao.chinachuclient.ui.addserver
 
 import android.app.Application
 import android.util.Base64
@@ -8,6 +8,7 @@ import com.hadilq.liveevent.LiveEvent
 import com.tao.chinachuclient.R
 import com.tao.chinachuclient.entity.Server
 import com.tao.chinachuclient.model.EncodeUtil
+import com.tao.chinachuclient.ui.BaseActivitySettingViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

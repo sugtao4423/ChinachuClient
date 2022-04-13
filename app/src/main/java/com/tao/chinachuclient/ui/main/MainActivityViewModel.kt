@@ -1,4 +1,4 @@
-package com.tao.chinachuclient.viewmodel
+package com.tao.chinachuclient.ui.main
 
 import android.app.Application
 import android.view.Menu
@@ -8,10 +8,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.hadilq.liveevent.LiveEvent
-import com.tao.chinachuclient.*
-import com.tao.chinachuclient.view.ChannelScheduleActivity
-import com.tao.chinachuclient.view.PreferenceActivity
-import com.tao.chinachuclient.view.RuleActivity
+import com.tao.chinachuclient.App
+import com.tao.chinachuclient.Type
+import com.tao.chinachuclient.ui.channelschedule.ChannelScheduleActivity
+import com.tao.chinachuclient.ui.preference.PreferenceActivity
+import com.tao.chinachuclient.ui.rule.RuleActivity
 import kotlinx.coroutines.launch
 
 class MainActivityViewModel(application: Application) : AndroidViewModel(application) {
