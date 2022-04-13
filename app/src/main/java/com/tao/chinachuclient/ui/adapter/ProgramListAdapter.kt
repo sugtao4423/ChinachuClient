@@ -10,8 +10,8 @@ import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import com.tao.chinachuclient.App
 import com.tao.chinachuclient.R
-import com.tao.chinachuclient.Type
 import com.tao.chinachuclient.databinding.ProgramListLayoutBinding
+import com.tao.chinachuclient.ui.Type
 import sugtao4423.library.chinachu4j.Program
 import sugtao4423.library.chinachu4j.Recorded
 import sugtao4423.library.chinachu4j.Reserve

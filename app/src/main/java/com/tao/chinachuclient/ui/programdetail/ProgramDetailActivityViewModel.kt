@@ -14,7 +14,7 @@ import androidx.lifecycle.viewModelScope
 import com.hadilq.liveevent.LiveEvent
 import com.tao.chinachuclient.App
 import com.tao.chinachuclient.R
-import com.tao.chinachuclient.Type
+import com.tao.chinachuclient.ui.Type
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

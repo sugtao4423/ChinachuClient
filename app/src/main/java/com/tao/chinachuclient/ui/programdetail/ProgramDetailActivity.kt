@@ -14,9 +14,9 @@ import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import com.tao.chinachuclient.R
-import com.tao.chinachuclient.SelectionLinkMovementMethod
 import com.tao.chinachuclient.databinding.ActivityProgramDetailBinding
 import com.tao.chinachuclient.databinding.CaptureDialogBinding
+import com.tao.chinachuclient.ui.SelectionLinkMovementMethod
 import com.tao.chinachuclient.ui.showimage.ShowImageActivity
 import sugtao4423.library.chinachu4j.Program
 import sugtao4423.library.chinachu4j.Recorded

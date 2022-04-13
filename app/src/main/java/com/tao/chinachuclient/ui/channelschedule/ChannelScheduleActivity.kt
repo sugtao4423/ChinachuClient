@@ -11,11 +11,11 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.tao.chinachuclient.App
-import com.tao.chinachuclient.ProgramListClickListener
 import com.tao.chinachuclient.R
-import com.tao.chinachuclient.Type
 import com.tao.chinachuclient.databinding.ActivityChannelScheduleBinding
+import com.tao.chinachuclient.ui.Type
 import com.tao.chinachuclient.ui.adapter.ProgramListAdapter
+import com.tao.chinachuclient.ui.listener.ProgramListClickListener
 import com.tao.chinachuclient.ui.program.ProgramActivity
 
 class ChannelScheduleActivity : AppCompatActivity() {

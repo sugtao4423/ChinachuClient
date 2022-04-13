@@ -1,9 +1,10 @@
-package com.tao.chinachuclient
+package com.tao.chinachuclient.ui.listener
 
 import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.widget.AdapterView
+import com.tao.chinachuclient.ui.Type
 import com.tao.chinachuclient.ui.programdetail.ProgramDetailActivity
 import sugtao4423.library.chinachu4j.Program
 import sugtao4423.library.chinachu4j.Recorded

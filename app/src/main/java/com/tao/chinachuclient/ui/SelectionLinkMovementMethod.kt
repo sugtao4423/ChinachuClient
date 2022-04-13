@@ -1,4 +1,4 @@
-package com.tao.chinachuclient
+package com.tao.chinachuclient.ui
 
 import android.content.Context
 import android.content.Intent

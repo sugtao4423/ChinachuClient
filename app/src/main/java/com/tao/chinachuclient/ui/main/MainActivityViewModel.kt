@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.hadilq.liveevent.LiveEvent
 import com.tao.chinachuclient.App
-import com.tao.chinachuclient.Type
+import com.tao.chinachuclient.ui.Type
 import com.tao.chinachuclient.ui.channelschedule.ChannelScheduleActivity
 import com.tao.chinachuclient.ui.preference.PreferenceActivity
 import com.tao.chinachuclient.ui.rule.RuleActivity
