@@ -12,14 +12,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import sugtao4423.library.chinachu4j.Rule
 
-class RuleListAdapter(context: Context) : ArrayAdapter<Rule>(context, android.R.layout.simple_list_item_1) {
+class RuleListAdapter(context: Context) :
+    ArrayAdapter<Rule>(context, android.R.layout.simple_list_item_1) {
 
-    private val mInflater = context.getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    private val oldCategoryColor = (context.applicationContext as App).currentServer.oldCategoryColor
+    private val mInflater =
+        context.getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private val oldCategoryColor =
+        (context.applicationContext as App).currentServer.oldCategoryColor
 
     private data class ViewHolder(
-            val title: TextView,
-            val channel: TextView
+        val title: TextView,
+        val channel: TextView
     )
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -40,64 +43,60 @@ class RuleListAdapter(context: Context) : ArrayAdapter<Rule>(context, android.R.
 
         if (item.categories.isNotEmpty()) {
             view?.setBackgroundResource(
-                    if (oldCategoryColor) {
-                        when (item.categories[0]) {
-                            "anime" -> R.drawable.old_anime
-                            "information" -> R.drawable.old_information
-                            "news" -> R.drawable.old_news
-                            "sports" -> R.drawable.old_sports
-                            "variety" -> R.drawable.old_variety
-                            "drama" -> R.drawable.old_drama
-                            "music" -> R.drawable.old_music
-                            "cinema" -> R.drawable.old_cinema
-                            "etc" -> R.drawable.old_etc
-                            else -> R.drawable.old_etc
-                        }
-                    } else {
-                        when (item.categories[0]) {
-                            "anime" -> R.drawable.anime
-                            "information" -> R.drawable.information
-                            "news" -> R.drawable.news
-                            "sports" -> R.drawable.sports
-                            "variety" -> R.drawable.variety
-                            "drama" -> R.drawable.drama
-                            "music" -> R.drawable.music
-                            "cinema" -> R.drawable.cinema
-                            "etc" -> R.drawable.etc
-                            else -> R.drawable.etc
-                        }
-                    })
+                if (oldCategoryColor) {
+                    when (item.categories[0]) {
+                        "anime" -> R.drawable.old_anime
+                        "information" -> R.drawable.old_information
+                        "news" -> R.drawable.old_news
+                        "sports" -> R.drawable.old_sports
+                        "variety" -> R.drawable.old_variety
+                        "drama" -> R.drawable.old_drama
+                        "music" -> R.drawable.old_music
+                        "cinema" -> R.drawable.old_cinema
+                        "etc" -> R.drawable.old_etc
+                        else -> R.drawable.old_etc
+                    }
+                } else {
+                    when (item.categories[0]) {
+                        "anime" -> R.drawable.anime
+                        "information" -> R.drawable.information
+                        "news" -> R.drawable.news
+                        "sports" -> R.drawable.sports
+                        "variety" -> R.drawable.variety
+                        "drama" -> R.drawable.drama
+                        "music" -> R.drawable.music
+                        "cinema" -> R.drawable.cinema
+                        "etc" -> R.drawable.etc
+                        else -> R.drawable.etc
+                    }
+                }
+            )
         }
 
-        val title = item.reserveTitles.let {
-            if (it.isEmpty()) {
-                "any"
-            } else {
-                it.joinToString()
-            }
-        }
-
-        val channel = item.channels.let {
-            if (it.isEmpty()) {
-                "any"
-            } else {
-                it.joinToString()
-            }
-        }
+        val title = item.reserveTitles.let { if (it.isEmpty()) "any" else it.joinToString() }
+        val channel = item.channels.let { if (it.isEmpty()) "any" else it.joinToString() }
 
         holder.title.text = title
         holder.channel.text = channel
 
         if (item.isDisabled) {
-            holder.title.setTextColor(Color.GRAY)
-            holder.channel.setTextColor(Color.GRAY)
-            holder.title.paint.flags = holder.title.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            holder.channel.paint.flags = holder.channel.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            holder.title.let {
+                it.setTextColor(Color.GRAY)
+                it.paint.flags = it.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            }
+            holder.channel.let {
+                it.setTextColor(Color.GRAY)
+                it.paint.flags = it.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            }
         } else {
-            holder.title.setTextColor(ContextCompat.getColor(context, R.color.titleText))
-            holder.channel.setTextColor(ContextCompat.getColor(context, R.color.dateText))
-            holder.title.paint.flags = holder.title.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-            holder.channel.paint.flags = holder.channel.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+            holder.title.let {
+                it.setTextColor(ContextCompat.getColor(context, R.color.titleText))
+                it.paint.flags = it.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+            }
+            holder.channel.let {
+                it.setTextColor(ContextCompat.getColor(context, R.color.dateText))
+                it.paint.flags = it.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+            }
         }
 
         return view!!
