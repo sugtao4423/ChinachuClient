@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.tao.chinachuclient.App
 import com.tao.chinachuclient.R
 import com.tao.chinachuclient.databinding.ActivityChannelScheduleBinding
+import com.tao.chinachuclient.ui.StreamingUtil
 import com.tao.chinachuclient.ui.Type
 import com.tao.chinachuclient.ui.adapter.ProgramListAdapter
 import com.tao.chinachuclient.ui.listener.ProgramListClickListener
@@ -113,7 +114,7 @@ class ChannelScheduleActivity : AppCompatActivity() {
                     } else {
                         viewModel.getCurrentChannelEncodeStreamingUri()
                     }
-                    startActivity(Intent(Intent.ACTION_VIEW, uri))
+                    StreamingUtil(this@ChannelScheduleActivity).startStreamingApp(uri)
                 }
                 show()
             }

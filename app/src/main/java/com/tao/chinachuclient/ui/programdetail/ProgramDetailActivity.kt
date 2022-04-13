@@ -17,6 +17,7 @@ import com.tao.chinachuclient.R
 import com.tao.chinachuclient.databinding.ActivityProgramDetailBinding
 import com.tao.chinachuclient.databinding.CaptureDialogBinding
 import com.tao.chinachuclient.ui.SelectionLinkMovementMethod
+import com.tao.chinachuclient.ui.StreamingUtil
 import com.tao.chinachuclient.ui.showimage.ShowImageActivity
 import sugtao4423.library.chinachu4j.Program
 import sugtao4423.library.chinachu4j.Recorded
@@ -84,8 +85,8 @@ class ProgramDetailActivity : AppCompatActivity() {
                 putExtra("pos", it.pos)
             })
         }
-        viewModel.startActionViewActivity.observe(this) {
-            startActivity(Intent(Intent.ACTION_VIEW, it))
+        viewModel.startStreamingApp.observe(this) {
+            StreamingUtil(this).startStreamingApp(it)
         }
         viewModel.operationResultDialog.observe(this) {
             AlertDialog.Builder(this).setTitle(it.title).setMessage(it.message).show()
@@ -152,7 +153,7 @@ class ProgramDetailActivity : AppCompatActivity() {
                 confirm(R.string.is_skip_reserve)
             }
             ProgramDetailActivityViewModel.MenuId.PLAY_STREAMING -> {
-                viewModel.startPlayStreamingActivity()
+                viewModel.startPlayStreamingApp()
             }
             ProgramDetailActivityViewModel.MenuId.PLAY_ENCODE_STREAMING -> {
                 viewModel.startPlayEncodeStreamingActivity()

@@ -113,8 +113,8 @@ class ProgramDetailActivityViewModel(application: Application) : AndroidViewMode
     private val _startShowImageActivity = LiveEvent<ShowImageActivityData>()
     val startShowImageActivity: LiveData<ShowImageActivityData> = _startShowImageActivity
 
-    private val _startActionViewActivity = LiveEvent<Uri>()
-    val startActionViewActivity: LiveData<Uri> = _startActionViewActivity
+    private val _startStreamingApp = LiveEvent<Uri>()
+    val startStreamingApp: LiveData<Uri> = _startStreamingApp
 
     data class OperationResultDialogData(
         val title: Int,
@@ -360,13 +360,13 @@ class ProgramDetailActivityViewModel(application: Application) : AndroidViewMode
         }
     }
 
-    fun startPlayStreamingActivity() {
+    fun startPlayStreamingApp() {
         val uri = when (programType) {
             Type.RECORDING -> Uri.parse(app.chinachu.getNonEncRecordingMovieURL(thisProgram.id))
             Type.RECORDED -> Uri.parse(app.chinachu.getNonEncRecordedMovieURL(thisProgram.id))
             else -> throw UnsupportedOperationException()
         }
-        _startActionViewActivity.value = uri
+        _startStreamingApp.value = uri
     }
 
     fun startPlayEncodeStreamingActivity() {
@@ -391,6 +391,6 @@ class ProgramDetailActivityViewModel(application: Application) : AndroidViewMode
             }
             else -> throw UnsupportedOperationException()
         }
-        _startActionViewActivity.value = uri
+        _startStreamingApp.value = uri
     }
 }
