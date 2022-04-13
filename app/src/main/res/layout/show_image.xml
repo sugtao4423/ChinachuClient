@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ShowImage">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.tenthbit.view.ZoomImageView
-        android:id="@+id/showImageImage"
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.tao.chinachuclient.viewmodel.ShowImageActivityViewModel" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
 
-    <ImageButton
-        android:id="@+id/showImageOption"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:background="#00000000"
-        android:contentDescription="@string/contentDescriptionCapture"
-        android:onClick="clickImageOption"
-        android:src="@drawable/ic_action_settings" />
+        <com.tenthbit.view.ZoomImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-</RelativeLayout>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:background="#00000000"
+            android:contentDescription="@string/contentDescriptionCapture"
+            android:onClick="@{() -> viewModel.clickImageOption()}"
+            android:src="@drawable/ic_action_settings" />
+    </RelativeLayout>
+</layout>

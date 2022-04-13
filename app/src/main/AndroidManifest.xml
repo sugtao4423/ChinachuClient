@@ -4,6 +4,9 @@
     package="com.tao.chinachuclient">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
 
     <application
         android:name="com.tao.chinachuclient.App"
@@ -44,7 +47,7 @@
         <activity android:name=".view.RuleActivity" />
         <activity android:name=".view.RuleDetailActivity" />
         <activity
-            android:name="ShowImage"
+            android:name=".view.ShowImageActivity"
             android:theme="@style/Theme.TranslucentBackground" />
     </application>
 

@@ -15,7 +15,6 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import com.tao.chinachuclient.R
 import com.tao.chinachuclient.SelectionLinkMovementMethod
-import com.tao.chinachuclient.ShowImage
 import com.tao.chinachuclient.databinding.ActivityProgramDetailBinding
 import com.tao.chinachuclient.databinding.CaptureDialogBinding
 import com.tao.chinachuclient.viewmodel.ProgramDetailActivityViewModel
@@ -79,7 +78,7 @@ class ProgramDetailActivity : AppCompatActivity() {
             showOpenThumbnailDialog(it)
         }
         viewModel.startShowImageActivity.observe(this) {
-            startActivity(Intent(this, ShowImage::class.java).apply {
+            startActivity(Intent(this, ShowImageActivity::class.java).apply {
                 putExtra("base64", it.base64)
                 putExtra("programId", it.programId)
                 putExtra("pos", it.pos)

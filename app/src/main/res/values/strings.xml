@@ -97,7 +97,7 @@
 
     <!-- ShowImage -->
     <string name="is_save">保存しますか？</string>
-    <string name="saved">保存しました</string>
+    <string name="saved">保存しました\n%s</string>
 
     <!-- Layout xml -->
     <string name="noHint" />
