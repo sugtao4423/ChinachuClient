@@ -8,8 +8,8 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.tao.chinachuclient.RuleListAdapter
 import com.tao.chinachuclient.databinding.ActivityProgramBinding
+import com.tao.chinachuclient.ui.adapter.RuleListAdapter
 import com.tao.chinachuclient.ui.ruledetail.RuleDetailActivity
 import sugtao4423.library.chinachu4j.Rule
 

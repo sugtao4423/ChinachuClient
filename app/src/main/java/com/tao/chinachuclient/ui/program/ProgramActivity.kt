@@ -9,8 +9,12 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.tao.chinachuclient.*
+import com.tao.chinachuclient.App
+import com.tao.chinachuclient.ProgramListClickListener
+import com.tao.chinachuclient.R
+import com.tao.chinachuclient.Type
 import com.tao.chinachuclient.databinding.ActivityProgramBinding
+import com.tao.chinachuclient.ui.adapter.ProgramListAdapter
 import sugtao4423.support.progressdialog.ProgressDialog
 
 class ProgramActivity : AppCompatActivity() {
