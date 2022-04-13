@@ -1,9 +1,6 @@
 package com.tao.chinachuclient
 
 import android.app.Application
-import android.os.Build
-import android.text.Html
-import android.text.Spanned
 import android.util.Base64
 import com.tao.chinachuclient.db.ServerRoomDatabase
 import com.tao.chinachuclient.entity.Server
@@ -48,14 +45,5 @@ class App : Application() {
     suspend fun changeCurrentServer(newServer: Server) {
         prefRepository.putChinachuAddress(newServer.chinachuAddress)
         reloadCurrentServer()
-    }
-
-    @Suppress("DEPRECATION")
-    fun fromHtml(html: String): Spanned {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY)
-        } else {
-            Html.fromHtml(html)
-        }
     }
 }
