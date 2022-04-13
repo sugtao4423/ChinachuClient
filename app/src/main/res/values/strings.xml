@@ -86,8 +86,7 @@
     <!-- RuleDetail -->
     <string name="delete_rule">ルール削除</string>
     <string name="is_delete">削除しますか？</string>
-    <string name="rule_number">ルールNo.</string>
-    <string name="target_title_to">"対象タイトル: "</string>
+    <string name="delete_rule_dialog_message">ルールNo.%d\n対象タイトル: %s</string>
     <string name="done_delete">削除完了</string>
     <string name="back_activity_must_list_refresh">前の画面に戻り、必ずリストを上に引っ張るなどでルール一覧を更新してください。</string>
 

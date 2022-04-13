@@ -8,7 +8,6 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.tao.chinachuclient.RuleDetail
 import com.tao.chinachuclient.RuleListAdapter
 import com.tao.chinachuclient.databinding.ActivityProgramBinding
 import com.tao.chinachuclient.viewmodel.RuleActivityViewModel
@@ -31,8 +30,8 @@ class RuleActivity : AppCompatActivity() {
         binding.programList.let {
             it.adapter = adapter
             it.onItemClickListener = AdapterView.OnItemClickListener { _, _, i, _ ->
-                startActivity(Intent(this, RuleDetail::class.java).apply {
-                    putExtra("position", i.toString())
+                startActivity(Intent(this, RuleDetailActivity::class.java).apply {
+                    putExtra("position", i)
                     putExtra("rule", adapter.getItem(i) as Rule)
                 })
             }
