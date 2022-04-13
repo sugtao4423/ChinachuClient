@@ -43,7 +43,7 @@
     <string name="plz_use_after_confirm_settings">エンコードの設定を確認してからご使用ください</string>
     <string name="choose_delete_server">削除するサーバーを選択</string>
     <string name="confirm_delete">削除の確認</string>
-    <string name="is_delete_server_below">以下のサーバーを削除しますか？</string>
+    <string name="is_delete_server_below">以下のサーバーを削除しますか？\n%s</string>
     <string name="deleted">削除しました</string>
 
     <!-- ProgramActivity -->
@@ -86,20 +86,18 @@
     <!-- RuleDetail -->
     <string name="delete_rule">ルール削除</string>
     <string name="is_delete">削除しますか？</string>
-    <string name="rule_number">ルールNo.</string>
-    <string name="target_title_to">"対象タイトル: "</string>
+    <string name="delete_rule_dialog_message">ルールNo.%d\n対象タイトル: %s</string>
     <string name="done_delete">削除完了</string>
     <string name="back_activity_must_list_refresh">前の画面に戻り、必ずリストを上に引っ張るなどでルール一覧を更新してください。</string>
 
     <!-- SettingActivity -->
     <string name="change_server_settings">サーバー設定変更</string>
     <string name="change_settings">設定変更</string>
-    <string name="change_current_server_settings">現在選択されているサーバーの設定を変更します</string>
-    <string name="current_server">現在選択中のサーバー</string>
+    <string name="change_current_server_settings">現在選択されているサーバーの設定を変更します\n\n現在選択中のサーバー\n%s</string>
 
     <!-- ShowImage -->
     <string name="is_save">保存しますか？</string>
-    <string name="saved">保存しました</string>
+    <string name="saved">保存しました\n%s</string>
 
     <!-- Layout xml -->
     <string name="noHint" />

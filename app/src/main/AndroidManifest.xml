@@ -4,6 +4,9 @@
     package="com.tao.chinachuclient">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
 
     <application
         android:name="com.tao.chinachuclient.App"
@@ -17,8 +20,8 @@
         android:theme="@style/AppTheme"
         tools:targetApi="n">
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:name=".ui.main.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,25 +29,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="SettingActivity"
+            android:name=".ui.setting.SettingActivity"
             android:label="@string/change_server_settings"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="ChannelScheduleActivity"
+            android:name=".ui.channelschedule.ChannelScheduleActivity"
             android:label="@string/channel_schedule"
             android:theme="@style/AppTheme.ChannelScheduleActivityTheme" />
-        <activity android:name="ProgramDetail" />
-        <activity android:name="ProgramActivity" />
+        <activity android:name=".ui.programdetail.ProgramDetailActivity" />
+        <activity android:name=".ui.program.ProgramActivity" />
         <activity
-            android:name="Preference"
+            android:name=".ui.preference.PreferenceActivity"
             android:label="@string/settings" />
         <activity
-            android:name="AddServer"
+            android:name=".ui.addserver.AddServerActivity"
             android:label="@string/add_server" />
-        <activity android:name="RuleActivity" />
-        <activity android:name="RuleDetail" />
+        <activity android:name=".ui.rule.RuleActivity" />
+        <activity android:name=".ui.ruledetail.RuleDetailActivity" />
         <activity
-            android:name="ShowImage"
+            android:name=".ui.showimage.ShowImageActivity"
             android:theme="@style/Theme.TranslucentBackground" />
     </application>
 

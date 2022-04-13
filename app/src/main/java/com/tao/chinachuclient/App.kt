@@ -1,17 +1,12 @@
 package com.tao.chinachuclient
 
 import android.app.Application
-import android.os.Build
-import android.text.Html
-import android.text.Spanned
 import android.util.Base64
-import android.widget.EditText
-import android.widget.Spinner
-import androidx.preference.PreferenceManager
 import com.tao.chinachuclient.db.ServerRoomDatabase
-import com.tao.chinachuclient.entity.Encode
 import com.tao.chinachuclient.entity.Server
+import com.tao.chinachuclient.model.PrefRepository
 import com.tao.chinachuclient.model.ServerRepository
+import kotlinx.coroutines.runBlocking
 import sugtao4423.library.chinachu4j.Chinachu4j
 
 class App : Application() {
@@ -19,70 +14,36 @@ class App : Application() {
     private val serverDatabase by lazy { ServerRoomDatabase.getDatabase(this) }
     val serverRepository by lazy { ServerRepository(serverDatabase.serverDao()) }
 
+    val prefRepository by lazy { PrefRepository(this) }
+
+    var chinachuInitialized = false
+        private set
     lateinit var chinachu: Chinachu4j
+        private set
     lateinit var currentServer: Server
-    var streaming: Boolean = false
-    var encStreaming: Boolean = false
+        private set
     var reloadList: Boolean = false
 
+    override fun onCreate() {
+        super.onCreate()
+        runBlocking {
+            reloadCurrentServer()
+        }
+    }
+
     suspend fun reloadCurrentServer() {
-        val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-        val currentChinachuAddress = pref.getString("chinachuAddress", "") ?: ""
+        val currentChinachuAddress = prefRepository.getChinachuAddress()
         serverRepository.findByAddress(currentChinachuAddress)?.let {
-            changeCurrentServer(it)
+            currentServer = it
+            val username = String(Base64.decode(it.username, Base64.DEFAULT))
+            val password = String(Base64.decode(it.password, Base64.DEFAULT))
+            chinachu = Chinachu4j(it.chinachuAddress, username, password)
+            chinachuInitialized = true
         }
     }
 
-    fun changeCurrentServer(newServer: Server) {
-        currentServer = newServer
-        chinachu = Chinachu4j(newServer.chinachuAddress,
-                String(Base64.decode(newServer.username, Base64.DEFAULT)),
-                String(Base64.decode(newServer.password, Base64.DEFAULT)))
-        streaming = newServer.streaming
-        encStreaming = newServer.encStreaming
-        PreferenceManager.getDefaultSharedPreferences(applicationContext).edit().apply {
-            putString("chinachuAddress", newServer.chinachuAddress)
-            apply()
-        }
+    suspend fun changeCurrentServer(newServer: Server) {
+        prefRepository.putChinachuAddress(newServer.chinachuAddress)
+        reloadCurrentServer()
     }
-
-    fun getEncodeSetting(type: Spinner,
-                         containerFormat: EditText, videoCodec: EditText, audioCodec: EditText,
-                         videoBitrate: EditText, videoBitrateFormat: Spinner,
-                         audioBitrate: EditText, audioBitrateFormat: Spinner,
-                         videoSize: EditText, frame: EditText): Encode {
-        var vb = ""
-        var ab = ""
-        if (videoBitrate.text.toString().isNotEmpty()) {
-            var videoBit = videoBitrate.text.toString().toInt()
-            videoBit *= if (videoBitrateFormat.selectedItemPosition == 0) 1000 else 1000000
-            vb = videoBit.toString()
-        }
-
-        if (audioBitrate.text.toString().isNotEmpty()) {
-            var audioBit = audioBitrate.text.toString().toInt()
-            audioBit *= if (audioBitrateFormat.selectedItemPosition == 0) 1000 else 1000000
-            ab = audioBit.toString()
-        }
-
-        return Encode(
-                type.selectedItem as String,
-                containerFormat.text.toString(),
-                videoCodec.text.toString(),
-                audioCodec.text.toString(),
-                vb,
-                ab,
-                videoSize.text.toString(),
-                frame.text.toString())
-    }
-
-    @Suppress("DEPRECATION")
-    fun fromHtml(html: String): Spanned {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY)
-        } else {
-            Html.fromHtml(html)
-        }
-    }
-
 }

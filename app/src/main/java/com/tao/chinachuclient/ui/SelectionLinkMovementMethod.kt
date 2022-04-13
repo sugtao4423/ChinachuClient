@@ -1,4 +1,4 @@
-package com.tao.chinachuclient
+package com.tao.chinachuclient.ui
 
 import android.content.Context
 import android.content.Intent
@@ -34,7 +34,8 @@ class SelectionLinkMovementMethod(val context: Context) : ArrowKeyMovementMethod
             val link = buffer.getSpans(off, off, URLSpan::class.java)
             if (link.isNotEmpty()) {
                 val url = link[0].url
-                if (url.contains("https") || url.contains("tel") || url.contains("mailto") || url.contains("http") || url.contains("https") || url.contains("www")) {
+                val reg = Regex("http|https|tel|mailto|www")
+                if (reg.containsMatchIn(url)) {
                     context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
                 }
                 return true

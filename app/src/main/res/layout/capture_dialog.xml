@@ -1,45 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <SeekBar
-        android:id="@+id/capSeek"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/capPos"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/capPos"
-        android:layout_toLeftOf="@+id/capPos" />
+    <data>
 
-    <EditText
-        android:id="@+id/capPos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:ems="10"
-        android:hint="@string/noHint"
-        android:importantForAutofill="no"
-        android:inputType="number">
+        <variable
+            name="data"
+            type="com.tao.chinachuclient.ui.programdetail.ProgramDetailActivityViewModel.OpenThumbnailDialogData" />
+    </data>
 
-        <requestFocus />
-    </EditText>
-
-    <EditText
-        android:id="@+id/capSize"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/capPos"
-        android:ems="10"
-        android:hint="@string/hintResolution"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:text="@string/text1280x720"
-        tools:ignore="TextFields" />
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <SeekBar
+            android:id="@+id/capSeek"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/capPos"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/capPos"
+            android:max="@{data.programLength - 10}"
+            android:progress="@{data.selectedSecond}"
+            android:visibility="@{data.visibilityPosition}" />
+
+        <EditText
+            android:id="@+id/capPos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:ems="4"
+            android:hint="@string/noHint"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:text="@{String.valueOf(data.selectedSecond)}"
+            android:visibility="@{data.visibilityPosition}">
+
+            <requestFocus />
+        </EditText>
+
+        <EditText
+            android:id="@+id/capResolution"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/capPos"
+            android:hint="@string/hintResolution"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:text="@string/text1280x720" />
+    </RelativeLayout>
+</layout>
