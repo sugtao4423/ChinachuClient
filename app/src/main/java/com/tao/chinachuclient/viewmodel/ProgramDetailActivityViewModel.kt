@@ -41,18 +41,24 @@ class ProgramDetailActivityViewModel(application: Application) : AndroidViewMode
 
     var reserveProgram: Reserve? = null
         set(value) {
-            field = value
-            refreshProgram()
+            if (field != value) {
+                field = value
+                refreshProgram()
+            }
         }
     var recordedProgram: Recorded? = null
         set(value) {
-            field = value
-            refreshProgram()
+            if (field != value) {
+                field = value
+                refreshProgram()
+            }
         }
     var program: Program? = null
         set(value) {
-            field = value
-            refreshProgram()
+            if (field != value) {
+                field = value
+                refreshProgram()
+            }
         }
 
     private val thisProgram by lazy {
