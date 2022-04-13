@@ -12,9 +12,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:padding="@dimen/paddingProgramDetailActivity">
 
             <TextView
@@ -30,7 +31,6 @@
                 android:id="@+id/programDetailOther"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/programDetailDetail"
                 android:layout_marginTop="@dimen/marginProgramDetailTextSpace"
                 android:text="@{viewModel.programInfo}"
                 android:textColor="@android:color/secondary_text_light"
@@ -41,11 +41,10 @@
                 android:id="@+id/programDetailImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/programDetailOther"
                 android:layout_marginTop="@dimen/paddingProgramDetailActivity"
                 android:contentDescription="@string/contentDescriptionCapture"
                 android:onClick="@{() -> viewModel.onTapImage()}"
                 android:visibility="@{viewModel.isShowThumbnail}" />
-        </RelativeLayout>
+        </LinearLayout>
     </ScrollView>
 </layout>
