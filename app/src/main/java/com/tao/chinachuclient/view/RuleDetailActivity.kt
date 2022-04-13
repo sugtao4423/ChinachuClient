@@ -22,6 +22,7 @@ class RuleDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityRuleDetailBinding.inflate(layoutInflater).also {
             it.lifecycleOwner = this
+            it.viewModel = viewModel
         }
         setContentView(binding.root)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -48,9 +49,6 @@ class RuleDetailActivity : AppCompatActivity() {
         }
         viewModel.actionBarTitle.observe(this) {
             supportActionBar?.title = it
-        }
-        viewModel.ruleInfo.observe(this) {
-            binding.ruleInfo.text = it
         }
         viewModel.onRuleDeleted.observe(this) {
             showRuleDeletedDialog()
