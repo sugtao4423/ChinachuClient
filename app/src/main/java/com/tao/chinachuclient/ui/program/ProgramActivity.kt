@@ -1,7 +1,6 @@
 package com.tao.chinachuclient.ui.program
 
 import android.app.AlertDialog
-import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -44,14 +43,6 @@ class ProgramActivity : AppCompatActivity() {
         binding.programList.let {
             it.adapter = programListAdapter
             it.onItemClickListener = ProgramListClickListener(this, viewModel.listType)
-        }
-
-        binding.swipeRefresh.let {
-            it.setColorSchemeColors(Color.parseColor("#2196F3"))
-            it.setOnRefreshListener(viewModel.onRefreshListener)
-        }
-        viewModel.isShowSwipeRefresh.observe(this) {
-            binding.swipeRefresh.isRefreshing = it
         }
 
         viewModel.onToast.observe(this) {
@@ -136,7 +127,7 @@ class ProgramActivity : AppCompatActivity() {
             setMessage(R.string.cleanup_done_is_refresh)
             setNegativeButton(R.string.cancel, null)
             setPositiveButton(R.string.ok) { _, _ ->
-                viewModel.onRefreshListener.onRefresh()
+                viewModel.onRefresh()
             }
             show()
         }

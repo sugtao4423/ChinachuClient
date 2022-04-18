@@ -2,9 +2,9 @@ package com.tao.chinachuclient.ui
 
 import android.app.Application
 import android.view.View
+import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.hadilq.liveevent.LiveEvent
 import com.tao.chinachuclient.App
 
@@ -13,7 +13,7 @@ abstract class BaseActivityProgramViewModel(app: Application) : AndroidViewModel
     protected val app by lazy { getApplication<App>() }
 
     val isShowLoading = MutableLiveData(View.VISIBLE)
-    val isShowSwipeRefresh = MutableLiveData(false)
+    val isRefreshing = ObservableField(false)
 
     val onToast = LiveEvent<String>()
     val actionBarTitle = MutableLiveData<String>()
@@ -23,8 +23,6 @@ abstract class BaseActivityProgramViewModel(app: Application) : AndroidViewModel
 
     abstract fun loadData(isRefresh: Boolean)
 
-    val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-        loadData(true)
-    }
+    fun onRefresh() = loadData(true)
 
 }

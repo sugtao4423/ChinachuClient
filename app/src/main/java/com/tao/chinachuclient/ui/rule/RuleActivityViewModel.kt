@@ -28,14 +28,14 @@ class RuleActivityViewModel(app: Application) : BaseActivityProgramViewModel(app
         programList.value = arrayOf<Any>()
 
         isShowLoading.value = if (isRefresh) View.GONE else View.VISIBLE
-        isShowSwipeRefresh.value = isRefresh
+        isRefreshing.set(isRefresh)
 
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
                 runCatching { app.chinachu.getRules() }.getOrNull()
             }
             isShowLoading.value = View.GONE
-            isShowSwipeRefresh.value = false
+            isRefreshing.set(false)
 
             if (result == null) {
                 onToast.value = app.resources.getString(R.string.error_get_rule)

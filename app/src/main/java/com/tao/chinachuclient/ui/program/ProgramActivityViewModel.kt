@@ -58,12 +58,12 @@ class ProgramActivityViewModel(app: Application) : BaseActivityProgramViewModel(
         _filteredProgramList.value = arrayOf<Any>()
 
         isShowLoading.value = if (isRefresh) View.GONE else View.VISIBLE
-        isShowSwipeRefresh.value = isRefresh
+        isRefreshing.set(isRefresh)
 
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) { getData() }
             isShowLoading.value = View.GONE
-            isShowSwipeRefresh.value = false
+            isRefreshing.set(false)
 
             if (result == null) {
                 onToast.value = app.resources.getString(R.string.error_get_schedule)

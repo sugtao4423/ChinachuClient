@@ -1,7 +1,6 @@
 package com.tao.chinachuclient.ui.rule
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.AdapterView
@@ -35,14 +34,6 @@ class RuleActivity : AppCompatActivity() {
                     putExtra("rule", adapter.getItem(i) as Rule)
                 })
             }
-        }
-
-        binding.swipeRefresh.let {
-            it.setColorSchemeColors(Color.parseColor("#2196F3"))
-            it.setOnRefreshListener(viewModel.onRefreshListener)
-        }
-        viewModel.isShowSwipeRefresh.observe(this) {
-            binding.swipeRefresh.isRefreshing = it
         }
 
         viewModel.onToast.observe(this) {

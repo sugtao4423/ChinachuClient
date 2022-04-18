@@ -30,4 +30,10 @@
     <color name="etc">#f0f0f0</color>
 
     <color name="Press">#99ccff</color>
+
+    <color name="pull2Refresh">#2196f3</color>
+    <integer-array name="pull2RefreshScheme">
+        <item>@color/pull2Refresh</item>
+    </integer-array>
+
 </resources>
